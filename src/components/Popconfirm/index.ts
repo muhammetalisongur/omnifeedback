@@ -1,13 +1,10 @@
 /**
  * Popconfirm component exports
- * Provides popover confirmation feedback functionality
+ * Provides popover-based confirmation functionality
  */
 
-// Popconfirm component
-// export { Popconfirm } from './Popconfirm';
+export { Popconfirm } from "./Popconfirm";
+export type { IPopconfirmProps } from "./Popconfirm";
 
-// Popconfirm types
-// export type { IPopconfirmProps, PopconfirmPlacement } from './types';
+export { PopconfirmContainer } from "./PopconfirmContainer";
 
-// Placeholder export to prevent empty module errors
-export const POPCONFIRM_VERSION = '0.1.0';

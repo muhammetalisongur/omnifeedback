@@ -36,13 +36,17 @@ export type { IUseBannerReturn, IBannerItem } from './useBanner';
 export { useDrawer } from './useDrawer';
 export type { IUseDrawerReturn, IDrawerItem } from './useDrawer';
 
+// Popconfirm hook
+export { usePopconfirm } from './usePopconfirm';
+export type { IUsePopconfirmReturn, IPopconfirmItem, IPopconfirmShowOptions } from './usePopconfirm';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
 // useBanner is now exported above
 // useDrawer is now exported above
-// export { usePopconfirm } from './usePopconfirm';
+// usePopconfirm is now exported above
 // export { useSkeleton } from './useSkeleton';
 // export { useConnection } from './useConnection';
 // export { usePrompt } from './usePrompt';

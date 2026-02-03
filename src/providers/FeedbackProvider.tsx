@@ -19,6 +19,7 @@ import { LoadingContainer } from '../components/Loading/LoadingContainer';
 import { ConfirmContainer } from '../components/Confirm/ConfirmContainer';
 import { BannerContainer } from '../components/Banner/BannerContainer';
 import { DrawerContainer } from '../components/Drawer/DrawerContainer';
+import { PopconfirmContainer } from '../components/Popconfirm/PopconfirmContainer';
 import type { IFeedbackConfig, ToastPosition } from '../core/types';
 
 /**
@@ -60,6 +61,8 @@ export interface IFeedbackProviderProps {
   renderBanners?: boolean;
   /** Render drawer container */
   renderDrawers?: boolean;
+  /** Render popconfirm container */
+  renderPopconfirms?: boolean;
 }
 
 /**
@@ -94,6 +97,7 @@ export function FeedbackProvider({
   renderConfirms = true,
   renderBanners = true,
   renderDrawers = true,
+  renderPopconfirms = true,
 }: IFeedbackProviderProps): React.ReactElement {
   // Initialize manager once and keep stable reference
   const managerRef = useRef<FeedbackManager | null>(null);
@@ -140,6 +144,7 @@ export function FeedbackProvider({
       {renderConfirms && <ConfirmContainer />}
       {renderBanners && <BannerContainer />}
       {renderDrawers && <DrawerContainer />}
+      {renderPopconfirms && <PopconfirmContainer />}
     </FeedbackContext.Provider>
   );
 }

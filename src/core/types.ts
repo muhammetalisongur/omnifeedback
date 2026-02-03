@@ -343,6 +343,59 @@ export interface IConfirmOptions extends IBaseFeedbackOptions {
   onConfirm: () => void | Promise<void>;
   /** Callback when cancelled */
   onCancel?: () => void;
+  /** Custom icon */
+  icon?: ReactNode;
+}
+
+// ==================== POPCONFIRM OPTIONS ====================
+
+/**
+ * Popconfirm placement options
+ */
+export type PopconfirmPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
+
+/**
+ * Options for popconfirm dialogs
+ */
+export interface IPopconfirmOptions extends IBaseFeedbackOptions {
+  /** Target element to attach to */
+  target: HTMLElement | React.RefObject<HTMLElement>;
+  /** Confirmation message */
+  message: string;
+  /** Title (optional) */
+  title?: string;
+  /** Confirm button text */
+  confirmText?: string;
+  /** Cancel button text */
+  cancelText?: string;
+  /** Confirm button variant */
+  confirmVariant?: 'primary' | 'danger';
+  /** Placement relative to target */
+  placement?: PopconfirmPlacement;
+  /** Custom icon */
+  icon?: ReactNode;
+  /** Show arrow pointing to target */
+  showArrow?: boolean;
+  /** Offset from target (pixels) */
+  offset?: number;
+  /** Close when clicking outside */
+  closeOnClickOutside?: boolean;
+  /** Callback when confirmed */
+  onConfirm: () => void;
+  /** Callback when cancelled */
+  onCancel?: () => void;
 }
 
 // ==================== BANNER OPTIONS ====================
@@ -506,7 +559,7 @@ export interface FeedbackOptionsMap {
   confirm: IConfirmOptions;
   banner: IBannerOptions;
   drawer: IDrawerOptions;
-  popconfirm: IConfirmOptions;
+  popconfirm: IPopconfirmOptions;
   skeleton: IBaseFeedbackOptions;
   empty: IBaseFeedbackOptions;
   result: IBaseFeedbackOptions;
