@@ -56,8 +56,11 @@ export type { IUseResultReturn, IResultItem, IResultShowOptions } from './useRes
 export { useConnection } from './useConnection';
 export type { IUseConnectionReturn, QueuedAction } from './useConnection';
 
+// Prompt hook
+export { usePrompt } from './usePrompt';
+export type { IUsePromptReturn, IPromptShowOptions } from './usePrompt';
+
 // Future hooks (not yet implemented)
-// export { usePrompt } from './usePrompt';
 // export { useSheet } from './useSheet';
 
 // Placeholder export to prevent empty module errors

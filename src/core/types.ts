@@ -571,29 +571,52 @@ export interface IResultOptions extends IBaseFeedbackOptions {
 // ==================== PROMPT OPTIONS ====================
 
 /**
+ * Input type for prompt dialogs
+ */
+export type PromptInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'tel' | 'textarea';
+
+/**
  * Options for prompt dialogs
  */
 export interface IPromptOptions extends IBaseFeedbackOptions {
-  /** Prompt message (required) */
-  message: string;
-  /** Dialog title */
-  title?: string;
-  /** Default input value */
-  defaultValue?: string;
+  /** Dialog title (required) */
+  title: string;
+  /** Description text below title */
+  description?: string;
+  /** Input type */
+  inputType?: PromptInputType;
   /** Input placeholder */
   placeholder?: string;
-  /** Input type */
-  inputType?: 'text' | 'password' | 'email' | 'number' | 'textarea';
+  /** Default input value */
+  defaultValue?: string;
   /** Confirm button text */
   confirmText?: string;
   /** Cancel button text */
   cancelText?: string;
+  /** Input label */
+  label?: string;
+  /** Validation function - return error string or true if valid */
+  validate?: (value: string) => string | true;
+  /** Required field */
+  required?: boolean;
+  /** Minimum length */
+  minLength?: number;
+  /** Maximum length */
+  maxLength?: number;
+  /** Pattern validation (regex) */
+  pattern?: RegExp;
+  /** Custom icon */
+  icon?: ReactNode;
+  /** Textarea rows (only for textarea type) */
+  rows?: number;
+  /** Auto-focus input on open */
+  autoFocus?: boolean;
+  /** Select all text on focus */
+  selectOnFocus?: boolean;
   /** Callback when confirmed */
   onConfirm: (value: string) => void | Promise<void>;
   /** Callback when cancelled */
   onCancel?: () => void;
-  /** Input validation */
-  validate?: (value: string) => string | null;
 }
 
 // ==================== SHEET OPTIONS ====================

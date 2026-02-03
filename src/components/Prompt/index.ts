@@ -4,10 +4,8 @@
  */
 
 // Prompt component
-// export { Prompt } from './Prompt';
+export { Prompt } from './Prompt';
+export type { IPromptProps } from './Prompt';
 
-// Prompt types
-// export type { IPromptProps, PromptInputType } from './types';
-
-// Placeholder export to prevent empty module errors
-export const PROMPT_VERSION = '0.1.0';
+// Prompt container
+export { PromptContainer } from './PromptContainer';
