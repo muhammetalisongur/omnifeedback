@@ -1,13 +1,21 @@
 /**
  * Alert component exports
- * Provides alert feedback functionality
+ * Provides inline alert functionality
  */
 
-// Alert component
-// export { Alert } from './Alert';
+// Components
+export { Alert } from './Alert';
+export { AlertContainer } from './AlertContainer';
 
-// Alert types
-// export type { IAlertProps, AlertVariant } from './types';
+// Icons
+export {
+  CheckCircleIcon,
+  XCircleIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  XMarkIcon,
+} from './icons';
 
-// Placeholder export to prevent empty module errors
-export const ALERT_VERSION = '0.1.0';
+// Types
+export type { IAlertProps } from './Alert';
+export type { IAlertContainerProps } from './AlertContainer';

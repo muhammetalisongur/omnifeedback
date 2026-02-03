@@ -230,6 +230,11 @@ export interface ILoadingOptions extends IBaseFeedbackOptions {
 // ==================== ALERT OPTIONS ====================
 
 /**
+ * Alert action button variant
+ */
+export type AlertActionVariant = 'primary' | 'secondary' | 'link';
+
+/**
  * Action button for alerts
  */
 export interface IAlertAction {
@@ -238,7 +243,7 @@ export interface IAlertAction {
   /** Click handler */
   onClick: () => void;
   /** Button variant */
-  variant?: ButtonVariant;
+  variant?: AlertActionVariant;
 }
 
 /**
@@ -255,12 +260,18 @@ export interface IAlertOptions extends IBaseFeedbackOptions {
   dismissible?: boolean;
   /** Custom icon */
   icon?: ReactNode;
+  /** Hide default icon */
+  hideIcon?: boolean;
   /** Auto dismiss duration (0 = never) */
   duration?: number;
   /** Action buttons */
   actions?: IAlertAction[];
   /** Callback when dismissed */
   onDismiss?: () => void;
+  /** Show border */
+  bordered?: boolean;
+  /** Use filled background style */
+  filled?: boolean;
 }
 
 // ==================== PROGRESS OPTIONS ====================

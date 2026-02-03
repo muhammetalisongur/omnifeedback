@@ -16,11 +16,14 @@ export type { IUseModalReturn } from './useModal';
 export { useLoading } from './useLoading';
 export type { IUseLoadingReturn } from './useLoading';
 
+// Alert hook
+export { useAlert } from './useAlert';
+export type { IUseAlertReturn, IAlertItem } from './useAlert';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// export { useAlert } from './useAlert';
 // export { useProgress } from './useProgress';
 // export { useConfirm } from './useConfirm';
 // export { useBanner } from './useBanner';
