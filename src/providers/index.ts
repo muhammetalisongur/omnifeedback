@@ -4,7 +4,13 @@
  */
 
 // Main feedback provider
-// export { FeedbackProvider, useFeedbackContext } from './FeedbackProvider';
+export {
+  FeedbackProvider,
+  FeedbackContext,
+  useFeedbackContext,
+  useFeedbackManager,
+} from './FeedbackProvider';
+export type { IFeedbackContext, IFeedbackProviderProps } from './FeedbackProvider';
 
-// Placeholder export to prevent empty module errors
+// Version
 export const PROVIDERS_VERSION = '0.1.0';

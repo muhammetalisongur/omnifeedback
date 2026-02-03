@@ -4,13 +4,22 @@
  */
 
 // Toast component
-// export { Toast } from './Toast';
+export { Toast } from './Toast';
+export type { IToastProps } from './Toast';
 
 // Toast container for rendering toasts
-// export { ToastContainer } from './ToastContainer';
+export { ToastContainer } from './ToastContainer';
+export type { IToastContainerProps } from './ToastContainer';
 
-// Toast types
-// export type { IToastProps, ToastPosition, ToastVariant } from './types';
+// Toast icons
+export {
+  SuccessIcon,
+  ErrorIcon,
+  WarningIcon,
+  InfoIcon,
+  CloseIcon,
+  LoadingIcon,
+} from './icons';
 
-// Placeholder export to prevent empty module errors
+// Version
 export const TOAST_VERSION = '0.1.0';

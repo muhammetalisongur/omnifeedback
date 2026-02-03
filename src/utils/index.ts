@@ -6,11 +6,11 @@
 // ID generation
 export { generateId, resetIdCounter, getIdCounter } from './generateId';
 
-// CSS class name utilities (to be implemented)
-// export { cn, classNames } from './classNames';
+// CSS class name utilities
+export { cn, classNames } from './cn';
 
-// Constants (z-index, durations, etc.) (to be implemented)
-// export * from './constants';
+// Constants (z-index, durations, etc.)
+export * from './constants';
 
 // Accessibility helpers (to be implemented)
 // export * from './accessibility';

@@ -7,7 +7,8 @@
 // export { useFeedback } from './useFeedback';
 
 // Individual component hooks
-// export { useToast } from './useToast';
+export { useToast } from './useToast';
+export type { IUseToastReturn, IToastPromiseOptions } from './useToast';
 // export { useModal } from './useModal';
 // export { useLoading } from './useLoading';
 // export { useAlert } from './useAlert';

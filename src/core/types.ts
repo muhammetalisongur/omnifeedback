@@ -135,6 +135,18 @@ export interface IToastOptions extends IBaseFeedbackOptions {
   onDismiss?: () => void;
   /** Callback when shown */
   onShow?: () => void;
+
+  // ===== COUNTDOWN PROGRESS BAR =====
+  /** Show countdown progress bar */
+  showProgress?: boolean;
+  /** Progress bar position */
+  progressPosition?: 'top' | 'bottom';
+  /** Custom progress bar color (defaults to variant color) */
+  progressColor?: string;
+  /** Pause countdown on hover */
+  pauseOnHover?: boolean;
+  /** Pause countdown when window loses focus */
+  pauseOnFocusLoss?: boolean;
 }
 
 // ==================== MODAL OPTIONS ====================
