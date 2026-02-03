@@ -9,7 +9,13 @@
 // Individual component hooks
 export { useToast } from './useToast';
 export type { IUseToastReturn, IToastPromiseOptions } from './useToast';
-// export { useModal } from './useModal';
+export { useModal } from './useModal';
+export type { IUseModalReturn } from './useModal';
+
+// Utility hooks
+export { useFocusTrap } from './useFocusTrap';
+export type { IFocusTrapOptions } from './useFocusTrap';
+export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
 // export { useLoading } from './useLoading';
 // export { useAlert } from './useAlert';
 // export { useProgress } from './useProgress';

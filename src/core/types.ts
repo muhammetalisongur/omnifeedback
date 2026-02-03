@@ -177,6 +177,14 @@ export interface IModalOptions extends IBaseFeedbackOptions {
   onOpen?: () => void;
   /** Prevent body scroll when open */
   preventScroll?: boolean;
+  /** Initial focus element selector */
+  initialFocus?: string;
+  /** Return focus to trigger element on close */
+  returnFocus?: boolean;
+  /** Center modal vertically */
+  centered?: boolean;
+  /** Scroll behavior */
+  scrollBehavior?: 'inside' | 'outside';
 }
 
 // ==================== LOADING OPTIONS ====================

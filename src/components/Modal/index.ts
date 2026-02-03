@@ -4,13 +4,12 @@
  */
 
 // Modal component
-// export { Modal } from './Modal';
+export { Modal } from './Modal';
+export type { IModalProps } from './Modal';
 
-// Modal backdrop
-// export { ModalBackdrop } from './ModalBackdrop';
+// Modal container
+export { ModalContainer } from './ModalContainer';
+export type { IModalContainerProps } from './ModalContainer';
 
-// Modal types
-// export type { IModalProps, ModalSize } from './types';
-
-// Placeholder export to prevent empty module errors
+// Version
 export const MODAL_VERSION = '0.1.0';

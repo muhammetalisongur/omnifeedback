@@ -14,6 +14,7 @@ import {
 } from 'react';
 import { FeedbackManager } from '../core/FeedbackManager';
 import { ToastContainer } from '../components/Toast/ToastContainer';
+import { ModalContainer } from '../components/Modal/ModalContainer';
 import type { IFeedbackConfig, ToastPosition } from '../core/types';
 
 /**
@@ -45,6 +46,8 @@ export interface IFeedbackProviderProps {
   toastGap?: number;
   /** Render toast container */
   renderToasts?: boolean;
+  /** Render modal container */
+  renderModals?: boolean;
 }
 
 /**
@@ -74,6 +77,7 @@ export function FeedbackProvider({
   toastPosition = 'top-right',
   toastGap = 12,
   renderToasts = true,
+  renderModals = true,
 }: IFeedbackProviderProps): React.ReactElement {
   // Initialize manager once and keep stable reference
   const managerRef = useRef<FeedbackManager | null>(null);
@@ -115,6 +119,7 @@ export function FeedbackProvider({
       {renderToasts && (
         <ToastContainer position={toastPosition} gap={toastGap} />
       )}
+      {renderModals && <ModalContainer />}
     </FeedbackContext.Provider>
   );
 }

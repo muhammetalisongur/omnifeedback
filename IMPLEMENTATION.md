@@ -93,15 +93,41 @@ OmniFeedback is a universal React feedback management library that provides Toas
   - cn.test.ts (20 tests)
   - All 173 tests passing
 
-#### 03-modal-system ⏳ PENDING
-- [ ] Create useModal hook
-- [ ] Implement Modal component
-- [ ] Implement ModalBackdrop
-- [ ] Add size variants
-- [ ] Add keyboard support (ESC)
-- [ ] Add focus trap
-- [ ] Prevent body scroll
-- [ ] Write tests
+#### 03-modal-system ✅ COMPLETED (2026-02-03)
+- [x] Create useModal hook (src/hooks/useModal.ts)
+  - open(), close(), closeAll(), update()
+  - isOpen, openModals reactive state
+  - Default options merging
+  - onOpen/onClose callbacks
+- [x] Create useFocusTrap hook (src/hooks/useFocusTrap.ts)
+  - Tab/Shift+Tab focus cycling
+  - Initial focus with selector support
+  - Return focus on unmount
+  - Focus escape prevention
+- [x] Create useScrollLock hook (src/hooks/useScrollLock.ts)
+  - Body scroll prevention
+  - Nested lock support
+  - Original styles restoration
+  - Scrollbar width compensation
+- [x] Implement Modal component (src/components/Modal/Modal.tsx)
+  - Headless with Tailwind styling
+  - All sizes (sm, md, lg, xl, full)
+  - Keyboard support (ESC to close)
+  - Focus trap integration
+  - Scroll lock integration
+  - Custom header/footer
+  - Backdrop click handling
+  - ARIA accessibility (role="dialog", aria-modal, aria-labelledby)
+- [x] Implement ModalContainer (src/components/Modal/ModalContainer.tsx)
+  - Portal-based rendering (SSR safe)
+  - Z-index stacking for nested modals
+- [x] Update FeedbackProvider with ModalContainer
+- [x] Write comprehensive tests
+  - useFocusTrap.test.tsx (11 tests)
+  - useScrollLock.test.tsx (15 tests)
+  - Modal.test.tsx (28 tests)
+  - useModal.test.tsx (13 tests)
+  - All 240 tests passing
 
 #### 04-loading-system ⏳ PENDING
 - [ ] Create useLoading hook
