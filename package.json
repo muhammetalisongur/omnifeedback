@@ -1,0 +1,200 @@
+{
+  "name": "omnifeedback",
+  "version": "0.1.0",
+  "description": "Universal React feedback management - Toast, Modal, Loading, Alert, Progress, Confirm, Banner, Drawer, and more with multi-library support",
+  "author": "Muhammet Ali Songur",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./adapters/shadcn": {
+      "import": {
+        "types": "./dist/adapters/shadcn/index.d.ts",
+        "default": "./dist/adapters/shadcn/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/shadcn/index.d.cts",
+        "default": "./dist/adapters/shadcn/index.cjs"
+      }
+    },
+    "./adapters/mantine": {
+      "import": {
+        "types": "./dist/adapters/mantine/index.d.ts",
+        "default": "./dist/adapters/mantine/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/mantine/index.d.cts",
+        "default": "./dist/adapters/mantine/index.cjs"
+      }
+    },
+    "./adapters/chakra": {
+      "import": {
+        "types": "./dist/adapters/chakra/index.d.ts",
+        "default": "./dist/adapters/chakra/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/chakra/index.d.cts",
+        "default": "./dist/adapters/chakra/index.cjs"
+      }
+    },
+    "./adapters/mui": {
+      "import": {
+        "types": "./dist/adapters/mui/index.d.ts",
+        "default": "./dist/adapters/mui/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/mui/index.d.cts",
+        "default": "./dist/adapters/mui/index.cjs"
+      }
+    },
+    "./adapters/antd": {
+      "import": {
+        "types": "./dist/adapters/antd/index.d.ts",
+        "default": "./dist/adapters/antd/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/antd/index.d.cts",
+        "default": "./dist/adapters/antd/index.cjs"
+      }
+    },
+    "./adapters/headless": {
+      "import": {
+        "types": "./dist/adapters/headless/index.d.ts",
+        "default": "./dist/adapters/headless/index.js"
+      },
+      "require": {
+        "types": "./dist/adapters/headless/index.d.cts",
+        "default": "./dist/adapters/headless/index.cjs"
+      }
+    },
+    "./styles": "./dist/styles/index.css"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "keywords": [
+    "react",
+    "toast",
+    "modal",
+    "loading",
+    "alert",
+    "feedback",
+    "notification",
+    "progress",
+    "confirm",
+    "banner",
+    "drawer",
+    "skeleton",
+    "shadcn",
+    "mantine",
+    "chakra",
+    "mui",
+    "antd",
+    "tailwind"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhammetalisongur/omnifeedback.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muhammetalisongur/omnifeedback/issues"
+  },
+  "homepage": "https://github.com/muhammetalisongur/omnifeedback#readme",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.build.json && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test:run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "prepublishOnly": "pnpm validate && pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@radix-ui/react-toast": {
+      "optional": true
+    },
+    "@radix-ui/react-dialog": {
+      "optional": true
+    },
+    "@mantine/core": {
+      "optional": true
+    },
+    "@mantine/hooks": {
+      "optional": true
+    },
+    "@chakra-ui/react": {
+      "optional": true
+    },
+    "@mui/material": {
+      "optional": true
+    },
+    "antd": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/react": "^14.2.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/node": "^25.2.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "@vitest/coverage-v8": "^1.3.0",
+    "@vitest/ui": "^1.3.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "happy-dom": "^13.0.0",
+    "postcss": "^8.4.0",
+    "prettier": "^3.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.1.0",
+    "vite-plugin-dts": "^3.7.0",
+    "vitest": "^1.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

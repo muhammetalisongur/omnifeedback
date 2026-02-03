@@ -1,0 +1,110 @@
+/**
+ * OmniFeedback Base Styles
+ * Core CSS styles and CSS custom properties (variables)
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for theming */
+:root {
+  /* Z-Index Scale */
+  --of-z-toast: 9999;
+  --of-z-modal: 10000;
+  --of-z-modal-backdrop: 9998;
+  --of-z-loading: 10001;
+  --of-z-drawer: 9997;
+  --of-z-popconfirm: 9996;
+  --of-z-banner: 9995;
+  --of-z-sheet: 9997;
+
+  /* Animation Durations */
+  --of-duration-fast: 150ms;
+  --of-duration-normal: 200ms;
+  --of-duration-slow: 300ms;
+
+  /* Spacing */
+  --of-spacing-xs: 0.25rem;
+  --of-spacing-sm: 0.5rem;
+  --of-spacing-md: 1rem;
+  --of-spacing-lg: 1.5rem;
+  --of-spacing-xl: 2rem;
+
+  /* Border Radius */
+  --of-radius-sm: 0.25rem;
+  --of-radius-md: 0.375rem;
+  --of-radius-lg: 0.5rem;
+  --of-radius-xl: 0.75rem;
+  --of-radius-full: 9999px;
+
+  /* Colors - Light Mode */
+  --of-color-success: #22c55e;
+  --of-color-success-bg: #dcfce7;
+  --of-color-error: #ef4444;
+  --of-color-error-bg: #fee2e2;
+  --of-color-warning: #f59e0b;
+  --of-color-warning-bg: #fef3c7;
+  --of-color-info: #3b82f6;
+  --of-color-info-bg: #dbeafe;
+  --of-color-neutral: #6b7280;
+  --of-color-neutral-bg: #f3f4f6;
+
+  /* Backdrop */
+  --of-backdrop-color: rgba(0, 0, 0, 0.5);
+  --of-backdrop-blur: 4px;
+
+  /* Shadows */
+  --of-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --of-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --of-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --of-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --of-color-success: #4ade80;
+    --of-color-success-bg: #166534;
+    --of-color-error: #f87171;
+    --of-color-error-bg: #991b1b;
+    --of-color-warning: #fbbf24;
+    --of-color-warning-bg: #92400e;
+    --of-color-info: #60a5fa;
+    --of-color-info-bg: #1e40af;
+    --of-color-neutral: #9ca3af;
+    --of-color-neutral-bg: #374151;
+    --of-backdrop-color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus visible styles for accessibility */
+.of-focus-visible:focus-visible {
+  outline: 2px solid var(--of-color-info);
+  outline-offset: 2px;
+}
+
+/* Screen reader only utility */
+.of-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
