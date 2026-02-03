@@ -48,6 +48,10 @@ export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './use
 export { useSkeleton } from './useSkeleton';
 export type { IUseSkeletonReturn, ISkeletonItem } from './useSkeleton';
 
+// Result hook
+export { useResult } from './useResult';
+export type { IUseResultReturn, IResultItem, IResultShowOptions } from './useResult';
+
 // Future hooks (not yet implemented)
 // export { useConnection } from './useConnection';
 // export { usePrompt } from './usePrompt';

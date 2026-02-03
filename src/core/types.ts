@@ -523,6 +523,51 @@ export interface ISkeletonOptions extends IBaseFeedbackOptions {
   duration?: number;
 }
 
+// ==================== RESULT OPTIONS ====================
+
+/**
+ * Result status type
+ */
+export type ResultStatusType = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
+
+/**
+ * Result action button configuration
+ */
+export interface IResultActionOptions {
+  /** Button label text */
+  label: string;
+  /** Click handler */
+  onClick: () => void;
+  /** Loading state - shows spinner and disables button */
+  loading?: boolean;
+  /** Disabled state */
+  disabled?: boolean;
+  /** Icon to display before label */
+  icon?: ReactNode;
+}
+
+/**
+ * Options for result pages
+ */
+export interface IResultOptions extends IBaseFeedbackOptions {
+  /** Result status */
+  status: ResultStatusType;
+  /** Main title text */
+  title: string;
+  /** Description or subtitle text */
+  description?: string;
+  /** Custom icon */
+  icon?: ReactNode;
+  /** Primary action button */
+  primaryAction?: IResultActionOptions;
+  /** Secondary action button */
+  secondaryAction?: IResultActionOptions;
+  /** Extra content */
+  extra?: ReactNode;
+  /** Size variant */
+  size?: 'sm' | 'md' | 'lg';
+}
+
 // ==================== PROMPT OPTIONS ====================
 
 /**
@@ -590,7 +635,7 @@ export interface FeedbackOptionsMap {
   popconfirm: IPopconfirmOptions;
   skeleton: ISkeletonOptions;
   empty: IBaseFeedbackOptions;
-  result: IBaseFeedbackOptions;
+  result: IResultOptions;
   connection: IBaseFeedbackOptions;
   prompt: IPromptOptions;
   sheet: ISheetOptions;
