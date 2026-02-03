@@ -343,23 +343,60 @@ export interface IConfirmOptions extends IBaseFeedbackOptions {
 // ==================== BANNER OPTIONS ====================
 
 /**
+ * Banner visual variant
+ */
+export type BannerVariant =
+  | 'default'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'announcement';
+
+/**
+ * Banner action button
+ */
+export interface IBannerAction {
+  /** Button label */
+  label: string;
+  /** Click handler */
+  onClick: () => void;
+  /** Button variant */
+  variant?: 'primary' | 'secondary' | 'link';
+}
+
+/**
  * Options for banner announcements
  */
 export interface IBannerOptions extends IBaseFeedbackOptions {
   /** Banner message (required) */
   message: string;
+  /** Banner title */
+  title?: string;
   /** Visual variant */
-  variant?: FeedbackVariant;
-  /** Show close button */
-  dismissible?: boolean;
+  variant?: BannerVariant;
   /** Banner position */
   position?: 'top' | 'bottom';
+  /** Sticky positioning */
+  sticky?: boolean;
+  /** Show close button */
+  dismissible?: boolean;
+  /** Remember dismiss in localStorage (key name) */
+  rememberDismiss?: string;
   /** Custom icon */
   icon?: ReactNode;
-  /** Action button */
-  action?: IToastAction;
+  /** Hide default icon */
+  hideIcon?: boolean;
+  /** Action buttons */
+  actions?: IBannerAction[];
   /** Callback when dismissed */
   onDismiss?: () => void;
+  /** Full width banner */
+  fullWidth?: boolean;
+  /** Auto dismiss duration (0 = never) */
+  duration?: number;
+  /** Center content */
+  centered?: boolean;
 }
 
 // ==================== DRAWER OPTIONS ====================

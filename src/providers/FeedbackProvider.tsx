@@ -17,6 +17,7 @@ import { ToastContainer } from '../components/Toast/ToastContainer';
 import { ModalContainer } from '../components/Modal/ModalContainer';
 import { LoadingContainer } from '../components/Loading/LoadingContainer';
 import { ConfirmContainer } from '../components/Confirm/ConfirmContainer';
+import { BannerContainer } from '../components/Banner/BannerContainer';
 import type { IFeedbackConfig, ToastPosition } from '../core/types';
 
 /**
@@ -54,6 +55,8 @@ export interface IFeedbackProviderProps {
   renderLoadings?: boolean;
   /** Render confirm container */
   renderConfirms?: boolean;
+  /** Render banner container */
+  renderBanners?: boolean;
 }
 
 /**
@@ -86,6 +89,7 @@ export function FeedbackProvider({
   renderModals = true,
   renderLoadings = true,
   renderConfirms = true,
+  renderBanners = true,
 }: IFeedbackProviderProps): React.ReactElement {
   // Initialize manager once and keep stable reference
   const managerRef = useRef<FeedbackManager | null>(null);
@@ -130,6 +134,7 @@ export function FeedbackProvider({
       {renderModals && <ModalContainer />}
       {renderLoadings && <LoadingContainer />}
       {renderConfirms && <ConfirmContainer />}
+      {renderBanners && <BannerContainer />}
     </FeedbackContext.Provider>
   );
 }

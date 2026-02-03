@@ -28,11 +28,15 @@ export type { IUseProgressReturn, IProgressItem } from './useProgress';
 export { useConfirm } from './useConfirm';
 export type { IUseConfirmReturn, IConfirmShowOptions } from './useConfirm';
 
+// Banner hook
+export { useBanner } from './useBanner';
+export type { IUseBannerReturn, IBannerItem } from './useBanner';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// export { useBanner } from './useBanner';
+// useBanner is now exported above
 // export { useDrawer } from './useDrawer';
 // export { usePopconfirm } from './usePopconfirm';
 // export { useSkeleton } from './useSkeleton';
