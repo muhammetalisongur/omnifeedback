@@ -3,8 +3,9 @@
  * Contains all React hooks for feedback management
  */
 
-// Main feedback hook
-// export { useFeedback } from './useFeedback';
+// Main feedback hook - combines all hooks
+export { useFeedback } from './useFeedback';
+export type { IUseFeedbackReturn, IUseFeedbackOptions } from './useFeedback';
 
 // Individual component hooks
 export { useToast } from './useToast';
