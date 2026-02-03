@@ -3,20 +3,33 @@
  * Contains the core feedback management logic that is UI-library agnostic
  */
 
-// Type definitions will be exported here
-// export * from './types';
+// Type definitions
+export * from './types';
 
 // FeedbackManager singleton
-// export { FeedbackManager } from './FeedbackManager';
+export { FeedbackManager, getFeedbackManager } from './FeedbackManager';
 
-// Zustand store
-// export { useFeedbackStore } from './FeedbackStore';
+// Zustand store and selectors
+export {
+  useFeedbackStore,
+  useToasts,
+  useModals,
+  useLoadings,
+  useAlerts,
+  useProgresses,
+  useConfirms,
+  useVisibleItems,
+  useItemCount,
+  useItem,
+  useHasType,
+  useToastsByPosition,
+} from './FeedbackStore';
 
 // Priority queue for feedback items
-// export { FeedbackQueue } from './FeedbackQueue';
+export { FeedbackQueue } from './FeedbackQueue';
 
 // Event bus for pub/sub communication
-// export { EventBus } from './EventBus';
+export { EventBus } from './EventBus';
 
-// Placeholder export to prevent empty module errors
+// Version
 export const CORE_VERSION = '0.1.0';

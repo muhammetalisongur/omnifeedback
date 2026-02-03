@@ -3,23 +3,23 @@
  * Contains helper functions used across the library
  */
 
-// CSS class name utilities
+// ID generation
+export { generateId, resetIdCounter, getIdCounter } from './generateId';
+
+// CSS class name utilities (to be implemented)
 // export { cn, classNames } from './classNames';
 
-// Constants (z-index, durations, etc.)
+// Constants (z-index, durations, etc.) (to be implemented)
 // export * from './constants';
 
-// ID generation
-// export { generateId } from './generateId';
-
-// Accessibility helpers
+// Accessibility helpers (to be implemented)
 // export * from './accessibility';
 
-// Animation utilities
+// Animation utilities (to be implemented)
 // export * from './animation';
 
-// Positioning utilities
+// Positioning utilities (to be implemented)
 // export * from './positioning';
 
-// Placeholder export to prevent empty module errors
+// Version
 export const UTILS_VERSION = '0.1.0';
