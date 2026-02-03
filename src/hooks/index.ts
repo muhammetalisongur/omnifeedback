@@ -12,11 +12,14 @@ export type { IUseToastReturn, IToastPromiseOptions } from './useToast';
 export { useModal } from './useModal';
 export type { IUseModalReturn } from './useModal';
 
+// Loading hook
+export { useLoading } from './useLoading';
+export type { IUseLoadingReturn } from './useLoading';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// export { useLoading } from './useLoading';
 // export { useAlert } from './useAlert';
 // export { useProgress } from './useProgress';
 // export { useConfirm } from './useConfirm';

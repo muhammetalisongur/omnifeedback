@@ -190,6 +190,16 @@ export interface IModalOptions extends IBaseFeedbackOptions {
 // ==================== LOADING OPTIONS ====================
 
 /**
+ * Loading indicator size
+ */
+export type LoadingSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Loading color variant
+ */
+export type LoadingVariant = 'primary' | 'secondary' | 'white';
+
+/**
  * Options for loading indicators
  */
 export interface ILoadingOptions extends IBaseFeedbackOptions {
@@ -203,10 +213,18 @@ export interface ILoadingOptions extends IBaseFeedbackOptions {
   overlayOpacity?: number;
   /** Blur background */
   blur?: boolean;
+  /** Blur amount (CSS value) */
+  blurAmount?: string;
   /** Can be cancelled */
   cancellable?: boolean;
   /** Cancel callback */
   onCancel?: () => void;
+  /** Cancel button text */
+  cancelText?: string;
+  /** Size of spinner */
+  size?: LoadingSize;
+  /** Color variant */
+  variant?: LoadingVariant;
 }
 
 // ==================== ALERT OPTIONS ====================

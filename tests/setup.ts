@@ -12,6 +12,22 @@ import { afterEach, vi } from 'vitest';
  */
 afterEach(() => {
   cleanup();
+
+  // Clean up any portal-rendered content left in document.body
+  // This is necessary for components using createPortal
+  const portalContainers = document.body.querySelectorAll('[data-testid]');
+  portalContainers.forEach((el) => {
+    if (el.parentElement === document.body) {
+      el.remove();
+    }
+  });
+
+  // Also clean up any orphaned portal elements (dialogs, overlays, etc.)
+  const dialogElements = document.body.querySelectorAll('[role="dialog"]');
+  dialogElements.forEach((el) => el.remove());
+
+  const alertElements = document.body.querySelectorAll('[role="alert"]');
+  alertElements.forEach((el) => el.remove());
 });
 
 /**
