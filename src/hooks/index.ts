@@ -24,11 +24,14 @@ export type { IUseAlertReturn, IAlertItem } from './useAlert';
 export { useProgress } from './useProgress';
 export type { IUseProgressReturn, IProgressItem } from './useProgress';
 
+// Confirm hook
+export { useConfirm } from './useConfirm';
+export type { IUseConfirmReturn, IConfirmShowOptions } from './useConfirm';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// export { useConfirm } from './useConfirm';
 // export { useBanner } from './useBanner';
 // export { useDrawer } from './useDrawer';
 // export { usePopconfirm } from './usePopconfirm';
