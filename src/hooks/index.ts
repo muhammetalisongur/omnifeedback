@@ -44,10 +44,11 @@ export type { IUsePopconfirmReturn, IPopconfirmItem, IPopconfirmShowOptions } fr
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// useBanner is now exported above
-// useDrawer is now exported above
-// usePopconfirm is now exported above
-// export { useSkeleton } from './useSkeleton';
+// Skeleton hook
+export { useSkeleton } from './useSkeleton';
+export type { IUseSkeletonReturn, ISkeletonItem } from './useSkeleton';
+
+// Future hooks (not yet implemented)
 // export { useConnection } from './useConnection';
 // export { usePrompt } from './usePrompt';
 // export { useSheet } from './useSheet';

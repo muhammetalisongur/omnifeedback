@@ -495,6 +495,34 @@ export interface IDrawerOptions extends IBaseFeedbackOptions {
   onOpen?: () => void;
 }
 
+// ==================== SKELETON OPTIONS ====================
+
+/**
+ * Skeleton animation type
+ */
+export type SkeletonAnimation = 'pulse' | 'wave' | 'none';
+
+/**
+ * Skeleton avatar size presets
+ */
+export type SkeletonAvatarSize = 'sm' | 'md' | 'lg' | 'xl';
+
+/**
+ * Options for skeleton loading indicators
+ */
+export interface ISkeletonOptions extends IBaseFeedbackOptions {
+  /** Animation type */
+  animation?: SkeletonAnimation;
+  /** Base color */
+  baseColor?: string;
+  /** Highlight color (for wave animation) */
+  highlightColor?: string;
+  /** Border radius */
+  borderRadius?: string | number;
+  /** Animation duration (ms) */
+  duration?: number;
+}
+
 // ==================== PROMPT OPTIONS ====================
 
 /**
@@ -560,7 +588,7 @@ export interface FeedbackOptionsMap {
   banner: IBannerOptions;
   drawer: IDrawerOptions;
   popconfirm: IPopconfirmOptions;
-  skeleton: IBaseFeedbackOptions;
+  skeleton: ISkeletonOptions;
   empty: IBaseFeedbackOptions;
   result: IBaseFeedbackOptions;
   connection: IBaseFeedbackOptions;
