@@ -52,8 +52,11 @@ export type { IUseSkeletonReturn, ISkeletonItem } from './useSkeleton';
 export { useResult } from './useResult';
 export type { IUseResultReturn, IResultItem, IResultShowOptions } from './useResult';
 
+// Connection hook
+export { useConnection } from './useConnection';
+export type { IUseConnectionReturn, QueuedAction } from './useConnection';
+
 // Future hooks (not yet implemented)
-// export { useConnection } from './useConnection';
 // export { usePrompt } from './usePrompt';
 // export { useSheet } from './useSheet';
 

@@ -618,6 +618,55 @@ export interface ISheetOptions extends IBaseFeedbackOptions {
   onClose?: () => void;
 }
 
+// ==================== CONNECTION OPTIONS ====================
+
+/**
+ * Connection status type
+ */
+export type ConnectionStatusType = 'online' | 'offline' | 'reconnecting';
+
+/**
+ * Options for connection status monitoring (Provider level)
+ */
+export interface IConnectionOptions {
+  /** Enable connection monitoring */
+  enabled?: boolean;
+  /** Custom offline message */
+  offlineMessage?: string;
+  /** Custom online message */
+  onlineMessage?: string;
+  /** Custom reconnecting message */
+  reconnectingMessage?: string;
+  /** Banner position */
+  position?: 'top' | 'bottom';
+  /** Auto-dismiss online banner (ms, 0 = no auto-dismiss) */
+  onlineDismissDelay?: number;
+  /** Show reconnecting state */
+  showReconnecting?: boolean;
+  /** Ping URL for connection check */
+  pingUrl?: string;
+  /** Ping interval when offline (ms) */
+  pingInterval?: number;
+  /** Maximum queue size for pending actions */
+  maxQueueSize?: number;
+  /** Callback when going offline */
+  onOffline?: () => void;
+  /** Callback when coming back online */
+  onOnline?: () => void;
+  /** Callback when reconnecting */
+  onReconnecting?: () => void;
+}
+
+/**
+ * Options for connection status feedback item
+ */
+export interface IConnectionStatusOptions extends IBaseFeedbackOptions {
+  /** Connection status */
+  status: ConnectionStatusType;
+  /** Status message */
+  message?: string;
+}
+
 // ==================== FEEDBACK ITEM ====================
 
 /**
@@ -636,7 +685,7 @@ export interface FeedbackOptionsMap {
   skeleton: ISkeletonOptions;
   empty: IBaseFeedbackOptions;
   result: IResultOptions;
-  connection: IBaseFeedbackOptions;
+  connection: IConnectionStatusOptions;
   prompt: IPromptOptions;
   sheet: ISheetOptions;
 }
