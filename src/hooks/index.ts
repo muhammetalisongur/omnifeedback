@@ -60,8 +60,19 @@ export type { IUseConnectionReturn, QueuedAction } from './useConnection';
 export { usePrompt } from './usePrompt';
 export type { IUsePromptReturn, IPromptShowOptions } from './usePrompt';
 
-// Future hooks (not yet implemented)
-// export { useSheet } from './useSheet';
+// Sheet hook
+export { useSheet } from './useSheet';
+export type {
+  IUseSheetReturn,
+  ISheetShowOptions,
+  IActionSheetOptions,
+  ISheetConfirmOptions,
+  ISheetItem,
+} from './useSheet';
+
+// Drag hook
+export { useDrag } from './useDrag';
+export type { IDragState, IUseDragOptions, IUseDragReturn } from './useDrag';
 
 // Placeholder export to prevent empty module errors
 export const HOOKS_VERSION = '0.1.0';

@@ -4,10 +4,16 @@
  */
 
 // Sheet component
-// export { Sheet } from './Sheet';
+export { Sheet } from './Sheet';
+export type { ISheetProps } from './Sheet';
 
-// Sheet types
-// export type { ISheetProps, SheetSize, SheetSnapPoint } from './types';
+// Sheet content components
+export { ActionSheetContent, SheetConfirmContent } from './ActionSheetContent';
+export type {
+  IActionItem,
+  IActionSheetContentProps,
+  ISheetConfirmContentProps,
+} from './ActionSheetContent';
 
-// Placeholder export to prevent empty module errors
-export const SHEET_VERSION = '0.1.0';
+// Sheet container
+export { SheetContainer } from './SheetContainer';
