@@ -277,6 +277,16 @@ export interface IAlertOptions extends IBaseFeedbackOptions {
 // ==================== PROGRESS OPTIONS ====================
 
 /**
+ * Progress indicator type
+ */
+export type ProgressType = 'linear' | 'circular';
+
+/**
+ * Progress size variants
+ */
+export type ProgressSize = 'sm' | 'md' | 'lg';
+
+/**
  * Options for progress indicators
  */
 export interface IProgressOptions extends IBaseFeedbackOptions {
@@ -293,7 +303,15 @@ export interface IProgressOptions extends IBaseFeedbackOptions {
   /** Indeterminate mode */
   indeterminate?: boolean;
   /** Size */
-  size?: 'sm' | 'md' | 'lg';
+  size?: ProgressSize;
+  /** Progress type (linear or circular) */
+  type?: ProgressType;
+  /** Enable animation */
+  animated?: boolean;
+  /** Show striped pattern (linear only) */
+  striped?: boolean;
+  /** Custom color (overrides variant) */
+  color?: string;
   /** Callback when complete */
   onComplete?: () => void;
 }

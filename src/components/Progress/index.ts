@@ -1,13 +1,16 @@
 /**
  * Progress component exports
- * Provides progress bar feedback functionality
+ * Provides progress indicator functionality
  */
 
-// Progress component
-// export { Progress } from './Progress';
+// Components
+export { Progress } from './Progress';
+export { LinearProgress } from './LinearProgress';
+export { CircularProgress } from './CircularProgress';
+export { ProgressContainer } from './ProgressContainer';
 
-// Progress types
-// export type { IProgressProps, ProgressVariant } from './types';
-
-// Placeholder export to prevent empty module errors
-export const PROGRESS_VERSION = '0.1.0';
+// Types
+export type { IProgressProps } from './Progress';
+export type { ILinearProgressProps } from './LinearProgress';
+export type { ICircularProgressProps } from './CircularProgress';
+export type { IProgressContainerProps } from './ProgressContainer';

@@ -20,11 +20,14 @@ export type { IUseLoadingReturn } from './useLoading';
 export { useAlert } from './useAlert';
 export type { IUseAlertReturn, IAlertItem } from './useAlert';
 
+// Progress hook
+export { useProgress } from './useProgress';
+export type { IUseProgressReturn, IProgressItem } from './useProgress';
+
 // Utility hooks
 export { useFocusTrap } from './useFocusTrap';
 export type { IFocusTrapOptions } from './useFocusTrap';
 export { useScrollLock, getActiveScrollLocks, resetScrollLockState } from './useScrollLock';
-// export { useProgress } from './useProgress';
 // export { useConfirm } from './useConfirm';
 // export { useBanner } from './useBanner';
 // export { useDrawer } from './useDrawer';
