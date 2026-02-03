@@ -70,6 +70,11 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 
 /**
+ * Drawer size variants
+ */
+export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+/**
  * Spinner animation type
  */
 export type SpinnerType = 'default' | 'dots' | 'bars' | 'ring' | 'pulse';
@@ -411,20 +416,30 @@ export interface IDrawerOptions extends IBaseFeedbackOptions {
   content: ReactNode;
   /** Drawer position */
   position?: DrawerPosition;
-  /** Drawer width/height */
-  size?: string | number;
+  /** Drawer size preset */
+  size?: DrawerSize;
+  /** Custom width/height (overrides size) */
+  customSize?: string | number;
+  /** Show overlay backdrop */
+  overlay?: boolean;
+  /** Overlay opacity (0-1) */
+  overlayOpacity?: number;
+  /** Close when clicking overlay */
+  closeOnOverlayClick?: boolean;
+  /** Close when pressing ESC */
+  closeOnEscape?: boolean;
   /** Show close button */
   closable?: boolean;
-  /** Close on backdrop click */
-  closeOnBackdropClick?: boolean;
-  /** Close on ESC key */
-  closeOnEscape?: boolean;
   /** Footer content */
   footer?: ReactNode;
-  /** Callback when closed */
-  onClose?: () => void;
   /** Prevent body scroll */
   preventScroll?: boolean;
+  /** Push main content instead of overlay (future feature) */
+  push?: boolean;
+  /** Callback when closed */
+  onClose?: () => void;
+  /** Callback when opened */
+  onOpen?: () => void;
 }
 
 // ==================== PROMPT OPTIONS ====================

@@ -1,13 +1,10 @@
 /**
  * Drawer component exports
- * Provides drawer/side panel feedback functionality
+ * Provides slide-out panel functionality
  */
 
-// Drawer component
-// export { Drawer } from './Drawer';
+export { Drawer } from "./Drawer";
+export type { IDrawerProps } from "./Drawer";
 
-// Drawer types
-// export type { IDrawerProps, DrawerPosition, DrawerSize } from './types';
+export { DrawerContainer } from "./DrawerContainer";
 
-// Placeholder export to prevent empty module errors
-export const DRAWER_VERSION = '0.1.0';
