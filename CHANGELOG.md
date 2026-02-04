@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - E2E test infrastructure with Playwright (tests/e2e/)
 - PromptContainer auto-rendering in FeedbackProvider (9th container)
 - `renderPrompts` prop on FeedbackProvider for controlling Prompt container rendering
+- Drawer push content feature (`push` prop applies CSS transform to push main content)
+- MIT LICENSE file
+- GitHub Actions CI/CD workflows (ci.yml + release.yml)
+- Bundle size monitoring with size-limit and @size-limit/preset-small-lib
+- `version`, `postversion`, `size`, `size:check` scripts to package.json
+- `CHANGELOG.md` and `LICENSE` to package.json `files` array
+- `typescript` keyword to package.json
 
 ### Changed
 - Updated README.md with complete API documentation for all 15 feedback types
@@ -21,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated QUICKSTART.md with current project status, all 24 design docs, and correct URLs
 - Clarified Connection as a hook-only feature (no visual component needed)
 - Updated GitHub URLs from placeholder to muhammetalisongur
+- Drawer push effect now depends on `status` prop directly instead of internal `isVisible` state
 
 ### Fixed
 - Removed incorrect `clearAll` property from useFeedback API documentation in README.md
