@@ -140,6 +140,19 @@ describe('Skeleton', () => {
       const container = screen.getByTestId('text');
       expect(container.style.gap).toBe('16px');
     });
+
+    it('should apply custom base and highlight colors', () => {
+      render(
+        <SkeletonText
+          lines={2}
+          baseColor="rgb(200, 200, 200)"
+          highlightColor="rgb(220, 220, 220)"
+          testId="text"
+        />
+      );
+
+      expect(screen.getByTestId('text')).toBeInTheDocument();
+    });
   });
 
   describe('Skeleton.Avatar', () => {
@@ -189,6 +202,20 @@ describe('Skeleton', () => {
       const avatar = screen.getByTestId('avatar');
       expect(avatar.style.borderRadius).toBe('50%');
     });
+
+    it('should apply custom base and highlight colors', () => {
+      render(
+        <SkeletonAvatar
+          baseColor="rgb(200, 200, 200)"
+          highlightColor="rgb(220, 220, 220)"
+          className="custom-avatar"
+          testId="avatar"
+        />
+      );
+
+      const avatar = screen.getByTestId('avatar');
+      expect(avatar).toBeInTheDocument();
+    });
   });
 
   describe('Skeleton.Card', () => {
@@ -234,6 +261,19 @@ describe('Skeleton', () => {
 
       const image = screen.getByTestId('card-image');
       expect(image.style.height).toBe('300px');
+    });
+
+    it('should apply custom base and highlight colors', () => {
+      render(
+        <SkeletonCard
+          baseColor="rgb(200, 200, 200)"
+          highlightColor="rgb(220, 220, 220)"
+          className="custom-card"
+          testId="card"
+        />
+      );
+
+      expect(screen.getByTestId('card')).toBeInTheDocument();
     });
   });
 
@@ -288,6 +328,54 @@ describe('Skeleton', () => {
       expect(screen.getByTestId('table-header-0')).toBeInTheDocument();
       expect(screen.getByTestId('table-header-1')).toBeInTheDocument();
       expect(screen.getByTestId('table-header-2')).toBeInTheDocument();
+    });
+
+    it('should use custom column widths and colors', () => {
+      render(
+        <SkeletonTable
+          columns={3}
+          columnWidths={['30%', '40%', '30%']}
+          baseColor="rgb(200, 200, 200)"
+          highlightColor="rgb(220, 220, 220)"
+          className="custom-table"
+          testId="table"
+        />
+      );
+
+      expect(screen.getByTestId('table')).toBeInTheDocument();
+    });
+  });
+
+  describe('Rendering without testId', () => {
+    it('should render Skeleton without testId', () => {
+      const { container } = render(<Skeleton />);
+
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('should render SkeletonText without testId', () => {
+      const { container } = render(<SkeletonText lines={2} />);
+
+      expect(container.firstChild).toBeInTheDocument();
+      expect(container.firstChild?.childNodes).toHaveLength(2);
+    });
+
+    it('should render SkeletonAvatar without testId', () => {
+      const { container } = render(<SkeletonAvatar />);
+
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('should render SkeletonCard without testId', () => {
+      const { container } = render(<SkeletonCard />);
+
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('should render SkeletonTable without testId', () => {
+      const { container } = render(<SkeletonTable rows={2} columns={2} />);
+
+      expect(container.firstChild).toBeInTheDocument();
     });
   });
 

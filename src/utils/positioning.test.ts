@@ -240,6 +240,88 @@ describe('positioning utility', () => {
       // Left should be constrained to padding (8)
       expect(result.position.left).toBeGreaterThanOrEqual(8);
     });
+
+    it('should handle left-start placement', () => {
+      const target = createMockElement({
+        top: 200,
+        left: 300,
+        right: 400,
+        bottom: 240,
+        width: 100,
+        height: 40,
+      });
+
+      const popover = createMockElement({
+        width: 200,
+        height: 100,
+      });
+
+      const result = calculatePosition(target, popover, 'left-start', 8);
+
+      expect(result.placement).toBe('left-start');
+      expect(result.position.top).toBe(200);
+    });
+
+    it('should handle left-end placement', () => {
+      const target = createMockElement({
+        top: 200,
+        left: 300,
+        right: 400,
+        bottom: 240,
+        width: 100,
+        height: 40,
+      });
+
+      const popover = createMockElement({
+        width: 200,
+        height: 100,
+      });
+
+      const result = calculatePosition(target, popover, 'left-end', 8);
+
+      expect(result.placement).toBe('left-end');
+      expect(result.position.top).toBe(140);
+    });
+
+    it('should flip from left to right when insufficient space', () => {
+      const target = createMockElement({
+        top: 200,
+        left: 100,
+        right: 150,
+        bottom: 240,
+        width: 50,
+        height: 40,
+      });
+
+      const popover = createMockElement({
+        width: 200,
+        height: 100,
+      });
+
+      const result = calculatePosition(target, popover, 'left', 8);
+
+      expect(result.placement).toBe('right');
+    });
+
+    it('should flip from right to left when insufficient space', () => {
+      const target = createMockElement({
+        top: 200,
+        left: 900,
+        right: 950,
+        bottom: 240,
+        width: 50,
+        height: 40,
+      });
+
+      const popover = createMockElement({
+        width: 200,
+        height: 100,
+      });
+
+      const result = calculatePosition(target, popover, 'right', 8);
+
+      expect(result.placement).toBe('left');
+    });
   });
 
   describe('getArrowStyles', () => {

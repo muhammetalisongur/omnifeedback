@@ -331,6 +331,25 @@ describe('Empty', () => {
     });
   });
 
+  describe('Rendering without testId', () => {
+    it('should render without testId', () => {
+      const { container } = render(<Empty type="no-data" />);
+
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('should render with action without testId', () => {
+      const { container } = render(
+        <Empty
+          type="error"
+          action={{ label: 'Retry', onClick: (): void => { /* noop */ } }}
+        />
+      );
+
+      expect(container.firstChild).toBeInTheDocument();
+    });
+  });
+
   describe('Custom Styling', () => {
     it('should apply custom className', () => {
       render(<Empty className="custom-class" testId="empty" />);

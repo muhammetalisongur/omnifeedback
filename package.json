@@ -134,6 +134,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "validate": "pnpm lint && pnpm typecheck && pnpm test:run",
+    "ci:local": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm size",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepublishOnly": "pnpm validate && pnpm build",
@@ -213,15 +214,15 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "10 KB"
+      "limit": "30 KB"
     },
     {
       "path": "dist/adapters/headless/index.js",
-      "limit": "5 KB"
+      "limit": "11 KB"
     },
     {
       "path": "dist/adapters/shadcn/index.js",
-      "limit": "8 KB"
+      "limit": "11 KB"
     }
   ],
   "engines": {

@@ -239,6 +239,67 @@ describe('useSheet', () => {
 
       expect(result.current.isOpen).toBe(true);
     });
+
+    it('should resolve with action key when selected', async () => {
+      const { result } = renderHook(() => useSheet(), {
+        wrapper: createWrapper(),
+      });
+
+      let actionPromise: Promise<string | null>;
+      act(() => {
+        actionPromise = result.current.showActions({
+          actions: [
+            { key: 'option1', label: 'Option 1' },
+            { key: 'option2', label: 'Option 2' },
+          ],
+        });
+      });
+
+      const store = useFeedbackStore.getState();
+      const sheet = Array.from(store.items.values()).find(
+        (item) => item.type === 'sheet'
+      );
+
+      const contentElement = (sheet?.options as Record<string, unknown>).content as {
+        props: { onSelect: (key: string) => void };
+      };
+
+      act(() => {
+        contentElement.props.onSelect('option1');
+      });
+
+      const selected = await actionPromise!;
+      expect(selected).toBe('option1');
+    });
+
+    it('should resolve with null when cancelled', async () => {
+      const { result } = renderHook(() => useSheet(), {
+        wrapper: createWrapper(),
+      });
+
+      let actionPromise: Promise<string | null>;
+      act(() => {
+        actionPromise = result.current.showActions({
+          actions: [{ key: 'test', label: 'Test' }],
+        });
+      });
+
+      const store = useFeedbackStore.getState();
+      const sheet = Array.from(store.items.values()).find(
+        (item) => item.type === 'sheet'
+      );
+
+      const contentElement = (sheet?.options as Record<string, unknown>).content as {
+        props: { onCancel: () => void };
+      };
+
+      act(() => {
+        contentElement.props.onCancel();
+      });
+
+      const selected = await actionPromise!;
+      expect(selected).toBeNull();
+    });
   });
 
   describe('confirm()', () => {
@@ -275,6 +336,64 @@ describe('useSheet', () => {
       });
 
       expect(result.current.isOpen).toBe(true);
+    });
+
+    it('should resolve with true when confirmed', async () => {
+      const { result } = renderHook(() => useSheet(), {
+        wrapper: createWrapper(),
+      });
+
+      let confirmPromise: Promise<boolean>;
+      act(() => {
+        confirmPromise = result.current.confirm({
+          title: 'Confirm Action',
+        });
+      });
+
+      const store = useFeedbackStore.getState();
+      const sheet = Array.from(store.items.values()).find(
+        (item) => item.type === 'sheet'
+      );
+
+      const contentElement = (sheet?.options as Record<string, unknown>).content as {
+        props: { onConfirm: () => void };
+      };
+
+      act(() => {
+        contentElement.props.onConfirm();
+      });
+
+      const confirmed = await confirmPromise!;
+      expect(confirmed).toBe(true);
+    });
+
+    it('should resolve with false when cancelled', async () => {
+      const { result } = renderHook(() => useSheet(), {
+        wrapper: createWrapper(),
+      });
+
+      let confirmPromise: Promise<boolean>;
+      act(() => {
+        confirmPromise = result.current.confirm({
+          title: 'Confirm Action',
+        });
+      });
+
+      const store = useFeedbackStore.getState();
+      const sheet = Array.from(store.items.values()).find(
+        (item) => item.type === 'sheet'
+      );
+
+      const contentElement = (sheet?.options as Record<string, unknown>).content as {
+        props: { onCancel: () => void };
+      };
+
+      act(() => {
+        contentElement.props.onCancel();
+      });
+
+      const confirmed = await confirmPromise!;
+      expect(confirmed).toBe(false);
     });
   });
 

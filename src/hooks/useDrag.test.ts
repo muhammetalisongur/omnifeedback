@@ -216,6 +216,210 @@ describe('useDrag', () => {
     });
   });
 
+  describe('Drag lifecycle', () => {
+    it('should complete full mouse drag cycle', () => {
+      const onDragStart = vi.fn();
+      const onDrag = vi.fn();
+      const onDragEnd = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({
+          axis: 'y',
+          threshold: 5,
+          onDragStart,
+          onDrag,
+          onDragEnd,
+        })
+      );
+
+      // Start drag
+      act(() => {
+        result.current.dragHandlers.onMouseDown({
+          preventDefault: vi.fn(),
+          clientX: 100,
+          clientY: 100,
+        } as unknown as React.MouseEvent);
+      });
+
+      // Move past threshold
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 100, clientY: 120 })
+        );
+      });
+
+      expect(onDragStart).toHaveBeenCalled();
+      expect(onDrag).toHaveBeenCalled();
+      expect(result.current.dragState.isDragging).toBe(true);
+
+      // End drag
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mouseup', { clientX: 100, clientY: 120 })
+        );
+      });
+
+      expect(onDragEnd).toHaveBeenCalled();
+      expect(result.current.dragState.isDragging).toBe(false);
+    });
+
+    it('should not trigger onDragStart below threshold', () => {
+      const onDragStart = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({ threshold: 20, onDragStart })
+      );
+
+      act(() => {
+        result.current.dragHandlers.onMouseDown({
+          preventDefault: vi.fn(),
+          clientX: 100,
+          clientY: 100,
+        } as unknown as React.MouseEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 100, clientY: 103 })
+        );
+      });
+
+      expect(onDragStart).not.toHaveBeenCalled();
+    });
+
+    it('should not call onDragEnd when threshold not passed', () => {
+      const onDragEnd = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({ threshold: 20, onDragEnd })
+      );
+
+      act(() => {
+        result.current.dragHandlers.onMouseDown({
+          preventDefault: vi.fn(),
+          clientX: 100,
+          clientY: 100,
+        } as unknown as React.MouseEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 100, clientY: 103 })
+        );
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mouseup', { clientX: 100, clientY: 103 })
+        );
+      });
+
+      expect(onDragEnd).not.toHaveBeenCalled();
+    });
+
+    it('should apply bounds during drag', () => {
+      const onDrag = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({
+          bounds: [0, 50],
+          threshold: 5,
+          onDrag,
+        })
+      );
+
+      act(() => {
+        result.current.dragHandlers.onMouseDown({
+          preventDefault: vi.fn(),
+          clientX: 100,
+          clientY: 100,
+        } as unknown as React.MouseEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 100, clientY: 300 })
+        );
+      });
+
+      expect(result.current.dragState.offset).toBeLessThanOrEqual(50);
+    });
+
+    it('should handle x axis drag', () => {
+      const onDragStart = vi.fn();
+      const onDrag = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({
+          axis: 'x',
+          threshold: 5,
+          onDragStart,
+          onDrag,
+        })
+      );
+
+      act(() => {
+        result.current.dragHandlers.onMouseDown({
+          preventDefault: vi.fn(),
+          clientX: 100,
+          clientY: 100,
+        } as unknown as React.MouseEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 120, clientY: 100 })
+        );
+      });
+
+      expect(onDragStart).toHaveBeenCalled();
+      expect(onDrag).toHaveBeenCalled();
+    });
+
+    it('should handle touch drag cycle', () => {
+      const onDragStart = vi.fn();
+      const onDragEnd = vi.fn();
+
+      const { result } = renderHook(() =>
+        useDrag({
+          threshold: 5,
+          onDragStart,
+          onDragEnd,
+        })
+      );
+
+      act(() => {
+        result.current.dragHandlers.onTouchStart({
+          touches: [{ clientX: 100, clientY: 100 }],
+        } as unknown as React.TouchEvent);
+      });
+
+      act(() => {
+        const touchMoveEvent = new Event('touchmove') as unknown as TouchEvent;
+        Object.defineProperty(touchMoveEvent, 'touches', {
+          value: [{ clientX: 100, clientY: 120 }],
+        });
+        Object.defineProperty(touchMoveEvent, 'changedTouches', {
+          value: [{ clientX: 100, clientY: 120 }],
+        });
+        document.dispatchEvent(touchMoveEvent);
+      });
+
+      expect(onDragStart).toHaveBeenCalled();
+
+      act(() => {
+        const touchEndEvent = new Event('touchend') as unknown as TouchEvent;
+        Object.defineProperty(touchEndEvent, 'touches', { value: [] });
+        Object.defineProperty(touchEndEvent, 'changedTouches', {
+          value: [{ clientX: 100, clientY: 120 }],
+        });
+        document.dispatchEvent(touchEndEvent);
+      });
+
+      expect(onDragEnd).toHaveBeenCalled();
+    });
+  });
+
   describe('Cleanup', () => {
     it('should cleanup event listeners on unmount', () => {
       const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');

@@ -314,6 +314,104 @@ describe('useConnection', () => {
       expect(banners[0]?.options).toHaveProperty('message', 'Trying to reconnect...');
       expect(banners[0]?.options).toHaveProperty('variant', 'info');
     });
+
+    it('should show offline banner with default message', () => {
+      const { result } = renderHook(() => useConnection(), {
+        wrapper: createWrapper(),
+      });
+
+      act(() => {
+        result.current.showOffline();
+      });
+
+      const store = useFeedbackStore.getState();
+      const banners = Array.from(store.items.values()).filter(
+        (item) => item.type === 'banner'
+      );
+
+      expect(banners.length).toBeGreaterThan(0);
+    });
+
+    it('should show online banner with default message', () => {
+      const { result } = renderHook(() => useConnection(), {
+        wrapper: createWrapper(),
+      });
+
+      act(() => {
+        result.current.showOnline();
+      });
+
+      const store = useFeedbackStore.getState();
+      const banners = Array.from(store.items.values()).filter(
+        (item) => item.type === 'banner'
+      );
+
+      expect(banners.length).toBeGreaterThan(0);
+    });
+
+    it('should show reconnecting banner with default message', () => {
+      const { result } = renderHook(() => useConnection(), {
+        wrapper: createWrapper(),
+      });
+
+      act(() => {
+        result.current.showReconnecting();
+      });
+
+      const store = useFeedbackStore.getState();
+      const banners = Array.from(store.items.values()).filter(
+        (item) => item.type === 'banner'
+      );
+
+      expect(banners.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Disabled Mode', () => {
+    it('should not show banners when disabled', () => {
+      renderHook(
+        () => useConnection({ enabled: false }),
+        { wrapper: createWrapper() }
+      );
+
+      act(() => {
+        mockOnlineStatus(false);
+        dispatchOfflineEvent();
+      });
+
+      const store = useFeedbackStore.getState();
+      const banners = Array.from(store.items.values()).filter(
+        (item) => item.type === 'banner'
+      );
+
+      expect(banners).toHaveLength(0);
+    });
+
+    it('should not show online banner when disabled', () => {
+      mockOnlineStatus(false);
+
+      renderHook(
+        () => useConnection({ enabled: false }),
+        { wrapper: createWrapper() }
+      );
+
+      act(() => {
+        mockOnlineStatus(false);
+        dispatchOfflineEvent();
+      });
+
+      act(() => {
+        mockOnlineStatus(true);
+        dispatchOnlineEvent();
+      });
+
+      const store = useFeedbackStore.getState();
+      const banners = Array.from(store.items.values()).filter(
+        (item) => item.type === 'banner'
+      );
+
+      expect(banners).toHaveLength(0);
+    });
   });
 
   describe('Callbacks', () => {
