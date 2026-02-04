@@ -13,8 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -28,8 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -43,8 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -52,9 +46,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:coverage
       - uses: codecov/codecov-action@v4
+        if: ${{ !cancelled() }}
         with:
           files: ./coverage/coverage-final.json
           token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
   build:
     name: Build
@@ -63,8 +59,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -83,8 +77,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20

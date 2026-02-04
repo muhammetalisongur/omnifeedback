@@ -17,7 +17,6 @@ One API. Every UI library. Zero headaches.
 - ♿ **Accessible** - ARIA compliant, keyboard navigation, screen reader support
 - 📦 **Tree-Shakeable** - Only bundle what you use
 - 🎭 **Animations** - Smooth enter/exit animations with CSS transforms
-- 🌍 **RTL Support** - Right-to-left language support built-in
 
 ## 📦 Installation
 
@@ -60,12 +59,10 @@ pnpm add omnifeedback
 
 ```tsx
 import { FeedbackProvider } from 'omnifeedback';
-import { shadcnAdapter } from 'omnifeedback/adapters/shadcn';
-// Or: import { headlessAdapter } from 'omnifeedback/adapters/headless';
 
 function App() {
   return (
-    <FeedbackProvider adapter={shadcnAdapter}>
+    <FeedbackProvider toastPosition="top-right">
       <YourApp />
     </FeedbackProvider>
   );
@@ -420,9 +417,10 @@ result.show({
 ### Connection
 
 ```tsx
+import { useConnection } from 'omnifeedback';
+
 // Monitor connection status (auto-detects online/offline)
-const { status, isOnline } = connection;
-// Automatically shows banner when offline
+const { isOnline, isReconnecting, offlineDuration } = useConnection();
 ```
 
 ## 🎨 Adapters
@@ -444,12 +442,11 @@ The headless adapter uses only Tailwind CSS with no external UI library:
 
 ```tsx
 import { FeedbackProvider } from 'omnifeedback';
-import { headlessAdapter } from 'omnifeedback/adapters/headless';
 import 'omnifeedback/styles'; // Import default styles
 
 function App() {
   return (
-    <FeedbackProvider adapter={headlessAdapter}>
+    <FeedbackProvider>
       <YourApp />
     </FeedbackProvider>
   );
@@ -460,17 +457,14 @@ function App() {
 
 ```tsx
 <FeedbackProvider
-  adapter={shadcnAdapter}
+  toastPosition="top-right"
   config={{
     defaultDuration: 5000,
-    defaultPosition: 'top-right',
     maxVisible: {
       toast: 5,
       modal: 1,
       loading: 3,
     },
-    enableAnimations: true,
-    rtl: false,
   }}
 >
   {children}
@@ -520,7 +514,7 @@ test('shows toast', () => {
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
+Contributions are welcome! Please open an issue or submit a pull request.
 
 ## 📄 License
 

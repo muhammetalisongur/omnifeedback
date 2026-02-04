@@ -167,7 +167,7 @@ OmniFeedback is a universal React feedback management library that provides 15 f
 
 #### 18-adapter-mantine ✅ COMPLETED (2026-02-04)
 - [x] Implement all 16 components using @mantine/core
-- [x] @tabler/icons-react for default icons
+- [x] Mantine color variables for theming
 - [x] Mantine design patterns
 
 #### 19-adapter-chakra ✅ COMPLETED (2026-02-04)
@@ -282,10 +282,10 @@ Lines        : >= 90%
 - Banner, Drawer, Popconfirm, Skeleton, Empty, Result
 - Connection, Prompt, Sheet
 
-### Adapters (6 adapters × 16 components + index = 102 files)
+### Adapters (6 adapters × 16 components + 6 index + types.ts + adapters/index.ts = 104 files)
 - headless, shadcn, mantine, chakra, mui, antd
 
-### Tests (54 test files, 1081 tests)
+### Tests (50 test files, 1081 tests)
 - Core: 4 test files
 - Hooks: 18 test files
 - Components: 17 test files

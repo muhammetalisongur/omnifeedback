@@ -115,10 +115,10 @@
     "type": "git",
     "url": "https://github.com/muhammetalisongur/omnifeedback.git"
   },
+  "homepage": "https://github.com/muhammetalisongur/omnifeedback#readme",
   "bugs": {
     "url": "https://github.com/muhammetalisongur/omnifeedback/issues"
   },
-  "homepage": "https://github.com/muhammetalisongur/omnifeedback#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.build.json && vite build",
@@ -144,7 +144,14 @@
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=18.0.0",
+    "@radix-ui/react-toast": ">=1.0.0",
+    "@radix-ui/react-dialog": ">=1.0.0",
+    "@mantine/core": ">=7.0.0",
+    "@mantine/hooks": ">=7.0.0",
+    "@chakra-ui/react": ">=2.8.0",
+    "@mui/material": ">=5.0.0",
+    "antd": ">=5.0.0"
   },
   "peerDependenciesMeta": {
     "@radix-ui/react-toast": {

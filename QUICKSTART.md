@@ -6,7 +6,7 @@ Phase 1-4 completed. Phase 5 (Quality & Publishing) in progress.
 
 - 15 feedback types, 18 hooks, 15 component directories
 - 6 UI library adapters (96 adapter components)
-- 54 test files (47 unit, 4 integration, 3 e2e), 1081 tests, 90% coverage threshold
+- 50 test files (42 unit + 1 setup, 4 integration, 3 e2e), 1081 tests, 90% coverage threshold
 
 ## Requirements
 
@@ -150,7 +150,7 @@ omnifeedback/
 
 | Type | Location | Count |
 |------|----------|-------|
-| Unit tests | `src/**/*.test.{ts,tsx}` (co-located) | 43 files |
+| Unit tests | `src/**/*.test.{ts,tsx}` (co-located) | 42 files |
 | Integration tests | `tests/integration/` | 4 files |
 | E2E tests | `tests/e2e/` | 3 specs |
 | Setup | `tests/setup.ts` | 1 file |

@@ -190,7 +190,7 @@ omnifeedback/
 - Test hooks with renderHook
 - Test utilities with pure functions
 - Mock adapters for core tests
-- Currently: 54 test files (47 unit, 4 integration, 3 e2e), 1081 tests passing
+- Currently: 50 test files (42 unit + 1 setup, 4 integration, 3 e2e), 1081 tests passing
 
 ### Integration Testing (tests/integration/)
 - Test Core + Adapter combinations
