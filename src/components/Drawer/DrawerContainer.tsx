@@ -39,6 +39,7 @@ const buildDrawerProps = (drawer: IFeedbackItem<'drawer'>, index: number) => {
     ...(options.closable !== undefined && { closable: options.closable }),
     ...(options.footer !== undefined && { footer: options.footer }),
     ...(options.preventScroll !== undefined && { preventScroll: options.preventScroll }),
+    ...(options.push !== undefined && { push: options.push }),
     ...(options.className !== undefined && { className: options.className }),
     // Increment z-index for nested drawers
     style: {

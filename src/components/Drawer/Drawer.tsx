@@ -49,6 +49,8 @@ export interface IDrawerProps {
   footer?: React.ReactNode;
   /** Prevent body scroll */
   preventScroll?: boolean;
+  /** Push main content instead of overlay */
+  push?: boolean;
   /** Current animation status */
   status: FeedbackStatus;
   /** Callback when close requested */
@@ -81,6 +83,28 @@ const verticalSizes: Record<DrawerSize, string> = {
   lg: 'h-[400px]',
   xl: 'h-[500px]',
   full: 'h-full',
+};
+
+/**
+ * Horizontal drawer pixel sizes for push content transform
+ */
+const horizontalSizePx: Record<DrawerSize, string> = {
+  sm: '280px',
+  md: '400px',
+  lg: '600px',
+  xl: '800px',
+  full: '100vw',
+};
+
+/**
+ * Vertical drawer pixel sizes for push content transform
+ */
+const verticalSizePx: Record<DrawerSize, string> = {
+  sm: '200px',
+  md: '300px',
+  lg: '400px',
+  xl: '500px',
+  full: '100vh',
 };
 
 /**
@@ -177,6 +201,7 @@ export const Drawer = memo(
       closable = true,
       footer,
       preventScroll = true,
+      push = false,
       status,
       onRequestClose,
       className,
@@ -214,6 +239,41 @@ export const Drawer = memo(
         setIsVisible(false);
       }
     }, [status]);
+
+    // Push content: apply transform to document.body based on status
+    useEffect(() => {
+      if (!push) return undefined;
+
+      const pushSize = customSize
+        ? (typeof customSize === 'number' ? `${customSize}px` : customSize)
+        : isHorizontal
+          ? horizontalSizePx[size]
+          : verticalSizePx[size];
+
+      const pushTransforms: Record<DrawerPosition, string> = {
+        left: `translateX(${pushSize})`,
+        right: `translateX(-${pushSize})`,
+        top: `translateY(${pushSize})`,
+        bottom: `translateY(-${pushSize})`,
+      };
+
+      const isActive = status === 'entering' || status === 'visible';
+
+      if (isActive) {
+        document.body.style.transition = 'transform 300ms ease-out';
+        document.body.style.transform = pushTransforms[position];
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.transition = 'transform 300ms ease-out';
+        document.body.style.transform = '';
+      }
+
+      return () => {
+        document.body.style.transition = '';
+        document.body.style.transform = '';
+        document.body.style.overflow = '';
+      };
+    }, [push, status, position, size, customSize, isHorizontal]);
 
     // ESC key handler
     useEffect(() => {
@@ -261,11 +321,11 @@ export const Drawer = memo(
         data-status={status}
         data-position={position}
         data-size={size}
-        className="fixed inset-0 z-50"
+        className={cn('fixed inset-0 z-50', push && 'pointer-events-none')}
         style={style}
       >
-        {/* Overlay Backdrop */}
-        {overlay && (
+        {/* Overlay Backdrop - hidden in push mode */}
+        {overlay && !push && (
           <div
             data-testid={testId ? `${testId}-overlay` : undefined}
             className={cn(
@@ -290,7 +350,7 @@ export const Drawer = memo(
           aria-labelledby={title ? `${testId}-title` : undefined}
           data-testid={testId ? `${testId}-panel` : undefined}
           className={cn(
-            'fixed bg-white dark:bg-gray-900 shadow-xl',
+            'fixed bg-white dark:bg-gray-900 shadow-xl pointer-events-auto',
             'flex flex-col',
             'transition-transform duration-300 ease-out',
             positionStyles[position],

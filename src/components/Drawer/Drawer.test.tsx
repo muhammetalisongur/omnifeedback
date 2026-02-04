@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, act } from '@testing-library/react';
 import { Drawer } from './Drawer';
 import type { FeedbackStatus } from '../../core/types';
 
@@ -465,6 +465,144 @@ describe('Drawer', () => {
       );
       expect(screen.getByTestId('bottom-drawer-panel')).toHaveClass('h-[200px]');
       expect(screen.getByText('Take Photo')).toBeInTheDocument();
+    });
+  });
+
+  describe('Push Content', () => {
+    it('should hide overlay when push is true', () => {
+      render(
+        <Drawer {...defaultProps} push={true} testId="drawer" />
+      );
+      expect(screen.queryByTestId('drawer-overlay')).not.toBeInTheDocument();
+    });
+
+    it('should add pointer-events-none to container when push is true', () => {
+      render(
+        <Drawer {...defaultProps} push={true} testId="drawer" />
+      );
+      expect(screen.getByTestId('drawer')).toHaveClass('pointer-events-none');
+    });
+
+    it('should add pointer-events-auto to panel when push is true', () => {
+      render(
+        <Drawer {...defaultProps} push={true} testId="drawer" />
+      );
+      expect(screen.getByTestId('drawer-panel')).toHaveClass('pointer-events-auto');
+    });
+
+    it('should apply transform to document.body when push drawer is visible', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="left"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateX(400px)');
+    });
+
+    it('should apply negative transform for right push drawer', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="right"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateX(-400px)');
+    });
+
+    it('should apply vertical transform for top push drawer', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="top"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateY(300px)');
+    });
+
+    it('should apply negative vertical transform for bottom push drawer', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="bottom"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateY(-300px)');
+    });
+
+    it('should use custom size for push transform', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="left"
+          customSize="350px"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateX(350px)');
+    });
+
+    it('should clean up body transform on unmount', () => {
+      const { unmount } = render(
+        <Drawer
+          {...defaultProps}
+          push={true}
+          position="right"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('translateX(-400px)');
+
+      unmount();
+      expect(document.body.style.transform).toBe('');
+    });
+
+    it('should not apply transform when push is false', () => {
+      render(
+        <Drawer
+          {...defaultProps}
+          push={false}
+          position="right"
+          size="md"
+          status="visible"
+          testId="drawer"
+        />
+      );
+
+      expect(document.body.style.transform).toBe('');
+    });
+
+    it('should render overlay when push is false', () => {
+      render(
+        <Drawer {...defaultProps} push={false} testId="drawer" />
+      );
+      expect(screen.getByTestId('drawer-overlay')).toBeInTheDocument();
     });
   });
 
