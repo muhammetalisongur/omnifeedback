@@ -125,10 +125,14 @@ omnifeedback/
 │   ├── utils/                   # Utility functions
 │   └── styles/                  # Base CSS/animations
 │
-├── tests/                       # Test files
-│   ├── unit/                    # Unit tests
-│   ├── integration/             # Integration tests
+├── tests/                       # Test infrastructure & cross-cutting tests
+│   ├── setup.ts                 # Global test setup (DOM mocks, cleanup)
+│   ├── unit/                    # Setup validation tests
+│   ├── integration/             # Adapter + Core integration tests
 │   └── e2e/                     # Playwright E2E tests
+│
+│   NOTE: Unit tests are co-located with source files (src/**/*.test.{ts,tsx})
+│   This follows modern React testing conventions for better DX.
 │
 ├── docs/                        # Documentation
 ├── examples/                    # Example projects
@@ -146,7 +150,7 @@ omnifeedback/
 1. **00-project-setup** - Tooling, TypeScript, build system
 2. **01-core-architecture** - FeedbackManager, Store, EventBus, Queue
 
-### Phase 2: Core Components (6 components)
+### Phase 2: Core Components (6 components) ✅
 3. **02-toast-system** - Toast component and useToast hook
 4. **03-modal-system** - Modal component and useModal hook
 5. **04-loading-system** - Loading component and useLoading hook
@@ -154,7 +158,7 @@ omnifeedback/
 7. **06-progress-system** - Progress component and useProgress hook
 8. **07-confirm-dialog** - Confirm dialog and useConfirm hook
 
-### Phase 3: Extended Components (9 new components)
+### Phase 3: Extended Components (9 new components) ✅
 9. **08-banner-system** - Banner/announcement and useBanner hook
 10. **09-drawer-system** - Drawer/side panel and useDrawer hook
 11. **10-popconfirm-system** - Popconfirm and usePopconfirm hook
@@ -165,7 +169,7 @@ omnifeedback/
 16. **15-prompt-dialog** - Prompt dialog and usePrompt hook
 17. **16-sheet-system** - Bottom sheet and useSheet hook
 
-### Phase 4: Adapters (6 adapters)
+### Phase 4: Adapters (6 adapters × 16 components) ✅
 18. **17-adapter-shadcn** - shadcn/ui integration
 19. **18-adapter-mantine** - Mantine integration
 20. **19-adapter-chakra** - Chakra UI integration
@@ -173,27 +177,39 @@ omnifeedback/
 22. **21-adapter-antd** - Ant Design integration
 23. **22-adapter-headless** - Pure Tailwind/Headless
 
-### Phase 5: Publishing
+### Phase 5: Quality & Publishing ⏳
 24. **23-npm-publishing** - Package, docs, release
+25. **Integration tests** - Adapter + Core combinations
+26. **E2E tests** - Playwright browser tests
 
 ## Testing Strategy
 
 ### Unit Testing (Vitest + React Testing Library)
+- **Co-located with source files** (src/**/*.test.{ts,tsx})
 - Test each component in isolation
 - Test hooks with renderHook
 - Test utilities with pure functions
 - Mock adapters for core tests
+- Currently: 43 test files, 988+ tests passing
 
-### Integration Testing
+### Integration Testing (tests/integration/)
 - Test Core + Adapter combinations
 - Test Provider + Hook interactions
 - Test real DOM updates
+- Test feedback lifecycle (Manager → Store → Component → DOM)
 
-### E2E Testing (Playwright)
+### E2E Testing (Playwright) (tests/e2e/)
 - Test user flows in real browser
 - Test animations and transitions
 - Test multiple feedback items
 - Test across different screen sizes
+- Test accessibility (keyboard navigation, ARIA)
+
+### Test Infrastructure (tests/setup.ts)
+- Global test setup loaded before all tests via vitest.config.ts
+- DOM mocks: matchMedia, ResizeObserver, IntersectionObserver
+- Animation mocks: requestAnimationFrame, cancelAnimationFrame
+- Cleanup: Portal containers, dialog elements after each test
 
 ### What to Test for Each Feature
 - ✅ Happy path works

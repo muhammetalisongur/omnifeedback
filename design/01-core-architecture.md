@@ -49,13 +49,22 @@ Design the core feedback management system that is completely UI-agnostic. This 
 ```typescript
 // ==================== FEEDBACK TYPES ====================
 
-export type FeedbackType = 
-  | 'toast' 
-  | 'modal' 
-  | 'loading' 
-  | 'alert' 
-  | 'progress' 
-  | 'confirm';
+export type FeedbackType =
+  | 'toast'
+  | 'modal'
+  | 'loading'
+  | 'alert'
+  | 'progress'
+  | 'confirm'
+  | 'banner'
+  | 'drawer'
+  | 'popconfirm'
+  | 'skeleton'
+  | 'empty'
+  | 'result'
+  | 'connection'
+  | 'prompt'
+  | 'sheet';
 
 export type FeedbackVariant = 
   | 'success' 
@@ -263,6 +272,15 @@ export interface FeedbackOptionsMap {
   alert: IAlertOptions;
   progress: IProgressOptions;
   confirm: IConfirmOptions;
+  banner: IBannerOptions;
+  drawer: IDrawerOptions;
+  popconfirm: IPopconfirmOptions;
+  skeleton: ISkeletonOptions;
+  empty: IBaseFeedbackOptions;
+  result: IResultOptions;
+  connection: IConnectionStatusOptions;
+  prompt: IPromptOptions;
+  sheet: ISheetOptions;
 }
 
 // ==================== CONFIGURATION ====================

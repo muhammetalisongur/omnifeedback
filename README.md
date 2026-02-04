@@ -10,7 +10,7 @@ One API. Every UI library. Zero headaches.
 
 ## ✨ Features
 
-- 🎯 **Unified API** - Same interface for Toast, Modal, Loading, Alert, Progress, Confirm
+- 🎯 **Unified API** - Same interface for Toast, Modal, Loading, Alert, Progress, Confirm, Banner, Drawer, Prompt, Sheet & more
 - 🎨 **Multi-Library Support** - Works with shadcn/ui, Mantine, Chakra UI, MUI, Ant Design, or pure Tailwind
 - 🔧 **Fully Parametric** - Every behavior, style, and animation is customizable
 - 🐛 **Zero Bugs** - No layout shifts, z-index conflicts, or memory leaks
@@ -123,7 +123,22 @@ function MyComponent() {
 The main hook that provides access to all feedback methods.
 
 ```tsx
-const { toast, modal, loading, alert, progress, confirm, clearAll } = useFeedback();
+const {
+  toast,        // Toast notifications
+  modal,        // Modal dialogs
+  loading,      // Loading indicators
+  alert,        // Inline alerts
+  progress,     // Progress bars
+  confirm,      // Confirmation dialogs
+  banner,       // Full-width banners
+  drawer,       // Side panel drawers
+  popconfirm,   // Popover confirmations
+  skeleton,     // Skeleton placeholders
+  result,       // Result/status pages
+  connection,   // Connection status monitoring
+  prompt,       // Input prompt dialogs
+  sheet,        // Bottom sheets
+} = useFeedback();
 ```
 
 ### Toast
@@ -296,6 +311,120 @@ const result = await confirm.show({
 });
 ```
 
+### Banner
+
+```tsx
+// Show a banner announcement
+banner.show({
+  message: 'We use cookies to improve your experience.',
+  variant: 'info',
+  position: 'top',
+  dismissible: true,
+  rememberDismiss: 'cookie-consent', // Remember in localStorage
+  actions: [
+    { label: 'Accept', onClick: () => acceptCookies(), variant: 'primary' },
+    { label: 'Learn More', onClick: () => openPolicy(), variant: 'link' },
+  ],
+});
+
+// Dismiss banner
+banner.dismiss(id);
+```
+
+### Drawer
+
+```tsx
+// Open a drawer/side panel
+const drawerId = drawer.open({
+  title: 'Settings',
+  content: <SettingsPanel />,
+  position: 'right', // left, right, top, bottom
+  size: 'md',        // sm, md, lg, xl, full
+  overlay: true,
+  closeOnEscape: true,
+  footer: <Button onClick={() => drawer.close(drawerId)}>Close</Button>,
+});
+
+// Close drawer
+drawer.close(drawerId);
+```
+
+### Prompt
+
+```tsx
+// Promise-based input dialog
+const name = await prompt.show({
+  title: 'Rename File',
+  placeholder: 'Enter new file name...',
+  defaultValue: 'document.pdf',
+  validate: (value) => value.length < 3 ? 'Name must be at least 3 characters' : true,
+});
+
+if (name !== null) {
+  // User entered a value and confirmed
+  renameFile(name);
+}
+```
+
+### Sheet
+
+```tsx
+// Open a bottom sheet
+sheet.open({
+  title: 'Share Options',
+  content: <ShareMenu />,
+  snapPoints: [30, 60, 90],  // Percentage snap points
+  defaultSnapPoint: 1,        // Start at 60%
+  showHandle: true,            // Drag handle
+  closeOnBackdropClick: true,
+});
+```
+
+### Popconfirm
+
+```tsx
+// Popover confirmation near a trigger element
+popconfirm.show({
+  target: buttonRef,
+  message: 'Delete this item?',
+  confirmText: 'Delete',
+  confirmVariant: 'danger',
+  placement: 'top',
+  onConfirm: () => deleteItem(),
+});
+```
+
+### Skeleton
+
+```tsx
+// Show skeleton loading placeholders
+const skeletonId = skeleton.show({ animation: 'pulse' });
+
+// Hide when data is loaded
+skeleton.hide(skeletonId);
+```
+
+### Result
+
+```tsx
+// Show a result/status page
+result.show({
+  status: 'success', // success, error, info, warning, 404, 403, 500
+  title: 'Payment Successful',
+  description: 'Your order has been placed.',
+  primaryAction: { label: 'View Order', onClick: () => navigate('/orders') },
+  secondaryAction: { label: 'Go Home', onClick: () => navigate('/') },
+});
+```
+
+### Connection
+
+```tsx
+// Monitor connection status (auto-detects online/offline)
+const { status, isOnline } = connection;
+// Automatically shows banner when offline
+```
+
 ## 🎨 Adapters
 
 ### Available Adapters
@@ -395,7 +524,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## 📄 License
 
-MIT © [Your Name](https://github.com/yourusername)
+MIT © [Muhammet Ali Songur](https://github.com/muhammetalisongur)
 
 ---
 
