@@ -3,7 +3,7 @@
  * Defines the interface that all UI library adapters must implement
  *
  * Adapters provide component implementations for different UI libraries.
- * Each adapter must implement all 15 feedback components.
+ * Each adapter must implement all 16 feedback components.
  */
 
 import type { ComponentType, ReactNode, CSSProperties } from 'react';

@@ -25,11 +25,11 @@ Configure the package for NPM publishing with proper exports, documentation, and
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/omnifeedback.git"
+    "url": "https://github.com/muhammetalisongur/omnifeedback.git"
   },
-  "homepage": "https://github.com/yourusername/omnifeedback#readme",
+  "homepage": "https://github.com/muhammetalisongur/omnifeedback#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/omnifeedback/issues"
+    "url": "https://github.com/muhammetalisongur/omnifeedback/issues"
   },
   "keywords": [
     "react",
