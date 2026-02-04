@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/omnifeedback.svg)](https://www.npmjs.com/package/omnifeedback)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/omnifeedback)](https://bundlephobia.com/package/omnifeedback)
-[![license](https://img.shields.io/npm/l/omnifeedback.svg)](https://github.com/yourusername/omnifeedback/blob/main/LICENSE)
+[![license](https://img.shields.io/npm/l/omnifeedback.svg)](https://github.com/muhammetalisongur/omnifeedback/blob/main/LICENSE)
 
 One API. Every UI library. Zero headaches.
 

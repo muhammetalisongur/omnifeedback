@@ -10,15 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Integration test infrastructure (tests/integration/)
 - E2E test infrastructure with Playwright (tests/e2e/)
+- PromptContainer auto-rendering in FeedbackProvider (9th container)
+- `renderPrompts` prop on FeedbackProvider for controlling Prompt container rendering
 
 ### Changed
-- Updated README.md with complete API documentation for all 16 component types
+- Updated README.md with complete API documentation for all 15 feedback types
 - Updated IMPLEMENTATION.md to reflect actual completion status
 - Updated AGENTS.md testing strategy to document co-located test approach
 - Updated design/01-core-architecture.md with all 15 FeedbackType definitions
+- Updated QUICKSTART.md with current project status, all 24 design docs, and correct URLs
+- Clarified Connection as a hook-only feature (no visual component needed)
+- Updated GitHub URLs from placeholder to muhammetalisongur
 
 ### Fixed
 - Removed incorrect `clearAll` property from useFeedback API documentation in README.md
+- Fixed PromptContainer not being auto-rendered in FeedbackProvider (Promise-based dialog bug)
+- Fixed "16 feedback types" → "15 feedback types" count in documentation
+- Fixed badge URL placeholder in README.md
 
 ## [0.1.0] - 2026-02-04
 
@@ -67,7 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Ant Design** - antd components, Ant Design patterns
 
 #### Infrastructure
-- FeedbackProvider with React Context and 8 auto-rendered containers
+- FeedbackProvider with React Context and 9 auto-rendered containers
 - Portal-based rendering for all overlay components
 - TypeScript strict mode with exactOptionalPropertyTypes
 - 43 test files, 988+ tests passing

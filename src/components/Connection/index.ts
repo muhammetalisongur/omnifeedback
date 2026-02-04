@@ -1,13 +1,12 @@
 /**
  * Connection component exports
- * Provides connection status feedback functionality
+ *
+ * Connection monitoring is a hook-only feature.
+ * The useConnection hook handles online/offline detection,
+ * action queuing, and integrates with the banner system
+ * for visual feedback. No separate visual component is needed.
+ *
+ * @see useConnection hook in src/hooks/useConnection.ts
  */
 
-// Connection component
-// export { Connection } from './Connection';
-
-// Connection types
-// export type { IConnectionProps, ConnectionStatus } from './types';
-
-// Placeholder export to prevent empty module errors
 export const CONNECTION_VERSION = '0.1.0';
