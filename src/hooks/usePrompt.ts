@@ -147,7 +147,7 @@ export function usePrompt(): IUsePromptReturn {
   const number = useCallback(
     async (title: string, options?: Partial<IPromptShowOptions>): Promise<number | null> => {
       const result = await show({ title, inputType: 'number', ...options });
-      if (result === null) return null;
+      if (result === null) {return null;}
       const parsed = parseFloat(result);
       return isNaN(parsed) ? null : parsed;
     },

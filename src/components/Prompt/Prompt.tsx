@@ -100,7 +100,7 @@ export const Prompt = memo(
      * Handle ESC key to cancel
      */
     useEffect(() => {
-      const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      const handleKeyDown = (e: globalThis.KeyboardEvent): void => {
         if (e.key === 'Escape' && isVisible && onCancel) {
           onCancel();
         }
@@ -122,12 +122,12 @@ export const Prompt = memo(
 
         // Min length check
         if (minLength !== undefined && val.length < minLength) {
-          return `Must be at least ${minLength} characters`;
+          return `Must be at least ${String(minLength)} characters`;
         }
 
         // Max length check
         if (maxLength !== undefined && val.length > maxLength) {
-          return `Must be at most ${maxLength} characters`;
+          return `Must be at most ${String(maxLength)} characters`;
         }
 
         // Pattern check
@@ -194,7 +194,7 @@ export const Prompt = memo(
       (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && inputType !== 'textarea') {
           e.preventDefault();
-          handleSubmit(e as unknown as FormEvent);
+          void handleSubmit(e as unknown as FormEvent);
         }
       },
       [inputType, handleSubmit]
@@ -213,7 +213,7 @@ export const Prompt = memo(
      * Get input type for HTML input element
      */
     const getHtmlInputType = (type: PromptInputType): string => {
-      if (type === 'textarea') return 'text';
+      if (type === 'textarea') {return 'text';}
       return type;
     };
 
@@ -249,7 +249,7 @@ export const Prompt = memo(
         onClick={handleBackdropClick}
       >
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e: FormEvent): void => { void handleSubmit(e); }}
           data-testid={testId ? `${testId}-form` : undefined}
           className={cn(
             'relative w-full max-w-md bg-white dark:bg-gray-800',

@@ -144,7 +144,7 @@ export const Confirm = memo(
 
     // Handle ESC key
     useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape' && !isLoading) {
           e.preventDefault();
           onCancel?.();
@@ -156,13 +156,15 @@ export const Confirm = memo(
     }, [onCancel, isLoading]);
 
     // Handle confirm with loading state
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback((): void => {
       setIsLoading(true);
-      try {
-        await onConfirm();
-      } finally {
-        setIsLoading(false);
-      }
+      void (async () => {
+        try {
+          await onConfirm();
+        } finally {
+          setIsLoading(false);
+        }
+      })();
     }, [onConfirm]);
 
     // Handle backdrop click

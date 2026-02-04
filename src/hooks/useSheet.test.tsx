@@ -70,7 +70,7 @@ describe('useSheet', () => {
         wrapper: createWrapper(),
       });
 
-      let sheetId: string = '';
+      let sheetId = '';
       act(() => {
         sheetId = result.current.open({ content: <div>Test</div> });
       });
@@ -137,7 +137,7 @@ describe('useSheet', () => {
         wrapper: createWrapper(),
       });
 
-      let sheetId: string = '';
+      let sheetId = '';
       act(() => {
         sheetId = result.current.open({ content: <div>Test</div> });
       });
@@ -159,7 +159,7 @@ describe('useSheet', () => {
         wrapper: createWrapper(),
       });
 
-      let sheetId: string = '';
+      let sheetId = '';
       act(() => {
         sheetId = result.current.open({ content: <div>Test</div> });
       });
@@ -207,7 +207,7 @@ describe('useSheet', () => {
       });
 
       act(() => {
-        result.current.showActions({
+        void result.current.showActions({
           title: 'Choose Option',
           actions: [
             { key: 'option1', label: 'Option 1' },
@@ -232,7 +232,7 @@ describe('useSheet', () => {
       expect(result.current.isOpen).toBe(false);
 
       act(() => {
-        result.current.showActions({
+        void result.current.showActions({
           actions: [{ key: 'test', label: 'Test' }],
         });
       });
@@ -248,7 +248,7 @@ describe('useSheet', () => {
       });
 
       act(() => {
-        result.current.confirm({
+        void result.current.confirm({
           title: 'Confirm Action',
         });
       });
@@ -269,7 +269,7 @@ describe('useSheet', () => {
       expect(result.current.isOpen).toBe(false);
 
       act(() => {
-        result.current.confirm({
+        void result.current.confirm({
           title: 'Confirm',
         });
       });

@@ -7,7 +7,7 @@ import { memo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { Confirm } from './Confirm';
-import type { IConfirmOptions, IFeedbackItem } from '../../core/types';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * Z-index for confirm dialogs (above modals)
@@ -67,7 +67,7 @@ export const ConfirmContainer = memo(function ConfirmContainer() {
     return null;
   }
 
-  const options = latestConfirm.options as IConfirmOptions;
+  const options = latestConfirm.options;
 
   // Build props with spread to handle exactOptionalPropertyTypes
   const confirmProps = {

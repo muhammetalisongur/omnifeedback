@@ -48,7 +48,7 @@ describe('useConfirm', () => {
   });
 
   describe('show()', () => {
-    it('should add confirm to store and return promise', async () => {
+    it('should add confirm to store and return promise', () => {
       const { result } = renderHook(() => useConfirm(), {
         wrapper: createWrapper(),
       });
@@ -74,7 +74,7 @@ describe('useConfirm', () => {
       });
 
       act(() => {
-        result.current.show({ message: 'Test message' });
+        void result.current.show({ message: 'Test message' });
       });
 
       const store = useFeedbackStore.getState();
@@ -94,7 +94,7 @@ describe('useConfirm', () => {
       });
 
       act(() => {
-        result.current.show({
+        void result.current.show({
           message: 'Test message',
           title: 'Custom Title',
           confirmText: 'Yes',
@@ -133,7 +133,7 @@ describe('useConfirm', () => {
       const options = confirm?.options as IConfirmOptions;
 
       act(() => {
-        options.onConfirm();
+        void options.onConfirm();
       });
 
       // Wait for exit animation
@@ -175,13 +175,13 @@ describe('useConfirm', () => {
       expect(resolvedValue).toBe(false);
     });
 
-    it('should remove confirm from store after resolution', async () => {
+    it('should remove confirm from store after resolution', () => {
       const { result } = renderHook(() => useConfirm(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.show({ message: 'Test' });
+        void result.current.show({ message: 'Test' });
       });
 
       // Verify confirm exists
@@ -193,7 +193,7 @@ describe('useConfirm', () => {
       // Call onConfirm
       const options = confirms[0]!.options as IConfirmOptions;
       act(() => {
-        options.onConfirm();
+        void options.onConfirm();
       });
 
       // Wait for exit animation
@@ -216,7 +216,7 @@ describe('useConfirm', () => {
       });
 
       act(() => {
-        result.current.danger('This will delete your data');
+        void result.current.danger('This will delete your data');
       });
 
       const store = useFeedbackStore.getState();
@@ -237,7 +237,7 @@ describe('useConfirm', () => {
       });
 
       act(() => {
-        result.current.danger('Delete account?', {
+        void result.current.danger('Delete account?', {
           title: 'Delete Account',
           confirmText: 'Yes, Delete',
         });
@@ -271,7 +271,7 @@ describe('useConfirm', () => {
       const options = confirm?.options as IConfirmOptions;
 
       act(() => {
-        options.onConfirm();
+        void options.onConfirm();
       });
 
       act(() => {
@@ -292,7 +292,7 @@ describe('useConfirm', () => {
       // First, we need to capture the id somehow
       // Since show() returns a Promise, we get the id from store
       act(() => {
-        result.current.show({ message: 'Test' });
+        void result.current.show({ message: 'Test' });
       });
 
       const store = useFeedbackStore.getState();
@@ -345,7 +345,7 @@ describe('useConfirm', () => {
       let options = confirm?.options as IConfirmOptions;
 
       act(() => {
-        options.onConfirm();
+        void options.onConfirm();
       });
 
       act(() => {

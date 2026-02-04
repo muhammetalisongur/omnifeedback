@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { useFeedbackContext } from '../../providers/FeedbackProvider';
 import { Sheet } from './Sheet';
-import type { ISheetOptions, FeedbackStatus } from '../../core/types';
+import type { ISheetOptions } from '../../core/types';
 
 /**
  * SheetContainer component
@@ -56,7 +56,7 @@ export const SheetContainer = memo(function SheetContainer() {
           <Sheet
             key={item.id}
             content={options.content}
-            status={item.status as FeedbackStatus}
+            status={item.status}
             onRequestClose={() => handleClose(item.id, options.onClose)}
             testId={options.testId ?? `sheet-${item.id}`}
             {...(options.title !== undefined && { title: options.title })}

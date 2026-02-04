@@ -45,7 +45,8 @@ const mockLocalStorage = (() => {
       store[key] = value;
     }),
     removeItem: vi.fn((key: string) => {
-      delete store[key];
+      const { [key]: _, ...rest } = store;
+      store = rest;
     }),
     clear: vi.fn(() => {
       store = {};
@@ -544,7 +545,7 @@ describe('useBanner', () => {
           position: 'bottom',
           rememberDismiss: 'cookie-consent',
           actions: [
-            { label: 'Accept', onClick: () => {}, variant: 'primary' },
+            { label: 'Accept', onClick: (): void => { /* noop */ }, variant: 'primary' },
           ],
         });
       });

@@ -7,21 +7,22 @@ import { memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { Popconfirm } from './Popconfirm';
-import type { IFeedbackItem, IPopconfirmOptions } from '../../core/types';
+import type { IPopconfirmProps } from './Popconfirm';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * Build popconfirm props from feedback item
  * Handles exactOptionalPropertyTypes compliance
  */
-const buildPopconfirmProps = (item: IFeedbackItem<'popconfirm'>) => {
-  const options = item.options as IPopconfirmOptions;
+const buildPopconfirmProps = (item: IFeedbackItem<'popconfirm'>): IPopconfirmProps => {
+  const options = item.options;
 
   return {
     target: options.target,
     message: options.message,
     status: item.status,
     onConfirm: options.onConfirm,
-    onCancel: options.onCancel ?? (() => {}),
+    onCancel: options.onCancel ?? ((): void => { /* noop */ }),
     testId: options.testId ?? `popconfirm-${item.id}`,
     // Optional props - only include if defined
     ...(options.title !== undefined && { title: options.title }),

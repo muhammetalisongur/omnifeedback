@@ -160,8 +160,7 @@ export const Popconfirm = memo(
      * Get target element from HTMLElement or RefObject
      */
     const getTargetElement = useCallback((): HTMLElement | null => {
-      if (!target) return null;
-      if ('current' in target) return target.current;
+      if ('current' in target) {return target.current;}
       return target;
     }, [target]);
 
@@ -170,11 +169,11 @@ export const Popconfirm = memo(
      */
     useEffect(() => {
       const targetEl = getTargetElement();
-      if (!targetEl || !popconfirmRef.current) return undefined;
+      if (!targetEl || !popconfirmRef.current) {return undefined;}
 
-      const updatePosition = () => {
+      const updatePosition = (): void => {
         const popoverEl = popconfirmRef.current;
-        if (!popoverEl) return;
+        if (!popoverEl) {return;}
 
         const result = calculatePosition(
           targetEl,
@@ -226,9 +225,9 @@ export const Popconfirm = memo(
      * Click outside handler
      */
     useEffect(() => {
-      if (!closeOnClickOutside) return undefined;
+      if (!closeOnClickOutside) {return undefined;}
 
-      const handleClickOutside = (e: MouseEvent) => {
+      const handleClickOutside = (e: MouseEvent): void => {
         const targetEl = getTargetElement();
         if (
           popconfirmRef.current &&
@@ -248,7 +247,7 @@ export const Popconfirm = memo(
      * ESC key handler
      */
     useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onCancel();
@@ -284,8 +283,8 @@ export const Popconfirm = memo(
         }}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby={title ? `${testId}-title` : undefined}
-        aria-describedby={`${testId}-message`}
+        aria-labelledby={title && testId ? `${testId}-title` : undefined}
+        aria-describedby={testId ? `${testId}-message` : undefined}
         data-testid={testId}
         data-status={status}
         data-placement={actualPlacement}

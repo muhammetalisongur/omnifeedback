@@ -127,12 +127,12 @@ export const CircularProgress = memo(
           <svg
             width={svgSize}
             height={svgSize}
-            viewBox={`0 0 ${svgSize} ${svgSize}`}
+            viewBox={`0 0 ${String(svgSize)} ${String(svgSize)}`}
             role="progressbar"
             aria-valuenow={indeterminate ? undefined : value}
             aria-valuemin={0}
             aria-valuemax={max}
-            aria-label={label || 'Progress'}
+            aria-label={label ?? 'Progress'}
             className={cn(indeterminate && 'animate-spin')}
             data-testid={testId ? `${testId}-svg` : undefined}
           >

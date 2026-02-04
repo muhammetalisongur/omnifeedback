@@ -155,8 +155,8 @@ describe('Result', () => {
         <Result
           status="success"
           title="Title"
-          primaryAction={{ label: 'Primary', onClick: () => {} }}
-          secondaryAction={{ label: 'Secondary', onClick: () => {} }}
+          primaryAction={{ label: 'Primary', onClick: (): void => { /* noop */ } }}
+          secondaryAction={{ label: 'Secondary', onClick: (): void => { /* noop */ } }}
           testId="result"
         />
       );
@@ -200,7 +200,7 @@ describe('Result', () => {
           title="Title"
           primaryAction={{
             label: 'With Icon',
-            onClick: () => {},
+            onClick: (): void => { /* noop */ },
             icon: <span data-testid="action-icon">+</span>,
           }}
           testId="result"
@@ -217,7 +217,7 @@ describe('Result', () => {
           title="Title"
           primaryAction={{
             label: 'Disabled Button',
-            onClick: () => {},
+            onClick: (): void => { /* noop */ },
             disabled: true,
           }}
           testId="result"
@@ -235,7 +235,7 @@ describe('Result', () => {
           title="Title"
           primaryAction={{
             label: 'Loading Button',
-            onClick: () => {},
+            onClick: (): void => { /* noop */ },
             loading: true,
           }}
           testId="result"
@@ -343,7 +343,7 @@ describe('Result', () => {
         />
       );
 
-      const result = screen.getByTestId('result') as HTMLElement;
+      const result = screen.getByTestId('result');
       expect(result.style.backgroundColor).toBe('red');
     });
   });

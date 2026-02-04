@@ -56,8 +56,9 @@ describe('useDrag', () => {
       );
 
       // Create a mock mouse event
+      const preventDefaultMock = vi.fn();
       const mockEvent = {
-        preventDefault: vi.fn(),
+        preventDefault: preventDefaultMock,
         clientX: 100,
         clientY: 100,
       } as unknown as React.MouseEvent;
@@ -67,7 +68,7 @@ describe('useDrag', () => {
       });
 
       // Should not have called preventDefault when disabled
-      expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+      expect(preventDefaultMock).not.toHaveBeenCalled();
     });
 
     it('should use default axis of y', () => {
@@ -96,8 +97,9 @@ describe('useDrag', () => {
     it('should handle mouse down event', () => {
       const { result } = renderHook(() => useDrag());
 
+      const preventDefaultMock = vi.fn();
       const mockEvent = {
-        preventDefault: vi.fn(),
+        preventDefault: preventDefaultMock,
         clientX: 100,
         clientY: 100,
       } as unknown as React.MouseEvent;
@@ -106,14 +108,15 @@ describe('useDrag', () => {
         result.current.dragHandlers.onMouseDown(mockEvent);
       });
 
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
+      expect(preventDefaultMock).toHaveBeenCalled();
     });
 
     it('should not handle mouse down when disabled', () => {
       const { result } = renderHook(() => useDrag({ enabled: false }));
 
+      const preventDefaultMock = vi.fn();
       const mockEvent = {
-        preventDefault: vi.fn(),
+        preventDefault: preventDefaultMock,
         clientX: 100,
         clientY: 100,
       } as unknown as React.MouseEvent;
@@ -122,7 +125,7 @@ describe('useDrag', () => {
         result.current.dragHandlers.onMouseDown(mockEvent);
       });
 
-      expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+      expect(preventDefaultMock).not.toHaveBeenCalled();
     });
   });
 

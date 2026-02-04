@@ -242,10 +242,10 @@ export const Drawer = memo(
 
     // Push content: apply transform to document.body based on status
     useEffect(() => {
-      if (!push) return undefined;
+      if (!push) {return undefined;}
 
       const pushSize = customSize
-        ? (typeof customSize === 'number' ? `${customSize}px` : customSize)
+        ? (typeof customSize === 'number' ? `${String(customSize)}px` : customSize)
         : isHorizontal
           ? horizontalSizePx[size]
           : verticalSizePx[size];
@@ -277,9 +277,9 @@ export const Drawer = memo(
 
     // ESC key handler
     useEffect(() => {
-      if (!closeOnEscape) return undefined;
+      if (!closeOnEscape) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -310,8 +310,8 @@ export const Drawer = memo(
     // Determine custom size style
     const sizeStyle: React.CSSProperties = customSize
       ? isHorizontal
-        ? { width: typeof customSize === 'number' ? `${customSize}px` : customSize }
-        : { height: typeof customSize === 'number' ? `${customSize}px` : customSize }
+        ? { width: typeof customSize === 'number' ? `${String(customSize)}px` : customSize }
+        : { height: typeof customSize === 'number' ? `${String(customSize)}px` : customSize }
       : {};
 
     return (
@@ -347,7 +347,7 @@ export const Drawer = memo(
           ref={drawerRef}
           role="dialog"
           aria-modal="true"
-          aria-labelledby={title ? `${testId}-title` : undefined}
+          aria-labelledby={title && testId ? `${testId}-title` : undefined}
           data-testid={testId ? `${testId}-panel` : undefined}
           className={cn(
             'fixed bg-white dark:bg-gray-900 shadow-xl pointer-events-auto',
@@ -363,7 +363,7 @@ export const Drawer = memo(
           style={sizeStyle}
         >
           {/* Header */}
-          {(title || closable) && (
+          {(title ?? closable) && (
             <div
               className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"
               data-testid={testId ? `${testId}-header` : undefined}

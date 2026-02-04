@@ -216,14 +216,15 @@ export function useSheet(): IUseSheetReturn {
         const { title, description, actions, showCancel, cancelText, ...rest } =
           options;
 
+        // eslint-disable-next-line prefer-const -- sheetId must be declared before use in callbacks but assigned after
         let sheetId: string;
 
-        const handleSelect = (key: string) => {
+        const handleSelect = (key: string): void => {
           manager.remove(sheetId);
           resolve(key);
         };
 
-        const handleCancel = () => {
+        const handleCancel = (): void => {
           manager.remove(sheetId);
           resolve(null);
         };
@@ -261,14 +262,15 @@ export function useSheet(): IUseSheetReturn {
         const { title, description, confirmText, cancelText, destructive, ...rest } =
           options;
 
+        // eslint-disable-next-line prefer-const -- sheetId must be declared before use in callbacks but assigned after
         let sheetId: string;
 
-        const handleConfirm = () => {
+        const handleConfirm = (): void => {
           manager.remove(sheetId);
           resolve(true);
         };
 
-        const handleCancel = () => {
+        const handleCancel = (): void => {
           manager.remove(sheetId);
           resolve(false);
         };

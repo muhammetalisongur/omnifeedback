@@ -265,7 +265,7 @@ export const Banner = memo(
                     (!action.variant || action.variant === 'link') &&
                       'underline hover:no-underline'
                   )}
-                  data-testid={testId ? `${testId}-action-${index}` : undefined}
+                  data-testid={testId ? `${testId}-action-${String(index)}` : undefined}
                 >
                   {action.label}
                 </button>

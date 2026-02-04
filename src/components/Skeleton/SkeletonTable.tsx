@@ -68,10 +68,10 @@ export const SkeletonTable = memo(function SkeletonTable({
    * Get width for a specific column
    */
   const getColumnWidth = (index: number): string | number => {
-    if (columnWidths && columnWidths[index] !== undefined) {
+    if (columnWidths?.[index] !== undefined) {
       return columnWidths[index];
     }
-    return `${100 / columns}%`;
+    return `${String(100 / columns)}%`;
   };
 
   /**
@@ -80,7 +80,7 @@ export const SkeletonTable = memo(function SkeletonTable({
    */
   const cellWidths = useMemo(() => {
     return Array.from({ length: rows }, () =>
-      Array.from({ length: columns }, () => `${70 + Math.floor(Math.random() * 30)}%`)
+      Array.from({ length: columns }, () => `${String(70 + Math.floor(Math.random() * 30))}%`)
     );
   }, [rows, columns]);
 
@@ -102,14 +102,14 @@ export const SkeletonTable = memo(function SkeletonTable({
         >
           {Array.from({ length: columns }, (_, colIndex) => (
             <div
-              key={`header-${colIndex}`}
+              key={`header-${String(colIndex)}`}
               style={{ width: getColumnWidth(colIndex) }}
             >
               <Skeleton
                 height={16}
                 animation={animation}
                 {...optionalProps}
-                {...(testId !== undefined && { testId: `${testId}-header-${colIndex}` })}
+                {...(testId !== undefined && { testId: `${testId}-header-${String(colIndex)}` })}
               />
             </div>
           ))}
@@ -119,14 +119,14 @@ export const SkeletonTable = memo(function SkeletonTable({
       {/* Data rows */}
       {Array.from({ length: rows }, (_, rowIndex) => (
         <div
-          key={`row-${rowIndex}`}
+          key={`row-${String(rowIndex)}`}
           className="flex gap-4 p-3 border-b last:border-b-0"
           style={{ minHeight: rowHeight }}
-          data-testid={testId ? `${testId}-row-${rowIndex}` : undefined}
+          data-testid={testId ? `${testId}-row-${String(rowIndex)}` : undefined}
         >
           {Array.from({ length: columns }, (_, colIndex) => (
             <div
-              key={`cell-${rowIndex}-${colIndex}`}
+              key={`cell-${String(rowIndex)}-${String(colIndex)}`}
               style={{ width: getColumnWidth(colIndex) }}
               className="flex items-center"
             >
@@ -135,7 +135,7 @@ export const SkeletonTable = memo(function SkeletonTable({
                 width={cellWidths[rowIndex]?.[colIndex] ?? '80%'}
                 animation={animation}
                 {...optionalProps}
-                {...(testId !== undefined && { testId: `${testId}-cell-${rowIndex}-${colIndex}` })}
+                {...(testId !== undefined && { testId: `${testId}-cell-${String(rowIndex)}-${String(colIndex)}` })}
               />
             </div>
           ))}

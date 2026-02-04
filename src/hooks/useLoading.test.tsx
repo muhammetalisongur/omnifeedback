@@ -266,7 +266,7 @@ describe('useLoading', () => {
       });
 
       let storeHadLoadingDuringExecution = false;
-      const asyncFn = async () => {
+      const asyncFn = async (): Promise<string> => {
         // Check store directly since React state may not have updated yet
         const store = useFeedbackStore.getState();
         const loadings = store.getAll().filter((item) => item.type === 'loading');
@@ -287,7 +287,7 @@ describe('useLoading', () => {
         wrapper: createWrapper(),
       });
 
-      const asyncFn = async () => {
+      const asyncFn = async (): Promise<string> => {
         await Promise.resolve();
         return 'result';
       };
@@ -309,7 +309,7 @@ describe('useLoading', () => {
         wrapper: createWrapper(),
       });
 
-      const asyncFn = async () => {
+      const asyncFn = async (): Promise<{ data: string }> => {
         await Promise.resolve();
         return { data: 'test' };
       };
@@ -327,7 +327,7 @@ describe('useLoading', () => {
         wrapper: createWrapper(),
       });
 
-      const asyncFn = async () => {
+      const asyncFn = async (): Promise<never> => {
         await Promise.resolve();
         throw new Error('Test error');
       };
@@ -352,7 +352,7 @@ describe('useLoading', () => {
       });
 
       let loadingOptions: ILoadingOptions | undefined;
-      const asyncFn = async () => {
+      const asyncFn = async (): Promise<string> => {
         // Check store directly since React state may not have updated yet
         const store = useFeedbackStore.getState();
         const loadings = store.getAll().filter((item) => item.type === 'loading');

@@ -4,7 +4,7 @@
  * Automatically detects online/offline state and shows banners
  */
 
-import { useCallback, useContext, useEffect, useState, useRef } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState, useRef } from 'react';
 import { FeedbackContext } from '../providers/FeedbackProvider';
 import type { IConnectionOptions } from '../core/types';
 
@@ -95,10 +95,10 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const { manager } = context;
 
   // Merge options with defaults
-  const mergedOptions: IConnectionOptions = {
+  const mergedOptions: IConnectionOptions = useMemo(() => ({
     ...DEFAULT_OPTIONS,
     ...options,
-  };
+  }), [options]);
 
   // State
   const [isOnline, setIsOnline] = useState<boolean>(() => {
@@ -212,7 +212,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     }
 
     // Process queued actions
-    processQueue();
+    void processQueue();
 
     // Callback
     mergedOptions.onOnline?.();
@@ -229,24 +229,24 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
    * Start ping interval for reconnection check
    */
   const startPingInterval = useCallback(() => {
-    if (pingIntervalRef.current) return;
+    if (pingIntervalRef.current) {return;}
 
     const interval = mergedOptions.pingInterval ?? 5000;
 
-    pingIntervalRef.current = setInterval(async () => {
+    pingIntervalRef.current = setInterval(() => {
       // Show reconnecting state if enabled
       if (mergedOptions.showReconnecting && !reconnectingBannerIdRef.current) {
         setIsReconnecting(true);
         mergedOptions.onReconnecting?.();
       }
 
-      const online = await checkConnectionInternal();
-
-      if (online) {
-        handleOnline();
-      } else {
-        setIsReconnecting(false);
-      }
+      void checkConnectionInternal().then((online) => {
+        if (online) {
+          handleOnline();
+        } else {
+          setIsReconnecting(false);
+        }
+      });
     }, interval);
   }, [mergedOptions, checkConnectionInternal, handleOnline]);
 
@@ -372,13 +372,13 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
    * Set up event listeners
    */
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {return;}
 
-    const onlineHandler = () => {
+    const onlineHandler = (): void => {
       handleOnline();
     };
 
-    const offlineHandler = () => {
+    const offlineHandler = (): void => {
       handleOffline();
     };
 

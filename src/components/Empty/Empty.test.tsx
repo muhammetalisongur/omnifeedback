@@ -120,14 +120,14 @@ describe('Empty', () => {
       render(<Empty type="error" testId="empty" />);
 
       expect(screen.getByTestId('empty')).toHaveAttribute('data-empty-type', 'error');
-      expect(screen.getByTestId('empty-title')).toHaveTextContent(emptyPresets['error'].title);
+      expect(screen.getByTestId('empty-title')).toHaveTextContent(emptyPresets.error.title);
     });
 
     it('should render offline preset', () => {
       render(<Empty type="offline" testId="empty" />);
 
       expect(screen.getByTestId('empty')).toHaveAttribute('data-empty-type', 'offline');
-      expect(screen.getByTestId('empty-title')).toHaveTextContent(emptyPresets['offline'].title);
+      expect(screen.getByTestId('empty-title')).toHaveTextContent(emptyPresets.offline.title);
     });
 
     it('should render 404 preset', () => {
@@ -198,7 +198,7 @@ describe('Empty', () => {
         <Empty
           action={{
             label: 'With Icon',
-            onClick: () => {},
+            onClick: (): void => { /* noop */ },
             icon: <span data-testid="action-icon">+</span>,
           }}
           testId="empty"
@@ -211,7 +211,7 @@ describe('Empty', () => {
     it('should apply primary variant styles by default', () => {
       render(
         <Empty
-          action={{ label: 'Primary', onClick: () => {} }}
+          action={{ label: 'Primary', onClick: (): void => { /* noop */ } }}
           testId="empty"
         />
       );
@@ -223,7 +223,7 @@ describe('Empty', () => {
     it('should apply secondary variant styles', () => {
       render(
         <Empty
-          action={{ label: 'Secondary', onClick: () => {}, variant: 'secondary' }}
+          action={{ label: 'Secondary', onClick: (): void => { /* noop */ }, variant: 'secondary' }}
           testId="empty"
         />
       );
@@ -235,7 +235,7 @@ describe('Empty', () => {
     it('should apply link variant styles', () => {
       render(
         <Empty
-          action={{ label: 'Link', onClick: () => {}, variant: 'link' }}
+          action={{ label: 'Link', onClick: (): void => { /* noop */ }, variant: 'link' }}
           testId="empty"
         />
       );
@@ -342,7 +342,7 @@ describe('Empty', () => {
     it('should apply custom style', () => {
       render(<Empty style={{ backgroundColor: 'red' }} testId="empty" />);
 
-      const empty = screen.getByTestId('empty') as HTMLElement;
+      const empty = screen.getByTestId('empty');
       expect(empty.style.backgroundColor).toBe('red');
     });
   });

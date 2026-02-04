@@ -76,7 +76,7 @@ export const SkeletonText = memo(function SkeletonText({
             animation={animation}
             {...(baseColor !== undefined && { baseColor })}
             {...(highlightColor !== undefined && { highlightColor })}
-            {...(testId !== undefined && { testId: `${testId}-line-${index}` })}
+            {...(testId !== undefined && { testId: `${testId}-line-${String(index)}` })}
           />
         );
       })}

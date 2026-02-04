@@ -77,7 +77,7 @@ export const AlertContainer = memo(function AlertContainer({
   return (
     <div
       className={cn('flex flex-col', className)}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
       role="region"
       aria-label="Alerts"
       data-testid={testId}

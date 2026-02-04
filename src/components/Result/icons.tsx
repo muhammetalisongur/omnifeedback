@@ -3,10 +3,12 @@
  * SVG icons for each result status type
  */
 
+import type { ReactElement } from 'react';
+
 /**
  * Success icon - Checkmark in circle
  */
-export const SuccessIcon = () => (
+export const SuccessIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -25,7 +27,7 @@ export const SuccessIcon = () => (
 /**
  * Error icon - X in circle
  */
-export const ErrorIcon = () => (
+export const ErrorIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -45,7 +47,7 @@ export const ErrorIcon = () => (
 /**
  * Info icon - Information circle
  */
-export const InfoIcon = () => (
+export const InfoIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -65,7 +67,7 @@ export const InfoIcon = () => (
 /**
  * Warning icon - Exclamation triangle
  */
-export const WarningIcon = () => (
+export const WarningIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -85,7 +87,7 @@ export const WarningIcon = () => (
 /**
  * Not Found icon (404) - Broken link with question mark
  */
-export const NotFoundIcon = () => (
+export const NotFoundIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -105,7 +107,7 @@ export const NotFoundIcon = () => (
 /**
  * Forbidden icon (403) - Shield with X
  */
-export const ForbiddenIcon = () => (
+export const ForbiddenIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -125,7 +127,7 @@ export const ForbiddenIcon = () => (
 /**
  * Server Error icon (500) - Server with warning
  */
-export const ServerErrorIcon = () => (
+export const ServerErrorIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -148,7 +150,7 @@ export const ServerErrorIcon = () => (
 /**
  * Loading spinner icon
  */
-export const LoadingSpinner = () => (
+export const LoadingSpinner = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"

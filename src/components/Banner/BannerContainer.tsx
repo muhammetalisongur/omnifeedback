@@ -8,7 +8,8 @@ import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackContext } from '../../providers/FeedbackProvider';
 import { Banner } from './Banner';
-import type { IBannerOptions, IFeedbackItem } from '../../core/types';
+import type { IBannerProps } from './Banner';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * Z-index for banners
@@ -60,21 +61,21 @@ export const BannerContainer = memo(function BannerContainer() {
   // Group by position
   const topBanners = banners
     .filter((b) => {
-      const options = b.options as IBannerOptions;
+      const options = b.options;
       return options.position !== 'bottom';
     })
     .slice(0, MAX_BANNERS_PER_POSITION);
 
   const bottomBanners = banners
     .filter((b) => {
-      const options = b.options as IBannerOptions;
+      const options = b.options;
       return options.position === 'bottom';
     })
     .slice(0, MAX_BANNERS_PER_POSITION);
 
   // Helper to build banner props with exactOptionalPropertyTypes compliance
-  const buildBannerProps = (banner: IFeedbackItem<'banner'>) => {
-    const options = banner.options as IBannerOptions;
+  const buildBannerProps = (banner: IFeedbackItem<'banner'>): IBannerProps => {
+    const options = banner.options;
     return {
       message: options.message,
       status: banner.status,

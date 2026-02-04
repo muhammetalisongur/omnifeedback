@@ -59,8 +59,8 @@ describe('Prompt', () => {
     it('should render default value', () => {
       render(<Prompt {...defaultProps} defaultValue="default text" />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
-      expect(input.value).toBe('default text');
+      const input = screen.getByTestId('prompt-input');
+      expect((input as HTMLInputElement).value).toBe('default text');
     });
 
     it('should render label', () => {
@@ -98,30 +98,30 @@ describe('Prompt', () => {
     it('should render text input by default', () => {
       render(<Prompt {...defaultProps} />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
+      const input = screen.getByTestId('prompt-input');
       expect(input.tagName).toBe('INPUT');
-      expect(input.type).toBe('text');
+      expect((input as HTMLInputElement).type).toBe('text');
     });
 
     it('should render email input', () => {
       render(<Prompt {...defaultProps} inputType="email" />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
-      expect(input.type).toBe('email');
+      const input = screen.getByTestId('prompt-input');
+      expect((input as HTMLInputElement).type).toBe('email');
     });
 
     it('should render password input', () => {
       render(<Prompt {...defaultProps} inputType="password" />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
-      expect(input.type).toBe('password');
+      const input = screen.getByTestId('prompt-input');
+      expect((input as HTMLInputElement).type).toBe('password');
     });
 
     it('should render number input', () => {
       render(<Prompt {...defaultProps} inputType="number" />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
-      expect(input.type).toBe('number');
+      const input = screen.getByTestId('prompt-input');
+      expect((input as HTMLInputElement).type).toBe('number');
     });
 
     it('should render textarea', () => {
@@ -134,8 +134,8 @@ describe('Prompt', () => {
     it('should render textarea with custom rows', () => {
       render(<Prompt {...defaultProps} inputType="textarea" rows={6} />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLTextAreaElement;
-      expect(input.rows).toBe(6);
+      const input = screen.getByTestId('prompt-input');
+      expect((input as HTMLTextAreaElement).rows).toBe(6);
     });
   });
 
@@ -143,10 +143,10 @@ describe('Prompt', () => {
     it('should update value on input change', () => {
       render(<Prompt {...defaultProps} />);
 
-      const input = screen.getByTestId('prompt-input') as HTMLInputElement;
+      const input = screen.getByTestId('prompt-input');
       fireEvent.change(input, { target: { value: 'new value' } });
 
-      expect(input.value).toBe('new value');
+      expect((input as HTMLInputElement).value).toBe('new value');
     });
 
     it('should call onConfirm with value on submit', () => {

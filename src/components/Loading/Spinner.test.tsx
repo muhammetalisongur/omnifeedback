@@ -61,9 +61,9 @@ describe('Spinner', () => {
       expect(dots).toHaveLength(3);
 
       // Check animation delays using getAttribute since toHaveStyle doesn't work well with inline styles
-      const dot0 = dots[0] as Element;
-      const dot1 = dots[1] as Element;
-      const dot2 = dots[2] as Element;
+      const dot0 = dots[0]!;
+      const dot1 = dots[1]!;
+      const dot2 = dots[2]!;
 
       expect(dot0.getAttribute('style')).toContain('animation-delay: 0s');
       expect(dot1.getAttribute('style')).toContain('animation-delay: 0.15s');

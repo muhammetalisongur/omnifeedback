@@ -110,7 +110,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
     (e: MouseEvent | TouchEvent): number => {
       if ('touches' in e) {
         const touch = e.touches[0] ?? e.changedTouches[0];
-        if (!touch) return 0;
+        if (!touch) {return 0;}
         return axis === 'y' ? touch.clientY : touch.clientX;
       }
       return axis === 'y' ? e.clientY : e.clientX;
@@ -124,7 +124,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
   const calculateVelocity = useCallback(
     (currentPosition: number, currentTime: number): number => {
       const timeDelta = currentTime - lastTimeRef.current;
-      if (timeDelta === 0) return 0;
+      if (timeDelta === 0) {return 0;}
 
       const positionDelta = currentPosition - lastPositionRef.current;
       return positionDelta / timeDelta;
@@ -137,7 +137,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    */
   const applyBounds = useCallback(
     (value: number): number => {
-      if (!bounds) return value;
+      if (!bounds) {return value;}
       const [min, max] = bounds;
       return Math.max(min, Math.min(max, value));
     },
@@ -149,7 +149,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    */
   const handleMove = useCallback(
     (e: MouseEvent | TouchEvent) => {
-      if (!isDraggingRef.current) return;
+      if (!isDraggingRef.current) {return;}
 
       const currentPosition = getPosition(e);
       const currentTime = Date.now();
@@ -188,7 +188,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    */
   const handleEnd = useCallback(
     (e: MouseEvent | TouchEvent) => {
-      if (!isDraggingRef.current) return;
+      if (!isDraggingRef.current) {return;}
 
       isDraggingRef.current = false;
 
@@ -219,10 +219,10 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    * Set up document event listeners
    */
   useEffect(() => {
-    if (!enabled) return undefined;
+    if (!enabled) {return undefined;}
 
-    const moveHandler = (e: MouseEvent | TouchEvent) => handleMove(e);
-    const endHandler = (e: MouseEvent | TouchEvent) => handleEnd(e);
+    const moveHandler = (e: MouseEvent | TouchEvent): void => { handleMove(e); };
+    const endHandler = (e: MouseEvent | TouchEvent): void => { handleEnd(e); };
 
     document.addEventListener('mousemove', moveHandler);
     document.addEventListener('mouseup', endHandler);
@@ -244,7 +244,7 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    */
   const onMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      if (!enabled) return;
+      if (!enabled) {return;}
       e.preventDefault();
 
       isDraggingRef.current = true;
@@ -261,10 +261,10 @@ export function useDrag(options: IUseDragOptions = {}): IUseDragReturn {
    */
   const onTouchStart = useCallback(
     (e: React.TouchEvent) => {
-      if (!enabled) return;
+      if (!enabled) {return;}
 
       const touch = e.touches[0];
-      if (!touch) return;
+      if (!touch) {return;}
 
       isDraggingRef.current = true;
       hasPassedThresholdRef.current = false;

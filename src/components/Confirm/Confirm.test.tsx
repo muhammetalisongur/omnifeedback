@@ -96,7 +96,7 @@ describe('Confirm', () => {
       );
     });
 
-    it('should call onConfirm when confirm button clicked', async () => {
+    it('should call onConfirm when confirm button clicked', () => {
       const onConfirm = vi.fn();
       render(
         <Confirm {...defaultProps} onConfirm={onConfirm} testId="confirm" />
@@ -147,7 +147,7 @@ describe('Confirm', () => {
       expect(onCancel).toHaveBeenCalledTimes(1);
     });
 
-    it('should not call onCancel when ESC pressed during loading', async () => {
+    it('should not call onCancel when ESC pressed during loading', () => {
       const onCancel = vi.fn();
       const onConfirm = vi.fn(
         (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 1000))
@@ -220,7 +220,7 @@ describe('Confirm', () => {
       expect(screen.getByTestId('confirm-cancel')).toBeDisabled();
     });
 
-    it('should show loading state during async onConfirm', async () => {
+    it('should show loading state during async onConfirm', () => {
       const onConfirm = vi.fn(
         (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 1000))
       );

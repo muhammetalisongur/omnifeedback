@@ -83,7 +83,7 @@ export const ActionSheetContent = memo(function ActionSheetContent(
    */
   const handleActionClick = useCallback(
     (key: string, disabled?: boolean) => {
-      if (disabled) return;
+      if (disabled) {return;}
       onSelect(key);
     },
     [onSelect]
@@ -102,7 +102,7 @@ export const ActionSheetContent = memo(function ActionSheetContent(
       data-testid={testId}
     >
       {/* Header */}
-      {(title || description) && (
+      {(title ?? description) && (
         <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-xl mb-2">
           {title && (
             <h3

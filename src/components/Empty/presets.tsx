@@ -3,7 +3,7 @@
  * Provides default icons, titles and descriptions for common empty states
  */
 
-import type { ReactNode } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 
 /**
  * Empty state preset type
@@ -33,7 +33,7 @@ export interface IEmptyPreset {
 /**
  * SVG icon component for no-data preset
  */
-const NoDataIcon = () => (
+const NoDataIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -55,7 +55,7 @@ const NoDataIcon = () => (
 /**
  * SVG icon component for no-results preset
  */
-const NoResultsIcon = () => (
+const NoResultsIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -77,7 +77,7 @@ const NoResultsIcon = () => (
 /**
  * SVG icon component for no-permission preset
  */
-const NoPermissionIcon = () => (
+const NoPermissionIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -98,7 +98,7 @@ const NoPermissionIcon = () => (
 /**
  * SVG icon component for error preset
  */
-const ErrorIcon = () => (
+const ErrorIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -120,7 +120,7 @@ const ErrorIcon = () => (
 /**
  * SVG icon component for offline preset
  */
-const OfflineIcon = () => (
+const OfflineIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -146,7 +146,7 @@ const OfflineIcon = () => (
 /**
  * SVG icon component for 404 preset
  */
-const NotFoundIcon = () => (
+const NotFoundIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -168,7 +168,7 @@ const NotFoundIcon = () => (
 /**
  * SVG icon component for 403 preset
  */
-const ForbiddenIcon = () => (
+const ForbiddenIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"
@@ -190,7 +190,7 @@ const ForbiddenIcon = () => (
 /**
  * SVG icon component for 500 preset
  */
-const ServerErrorIcon = () => (
+const ServerErrorIcon = (): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="64"

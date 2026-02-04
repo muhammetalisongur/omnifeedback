@@ -61,7 +61,7 @@ export const ProgressContainer = memo(function ProgressContainer({
   return (
     <div
       className={cn('flex flex-col', className)}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
       role="region"
       aria-label="Progress indicators"
       data-testid={testId}

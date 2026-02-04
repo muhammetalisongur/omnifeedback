@@ -27,7 +27,7 @@ describe('Skeleton', () => {
     it('should render with custom dimensions', () => {
       render(<Skeleton width={200} height={40} testId="skeleton" />);
 
-      const skeleton = screen.getByTestId('skeleton') as HTMLElement;
+      const skeleton = screen.getByTestId('skeleton');
       expect(skeleton.style.width).toBe('200px');
       expect(skeleton.style.height).toBe('40px');
     });
@@ -35,7 +35,7 @@ describe('Skeleton', () => {
     it('should render as circle', () => {
       render(<Skeleton width={50} height={50} circle testId="skeleton" />);
 
-      const skeleton = screen.getByTestId('skeleton') as HTMLElement;
+      const skeleton = screen.getByTestId('skeleton');
       expect(skeleton.style.borderRadius).toBe('50%');
     });
 
@@ -78,7 +78,7 @@ describe('Skeleton', () => {
     it('should apply custom base color', () => {
       render(<Skeleton baseColor="rgb(255, 0, 0)" testId="skeleton" />);
 
-      const skeleton = screen.getByTestId('skeleton') as HTMLElement;
+      const skeleton = screen.getByTestId('skeleton');
       expect(skeleton.style.backgroundColor).toBe('rgb(255, 0, 0)');
     });
 
@@ -100,7 +100,7 @@ describe('Skeleton', () => {
     it('should apply custom borderRadius', () => {
       render(<Skeleton borderRadius={8} testId="skeleton" />);
 
-      const skeleton = screen.getByTestId('skeleton') as HTMLElement;
+      const skeleton = screen.getByTestId('skeleton');
       expect(skeleton.style.borderRadius).toBe('8px');
     });
   });
@@ -123,21 +123,21 @@ describe('Skeleton', () => {
     it('should apply shorter width to last line', () => {
       render(<SkeletonText lines={3} lastLineWidth="50%" testId="text" />);
 
-      const lastLine = screen.getByTestId('text-line-2') as HTMLElement;
+      const lastLine = screen.getByTestId('text-line-2');
       expect(lastLine.style.width).toBe('50%');
     });
 
     it('should apply custom line height', () => {
       render(<SkeletonText lineHeight={24} testId="text" />);
 
-      const line = screen.getByTestId('text-line-0') as HTMLElement;
+      const line = screen.getByTestId('text-line-0');
       expect(line.style.height).toBe('24px');
     });
 
     it('should apply custom gap', () => {
       render(<SkeletonText lines={2} gap={16} testId="text" />);
 
-      const container = screen.getByTestId('text') as HTMLElement;
+      const container = screen.getByTestId('text');
       expect(container.style.gap).toBe('16px');
     });
   });
@@ -146,7 +146,7 @@ describe('Skeleton', () => {
     it('should render medium size by default', () => {
       render(<SkeletonAvatar testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.width).toBe('40px');
       expect(avatar.style.height).toBe('40px');
     });
@@ -154,7 +154,7 @@ describe('Skeleton', () => {
     it('should render small size', () => {
       render(<SkeletonAvatar size="sm" testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.width).toBe('32px');
       expect(avatar.style.height).toBe('32px');
     });
@@ -162,7 +162,7 @@ describe('Skeleton', () => {
     it('should render large size', () => {
       render(<SkeletonAvatar size="lg" testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.width).toBe('56px');
       expect(avatar.style.height).toBe('56px');
     });
@@ -170,7 +170,7 @@ describe('Skeleton', () => {
     it('should render extra large size', () => {
       render(<SkeletonAvatar size="xl" testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.width).toBe('80px');
       expect(avatar.style.height).toBe('80px');
     });
@@ -178,7 +178,7 @@ describe('Skeleton', () => {
     it('should render custom pixel size', () => {
       render(<SkeletonAvatar size={100} testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.width).toBe('100px');
       expect(avatar.style.height).toBe('100px');
     });
@@ -186,7 +186,7 @@ describe('Skeleton', () => {
     it('should be circular', () => {
       render(<SkeletonAvatar testId="avatar" />);
 
-      const avatar = screen.getByTestId('avatar') as HTMLElement;
+      const avatar = screen.getByTestId('avatar');
       expect(avatar.style.borderRadius).toBe('50%');
     });
   });
@@ -232,7 +232,7 @@ describe('Skeleton', () => {
     it('should apply custom image height', () => {
       render(<SkeletonCard imageHeight={300} testId="card" />);
 
-      const image = screen.getByTestId('card-image') as HTMLElement;
+      const image = screen.getByTestId('card-image');
       expect(image.style.height).toBe('300px');
     });
   });

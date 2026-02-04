@@ -10,7 +10,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { FeedbackManager } from '@core/FeedbackManager';
 import { useFeedbackStore } from '@core/FeedbackStore';
-import type { IFeedbackItem, IToastOptions, FeedbackStatus } from '@core/types';
+import type { IToastOptions, FeedbackStatus } from '@core/types';
 
 describe('Integration: Toast Lifecycle', () => {
   let manager: FeedbackManager;
@@ -133,7 +133,7 @@ describe('Integration: Toast Lifecycle', () => {
         statusChanges.push({ from: payload.from, to: payload.to });
       });
 
-      const id = manager.add('toast', { message: 'Full tracking', duration });
+      manager.add('toast', { message: 'Full tracking', duration });
 
       // At this point: pending -> entering happened synchronously
       expect(statusChanges).toContainEqual({ from: 'pending', to: 'entering' });

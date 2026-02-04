@@ -71,7 +71,7 @@ describe('useResult', () => {
         wrapper: createWrapper(),
       });
 
-      let resultId: string = '';
+      let resultId = '';
 
       act(() => {
         resultId = result.current.success({ title: 'Test' });
@@ -210,7 +210,7 @@ describe('useResult', () => {
         wrapper: createWrapper(),
       });
 
-      let resultId: string = '';
+      let resultId = '';
 
       act(() => {
         resultId = result.current.success({ title: 'Test' });
@@ -266,7 +266,7 @@ describe('useResult', () => {
         wrapper: createWrapper(),
       });
 
-      let resultId: string = '';
+      let resultId = '';
 
       act(() => {
         resultId = result.current.success({ title: 'Test' });

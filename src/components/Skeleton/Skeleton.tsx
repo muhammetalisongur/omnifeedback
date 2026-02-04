@@ -98,7 +98,7 @@ export const Skeleton = memo(
     const cssVars = {
       '--skeleton-base': baseColor,
       '--skeleton-highlight': highlightColor,
-      '--skeleton-duration': `${duration}ms`,
+      '--skeleton-duration': `${String(duration)}ms`,
     } as CSSProperties;
 
     /**
@@ -135,7 +135,7 @@ export const Skeleton = memo(
         className={skeletonClassName}
         style={skeletonStyle}
         aria-hidden="true"
-        data-testid={testId ? `${testId}-${index}` : undefined}
+        data-testid={testId ? `${testId}-${String(index)}` : undefined}
       />
     ));
 

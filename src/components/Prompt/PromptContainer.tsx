@@ -7,7 +7,7 @@ import { memo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { Prompt } from './Prompt';
-import type { IPromptOptions, IFeedbackItem } from '../../core/types';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * Z-index for prompt dialogs (above modals)
@@ -67,7 +67,7 @@ export const PromptContainer = memo(function PromptContainer() {
     return null;
   }
 
-  const options = latestPrompt.options as IPromptOptions;
+  const options = latestPrompt.options;
 
   // Build props with spread to handle exactOptionalPropertyTypes
   const promptProps = {

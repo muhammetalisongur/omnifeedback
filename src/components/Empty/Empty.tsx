@@ -3,7 +3,7 @@
  * Used when there's no data to show or an error occurred
  */
 
-import { memo, forwardRef, type ReactNode, type CSSProperties } from 'react';
+import { memo, forwardRef, type ReactNode, type ReactElement, type CSSProperties } from 'react';
 import { cn } from '../../utils/cn';
 import { emptyPresets, type EmptyPresetType } from './presets';
 
@@ -92,7 +92,7 @@ const buttonVariants: Record<NonNullable<IEmptyAction['variant']>, string> = {
 /**
  * Action buttons component
  */
-function ActionButtons({ actions, size }: { actions: IEmptyAction | IEmptyAction[]; size: EmptySize }) {
+function ActionButtons({ actions, size }: { actions: IEmptyAction | IEmptyAction[]; size: EmptySize }): ReactElement {
   const actionList = Array.isArray(actions) ? actions : [actions];
   const isSmall = size === 'sm';
 

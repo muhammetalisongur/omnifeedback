@@ -247,9 +247,9 @@ export const Sheet = memo(
 
     // ESC key handler
     useEffect(() => {
-      if (!closeOnEscape || !isVisible) return undefined;
+      if (!closeOnEscape || !isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -296,7 +296,7 @@ export const Sheet = memo(
           ref={sheetRef}
           role="dialog"
           aria-modal="true"
-          aria-labelledby={title ? `${testId}-title` : undefined}
+          aria-labelledby={title && testId ? `${testId}-title` : undefined}
           data-testid={testId ? `${testId}-panel` : undefined}
           className={cn(
             'fixed bottom-0 left-0 right-0',
@@ -308,7 +308,7 @@ export const Sheet = memo(
             className
           )}
           style={{
-            transform: `translateY(${currentTranslate}%)`,
+            transform: `translateY(${String(currentTranslate)}%)`,
           }}
         >
           {/* Drag Handle */}

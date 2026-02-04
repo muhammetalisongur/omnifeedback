@@ -190,10 +190,10 @@ export function getOppositePlacement(placement: PopconfirmPlacement): Popconfirm
   };
 
   const parts = placement.split('-');
-  const base = parts[0] as string;
+  const base = parts[0] ?? placement;
   const suffix = parts[1];
 
-  const oppositeBase = opposites[base as keyof typeof opposites] || base;
+  const oppositeBase = opposites[base] ?? base;
 
   return (suffix ? `${oppositeBase}-${suffix}` : oppositeBase) as PopconfirmPlacement;
 }

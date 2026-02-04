@@ -7,7 +7,7 @@ import { memo, useCallback } from 'react';
 import type React from 'react';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { LoadingOverlay } from './LoadingOverlay';
-import type { ILoadingOptions, IFeedbackItem } from '../../core/types';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * LoadingContainer component
@@ -49,7 +49,7 @@ export const LoadingContainer = memo(function LoadingContainer(): React.ReactEle
 
   // Filter for overlay loadings only
   const overlayLoadings = loadings.filter((loading) => {
-    const options = loading.options as ILoadingOptions;
+    const options = loading.options;
     return options.overlay === true;
   });
 
@@ -61,7 +61,7 @@ export const LoadingContainer = memo(function LoadingContainer(): React.ReactEle
   return (
     <>
       {overlayLoadings.map((loading) => {
-        const options = loading.options as ILoadingOptions;
+        const options = loading.options;
 
         // Build props object, only including defined values for exactOptionalPropertyTypes
         const overlayProps = {

@@ -38,7 +38,7 @@ function createWrapper() {
 /**
  * Mock navigator.onLine
  */
-function mockOnlineStatus(online: boolean) {
+function mockOnlineStatus(online: boolean): void {
   Object.defineProperty(navigator, 'onLine', {
     value: online,
     writable: true,
@@ -49,11 +49,11 @@ function mockOnlineStatus(online: boolean) {
 /**
  * Dispatch online/offline event
  */
-function dispatchOnlineEvent() {
+function dispatchOnlineEvent(): void {
   window.dispatchEvent(new Event('online'));
 }
 
-function dispatchOfflineEvent() {
+function dispatchOfflineEvent(): void {
   window.dispatchEvent(new Event('offline'));
 }
 
@@ -129,7 +129,7 @@ describe('useConnection', () => {
       expect(result.current.isOnline).toBe(true);
     });
 
-    it('should track offline duration', async () => {
+    it('should track offline duration', () => {
       mockOnlineStatus(true);
 
       const { result } = renderHook(() => useConnection(), {
@@ -228,8 +228,8 @@ describe('useConnection', () => {
       });
 
       act(() => {
-        result.current.queueAction(async () => {});
-        result.current.queueAction(async () => {});
+        result.current.queueAction(async (): Promise<void> => { /* noop */ });
+        result.current.queueAction(async (): Promise<void> => { /* noop */ });
       });
 
       expect(result.current.getQueueSize()).toBe(2);
@@ -247,10 +247,10 @@ describe('useConnection', () => {
       });
 
       act(() => {
-        result.current.queueAction(async () => {});
-        result.current.queueAction(async () => {});
-        result.current.queueAction(async () => {});
-        result.current.queueAction(async () => {}); // Should remove oldest
+        result.current.queueAction(async (): Promise<void> => { /* noop */ });
+        result.current.queueAction(async (): Promise<void> => { /* noop */ });
+        result.current.queueAction(async (): Promise<void> => { /* noop */ });
+        result.current.queueAction(async (): Promise<void> => { /* noop */ }); // Should remove oldest
       });
 
       expect(result.current.getQueueSize()).toBe(3);
@@ -443,7 +443,7 @@ describe('useConnection', () => {
         wrapper: createWrapper(),
       });
 
-      let status: boolean = false;
+      let status = false;
 
       await act(async () => {
         status = await result.current.checkConnection();
@@ -479,7 +479,7 @@ describe('useConnection', () => {
     });
 
     it('should handle failed queued actions gracefully', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation((): void => { /* noop */ });
 
       const { result } = renderHook(() => useConnection(), {
         wrapper: createWrapper(),

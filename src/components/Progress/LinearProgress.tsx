@@ -106,7 +106,7 @@ export const LinearProgress = memo(
 
     // Build fill style
     const fillStyle: React.CSSProperties = {
-      width: indeterminate ? '50%' : `${percentage}%`,
+      width: indeterminate ? '50%' : `${String(percentage)}%`,
       ...(color && { backgroundColor: color }),
     };
 
@@ -118,7 +118,7 @@ export const LinearProgress = memo(
         data-testid={testId}
       >
         {/* Label and percentage row */}
-        {(label || showPercentage) && (
+        {(label ?? showPercentage) && (
           <div className="flex justify-between items-center mb-1">
             {label && (
               <span
@@ -145,7 +145,7 @@ export const LinearProgress = memo(
           aria-valuenow={indeterminate ? undefined : value}
           aria-valuemin={0}
           aria-valuemax={max}
-          aria-label={label || 'Progress'}
+          aria-label={label ?? 'Progress'}
           className={cn(
             'w-full bg-gray-200 rounded-full overflow-hidden',
             sizeStyles[size]

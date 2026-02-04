@@ -120,12 +120,12 @@ function ResultButton({
   action: IResultAction;
   variant: 'primary' | 'secondary' | 'link';
   testId?: string;
-}) {
+}): ReactNode {
   return (
     <button
       type="button"
       onClick={action.onClick}
-      disabled={action.disabled || action.loading}
+      disabled={action.disabled ?? action.loading}
       data-testid={testId}
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors',
@@ -238,7 +238,7 @@ export const Result = memo(
             className={cn(
               'text-gray-500 dark:text-gray-400 max-w-md',
               sizes.description,
-              (primaryAction || secondaryAction || extraActions) ? 'mb-8' : ''
+              (primaryAction ?? secondaryAction ?? extraActions) ? 'mb-8' : ''
             )}
             data-testid={testId ? `${testId}-description` : undefined}
           >
@@ -247,7 +247,7 @@ export const Result = memo(
         )}
 
         {/* Primary and Secondary Actions */}
-        {(primaryAction || secondaryAction) && (
+        {(primaryAction ?? secondaryAction) && (
           <div
             className="flex flex-wrap items-center justify-center gap-3 mb-6"
             data-testid={testId ? `${testId}-actions` : undefined}
@@ -280,7 +280,7 @@ export const Result = memo(
                 key={index}
                 action={action}
                 variant="link"
-                {...(testId !== undefined && { testId: `${testId}-extra-action-${index}` })}
+                {...(testId !== undefined && { testId: `${testId}-extra-action-${String(index)}` })}
               />
             ))}
           </div>

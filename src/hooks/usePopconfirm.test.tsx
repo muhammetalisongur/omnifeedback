@@ -70,7 +70,7 @@ describe('usePopconfirm', () => {
   });
 
   describe('show()', () => {
-    it('should add popconfirm to store and return promise', async () => {
+    it('should add popconfirm to store and return promise', () => {
       const { result } = renderHook(() => usePopconfirm(), {
         wrapper: createWrapper(),
       });
@@ -103,7 +103,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.show({ target, message: 'Test message' });
+        void result.current.show({ target, message: 'Test message' });
       });
 
       const store = useFeedbackStore.getState();
@@ -129,7 +129,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.show({
+        void result.current.show({
           target,
           message: 'Test message',
           title: 'Custom Title',
@@ -217,7 +217,7 @@ describe('usePopconfirm', () => {
       expect(resolvedValue).toBe(false);
     });
 
-    it('should remove popconfirm from store after resolution', async () => {
+    it('should remove popconfirm from store after resolution', () => {
       const { result } = renderHook(() => usePopconfirm(), {
         wrapper: createWrapper(),
       });
@@ -225,7 +225,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.show({ target, message: 'Test' });
+        void result.current.show({ target, message: 'Test' });
       });
 
       // Verify popconfirm exists
@@ -262,7 +262,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.danger(target, 'This action cannot be undone');
+        void result.current.danger(target, 'This action cannot be undone');
       });
 
       const store = useFeedbackStore.getState();
@@ -284,7 +284,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.danger(target, 'Delete account?', {
+        void result.current.danger(target, 'Delete account?', {
           title: 'Delete Account',
           confirmText: 'Yes, Delete',
         });
@@ -341,7 +341,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.show({ target, message: 'Test' });
+        void result.current.show({ target, message: 'Test' });
       });
 
       // Verify popconfirm exists
@@ -381,7 +381,7 @@ describe('usePopconfirm', () => {
       const target = createMockTarget();
 
       act(() => {
-        result.current.show({ target, message: 'Test' });
+        void result.current.show({ target, message: 'Test' });
       });
 
       expect(result.current.isOpen).toBe(true);
@@ -407,12 +407,12 @@ describe('usePopconfirm', () => {
 
       // Show first popconfirm
       act(() => {
-        result.current.show({ target: target1, message: 'First' });
+        void result.current.show({ target: target1, message: 'First' });
       });
 
       // Show second popconfirm (should replace first)
       act(() => {
-        result.current.show({ target: target2, message: 'Second' });
+        void result.current.show({ target: target2, message: 'Second' });
       });
 
       // Should only have one popconfirm
@@ -434,7 +434,7 @@ describe('usePopconfirm', () => {
       const refTarget = { current: element };
 
       act(() => {
-        result.current.show({
+        void result.current.show({
           target: refTarget,
           message: 'Test with ref',
         });

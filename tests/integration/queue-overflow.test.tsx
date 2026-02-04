@@ -11,7 +11,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { FeedbackManager } from '@core/FeedbackManager';
 import { FeedbackQueue } from '@core/FeedbackQueue';
 import { useFeedbackStore } from '@core/FeedbackStore';
-import type { IFeedbackItem, IQueueConfig } from '@core/types';
+import type { IFeedbackItem } from '@core/types';
 
 /**
  * Helper to create a mock feedback item for direct queue testing

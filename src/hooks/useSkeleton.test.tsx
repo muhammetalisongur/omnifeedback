@@ -192,9 +192,9 @@ describe('useSkeleton', () => {
       let skeletonVisibleDuringExecution = false;
 
       await act(async () => {
-        await result.current.wrap('async-skeleton', async () => {
+        await result.current.wrap('async-skeleton', () => {
           skeletonVisibleDuringExecution = result.current.isVisible('async-skeleton');
-          return 'result';
+          return Promise.resolve('result');
         });
       });
 
@@ -207,8 +207,8 @@ describe('useSkeleton', () => {
       });
 
       await act(async () => {
-        await result.current.wrap('async-skeleton', async () => {
-          return 'result';
+        await result.current.wrap('async-skeleton', () => {
+          return Promise.resolve('result');
         });
       });
 
@@ -222,11 +222,11 @@ describe('useSkeleton', () => {
         wrapper: createWrapper(),
       });
 
-      let returnValue: string = '';
+      let returnValue = '';
 
       await act(async () => {
-        returnValue = await result.current.wrap('async-skeleton', async () => {
-          return 'expected-result';
+        returnValue = await result.current.wrap('async-skeleton', () => {
+          return Promise.resolve('expected-result');
         });
       });
 
@@ -240,7 +240,7 @@ describe('useSkeleton', () => {
 
       await act(async () => {
         try {
-          await result.current.wrap('async-skeleton', async () => {
+          await result.current.wrap('async-skeleton', () => {
             throw new Error('Test error');
           });
         } catch {

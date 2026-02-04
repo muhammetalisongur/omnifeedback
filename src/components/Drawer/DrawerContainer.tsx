@@ -8,14 +8,15 @@ import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackManager } from '../../core/FeedbackManager';
 import { Drawer } from './Drawer';
-import type { IFeedbackItem, IDrawerOptions } from '../../core/types';
+import type { IDrawerProps } from './Drawer';
+import type { IFeedbackItem } from '../../core/types';
 
 /**
  * Build drawer props from feedback item
  * Handles exactOptionalPropertyTypes compliance
  */
-const buildDrawerProps = (drawer: IFeedbackItem<'drawer'>, index: number) => {
-  const options = drawer.options as IDrawerOptions;
+const buildDrawerProps = (drawer: IFeedbackItem<'drawer'>, index: number): IDrawerProps => {
+  const options = drawer.options;
 
   return {
     content: options.content,

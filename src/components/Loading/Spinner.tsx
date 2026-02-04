@@ -58,7 +58,7 @@ function DotsSpinner({ className }: { className?: string }): React.ReactElement 
         <span
           key={i}
           className="w-2 h-2 rounded-full bg-current animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }}
+          style={{ animationDelay: `${String(i * 0.15)}s` }}
         />
       ))}
     </div>
@@ -76,8 +76,8 @@ function BarsSpinner({ className }: { className?: string }): React.ReactElement 
           key={i}
           className="w-1 bg-current rounded-full animate-pulse"
           style={{
-            height: `${50 + i * 12}%`,
-            animationDelay: `${i * 0.15}s`,
+            height: `${String(50 + i * 12)}%`,
+            animationDelay: `${String(i * 0.15)}s`,
             animationDuration: '0.8s',
           }}
         />

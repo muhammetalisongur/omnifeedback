@@ -53,7 +53,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.show({ title: 'Test Prompt' });
+        void result.current.show({ title: 'Test Prompt' });
       });
 
       const store = useFeedbackStore.getState();
@@ -73,7 +73,7 @@ describe('usePrompt', () => {
       expect(result.current.isOpen).toBe(false);
 
       act(() => {
-        result.current.show({ title: 'Test' });
+        void result.current.show({ title: 'Test' });
       });
 
       expect(result.current.isOpen).toBe(true);
@@ -85,7 +85,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.show({ title: 'Test' });
+        void result.current.show({ title: 'Test' });
       });
 
       const store = useFeedbackStore.getState();
@@ -102,7 +102,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.show({
+        void result.current.show({
           title: 'Test',
           description: 'Enter value',
           placeholder: 'Type here',
@@ -132,7 +132,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.text('Enter Name');
+        void result.current.text('Enter Name');
       });
 
       const store = useFeedbackStore.getState();
@@ -150,7 +150,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.text('Name', { placeholder: 'John Doe', required: true });
+        void result.current.text('Name', { placeholder: 'John Doe', required: true });
       });
 
       const store = useFeedbackStore.getState();
@@ -170,7 +170,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.textarea('Feedback');
+        void result.current.textarea('Feedback');
       });
 
       const store = useFeedbackStore.getState();
@@ -188,7 +188,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.textarea('Description', { rows: 8 });
+        void result.current.textarea('Description', { rows: 8 });
       });
 
       const store = useFeedbackStore.getState();
@@ -207,7 +207,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.email('Your Email');
+        void result.current.email('Your Email');
       });
 
       const store = useFeedbackStore.getState();
@@ -226,7 +226,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.password('Enter Password');
+        void result.current.password('Enter Password');
       });
 
       const store = useFeedbackStore.getState();
@@ -245,7 +245,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.number('Quantity');
+        void result.current.number('Quantity');
       });
 
       const store = useFeedbackStore.getState();
@@ -264,8 +264,8 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.show({ title: 'Test 1' });
-        result.current.show({ title: 'Test 2' });
+        void result.current.show({ title: 'Test 1' });
+        void result.current.show({ title: 'Test 2' });
       });
 
       // Verify prompts exist
@@ -288,7 +288,7 @@ describe('usePrompt', () => {
       });
 
       act(() => {
-        result.current.show({ title: 'Test' });
+        void result.current.show({ title: 'Test' });
       });
 
       expect(result.current.isOpen).toBe(true);
@@ -310,7 +310,7 @@ describe('usePrompt', () => {
       let resolvedValue: string | null = null;
 
       act(() => {
-        result.current.show({ title: 'Test' }).then((value) => {
+        void result.current.show({ title: 'Test' }).then((value) => {
           resolvedValue = value;
         });
       });
@@ -323,6 +323,7 @@ describe('usePrompt', () => {
 
       await act(async () => {
         (prompt?.options as { onConfirm: (value: string) => void }).onConfirm('test value');
+        await Promise.resolve();
       });
 
       expect(resolvedValue).toBe('test value');
@@ -336,7 +337,7 @@ describe('usePrompt', () => {
       let resolvedValue: string | null = 'not null';
 
       act(() => {
-        result.current.show({ title: 'Test' }).then((value) => {
+        void result.current.show({ title: 'Test' }).then((value) => {
           resolvedValue = value;
         });
       });
@@ -349,6 +350,7 @@ describe('usePrompt', () => {
 
       await act(async () => {
         (prompt?.options as { onCancel: () => void }).onCancel();
+        await Promise.resolve();
       });
 
       expect(resolvedValue).toBe(null);
@@ -362,7 +364,7 @@ describe('usePrompt', () => {
       let resolvedValue: number | null = null;
 
       act(() => {
-        result.current.number('Quantity').then((value) => {
+        void result.current.number('Quantity').then((value) => {
           resolvedValue = value;
         });
       });
@@ -375,6 +377,7 @@ describe('usePrompt', () => {
 
       await act(async () => {
         (prompt?.options as { onConfirm: (value: string) => void }).onConfirm('42');
+        await Promise.resolve();
       });
 
       expect(resolvedValue).toBe(42);
@@ -389,7 +392,7 @@ describe('usePrompt', () => {
       let resolvedValue: number | null = 999;
 
       act(() => {
-        result.current.number('Quantity').then((value) => {
+        void result.current.number('Quantity').then((value) => {
           resolvedValue = value;
         });
       });
@@ -401,6 +404,7 @@ describe('usePrompt', () => {
 
       await act(async () => {
         (prompt?.options as { onConfirm: (value: string) => void }).onConfirm('not a number');
+        await Promise.resolve();
       });
 
       expect(resolvedValue).toBe(null);
