@@ -25,7 +25,7 @@ const sizeStyles = {
  * Renders a modal dialog with Tailwind CSS styling
  */
 export const HeadlessModal = memo(
-  forwardRef<HTMLDivElement, IAdapterModalProps>(function HeadlessModal(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterModalProps>(function HeadlessModal(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -52,9 +52,9 @@ export const HeadlessModal = memo(
     useScrollLock(isVisible);
 
     useEffect(() => {
-      if (!closeOnEscape) return;
+      if (!closeOnEscape) {return;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -66,7 +66,7 @@ export const HeadlessModal = memo(
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }

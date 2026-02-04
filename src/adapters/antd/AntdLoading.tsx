@@ -5,7 +5,7 @@
 
 import { memo, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
-import type { IAdapterLoadingProps } from '../types';
+import type { IAdapterLoadingProps, SpinnerType } from '../types';
 
 /**
  * Size styles for spinner following Ant Design sizes
@@ -37,7 +37,7 @@ const variantStyles = {
 /**
  * Ant Design style spinner SVG
  */
-function AntdSpinner({ className }: { className?: string }) {
+function AntdSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={cn('animate-spin', className)}
@@ -52,14 +52,14 @@ function AntdSpinner({ className }: { className?: string }) {
 /**
  * Dots spinner following Ant Design loading dots pattern
  */
-function DotsSpinner({ className }: { className?: string }) {
+function DotsSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-center gap-1.5', className)}>
       {[0, 1, 2].map((i) => (
         <div
           key={i}
           className="w-2 h-2 rounded-full bg-current animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }}
+          style={{ animationDelay: `${String(i * 0.15)}s` }}
         />
       ))}
     </div>
@@ -69,7 +69,7 @@ function DotsSpinner({ className }: { className?: string }) {
 /**
  * Bars spinner
  */
-function BarsSpinner({ className }: { className?: string }) {
+function BarsSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-end gap-1', className)}>
       {[0, 1, 2, 3, 4].map((i) => (
@@ -78,7 +78,7 @@ function BarsSpinner({ className }: { className?: string }) {
           className="w-1 bg-current animate-pulse rounded-sm"
           style={{
             height: '16px',
-            animationDelay: `${i * 0.1}s`,
+            animationDelay: `${String(i * 0.1)}s`,
             animationDuration: '0.8s',
           }}
         />
@@ -90,7 +90,7 @@ function BarsSpinner({ className }: { className?: string }) {
 /**
  * Circle spinner (Ant Design default style)
  */
-function CircleSpinner({ className }: { className?: string }) {
+function CircleSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('relative', className)}>
       <div className="absolute inset-0 border-2 border-current opacity-20 rounded-full" />
@@ -102,11 +102,12 @@ function CircleSpinner({ className }: { className?: string }) {
 /**
  * Map spinner types to components
  */
-const spinnerComponents = {
+const spinnerComponents: Record<SpinnerType, React.FC<{ className?: string }>> = {
   default: AntdSpinner,
   dots: DotsSpinner,
   bars: BarsSpinner,
-  circle: CircleSpinner,
+  ring: CircleSpinner,
+  pulse: AntdSpinner,
 };
 
 /**
@@ -161,7 +162,7 @@ export const AntdLoading = memo(
           </span>
         )}
 
-        <span className="sr-only">Loading{message ? `: ${message}` : ''}</span>
+        <span className="sr-only">Loading{message ? `: ${String(message)}` : ''}</span>
       </div>
     );
 
@@ -176,7 +177,7 @@ export const AntdLoading = memo(
             className
           )}
           style={{
-            backgroundColor: `rgba(255, 255, 255, ${backdropOpacity})`,
+            backgroundColor: `rgba(255, 255, 255, ${String(backdropOpacity)})`,
             ...style,
           }}
         >

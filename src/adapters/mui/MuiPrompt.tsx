@@ -14,7 +14,7 @@ import type { IAdapterPromptProps } from '../types';
  * Renders a prompt dialog for user input with Material Design styling
  */
 export const MuiPrompt = memo(
-  forwardRef<HTMLDivElement, IAdapterPromptProps>(function MuiPrompt(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterPromptProps>(function MuiPrompt(props, ref): JSX.Element {
     const {
       title,
       message,
@@ -46,24 +46,24 @@ export const MuiPrompt = memo(
     // Focus input when visible
     useEffect(() => {
       if (isVisible) {
-        setTimeout(() => inputRef.current?.focus(), 100);
+        setTimeout((): void => { inputRef.current?.focus(); }, 100);
       }
     }, [isVisible]);
 
     // Handle escape key
     useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -73,10 +73,10 @@ export const MuiPrompt = memo(
     }, [onConfirm]);
 
     const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent) => {
+      (e: React.KeyboardEvent): void => {
         if (e.key === 'Enter' && inputType !== 'textarea' && !loading) {
           e.preventDefault();
-          handleConfirm();
+          void handleConfirm();
         }
       },
       [inputType, loading, handleConfirm]
@@ -123,7 +123,7 @@ export const MuiPrompt = memo(
             isVisible && !isExiting ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e): void => e.stopPropagation()}
         >
           {/* Title - MUI DialogTitle */}
           <div className="px-6 pt-6 pb-2">
@@ -150,9 +150,9 @@ export const MuiPrompt = memo(
                 <textarea
                   ref={inputRef as React.RefObject<HTMLTextAreaElement>}
                   value={value}
-                  onChange={(e) => onValueChange(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onChange={(e): void => onValueChange(e.target.value)}
+                  onFocus={(): void => setIsFocused(true)}
+                  onBlur={(): void => setIsFocused(false)}
                   placeholder={placeholder}
                   rows={4}
                   className={inputClassName}
@@ -164,9 +164,9 @@ export const MuiPrompt = memo(
                   ref={inputRef as React.RefObject<HTMLInputElement>}
                   type={inputType}
                   value={value}
-                  onChange={(e) => onValueChange(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onChange={(e): void => onValueChange(e.target.value)}
+                  onFocus={(): void => setIsFocused(true)}
+                  onBlur={(): void => setIsFocused(false)}
                   onKeyDown={handleKeyDown}
                   placeholder={placeholder}
                   className={inputClassName}
@@ -207,7 +207,7 @@ export const MuiPrompt = memo(
 
             <button
               type="button"
-              onClick={handleConfirm}
+              onClick={(): void => { void handleConfirm(); }}
               disabled={loading}
               className={cn(
                 'px-4 py-2 min-w-[64px] rounded',

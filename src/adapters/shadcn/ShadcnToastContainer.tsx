@@ -25,7 +25,7 @@ export const ShadcnToastContainer = memo(function ShadcnToastContainer({
   position,
   gap,
   children,
-}: IAdapterToastContainerProps) {
+}: IAdapterToastContainerProps): JSX.Element {
   return (
     <div
       className={cn(
@@ -34,7 +34,7 @@ export const ShadcnToastContainer = memo(function ShadcnToastContainer({
         positionStyles[position],
         position.includes('bottom') && 'flex-col-reverse'
       )}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
     >
       {children}
     </div>

@@ -12,7 +12,7 @@ import type { IAdapterPromptProps } from '../types';
  * ShadcnPrompt component
  */
 export const ShadcnPrompt = memo(
-  forwardRef<HTMLDivElement, IAdapterPromptProps>(function ShadcnPrompt(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterPromptProps>(function ShadcnPrompt(props, ref): JSX.Element {
     const {
       title,
       message,
@@ -40,25 +40,25 @@ export const ShadcnPrompt = memo(
     useFocusTrap(dialogRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
-        setTimeout(() => inputRef.current?.focus(), 100);
+        setTimeout((): void => { inputRef.current?.focus(); }, 100);
       }
     }, [isVisible]);
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+    useEffect((): (() => void) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => document.removeEventListener('keydown', handleKeyDown);
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -68,10 +68,10 @@ export const ShadcnPrompt = memo(
     }, [onConfirm]);
 
     const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent) => {
+      (e: React.KeyboardEvent): void => {
         if (e.key === 'Enter' && inputType !== 'textarea' && !loading) {
           e.preventDefault();
-          handleConfirm();
+          void handleConfirm();
         }
       },
       [inputType, loading, handleConfirm]
@@ -189,7 +189,7 @@ export const ShadcnPrompt = memo(
 
               <button
                 type="button"
-                onClick={handleConfirm}
+                onClick={(): void => { void handleConfirm(); }}
                 disabled={loading}
                 className={cn(
                   'inline-flex h-10 items-center justify-center rounded-md px-4 py-2',

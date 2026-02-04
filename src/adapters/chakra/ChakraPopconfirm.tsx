@@ -114,12 +114,15 @@ export const ChakraPopconfirm = memo(
     const isExiting = status === 'exiting';
 
     // Calculate position
-    useEffect(() => {
-      if (!isVisible || !triggerRef.current || !popoverRef.current) return;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible || !triggerRef.current || !popoverRef.current) {return undefined;}
 
-      const updatePosition = () => {
-        const triggerRect = triggerRef.current!.getBoundingClientRect();
-        const popoverRect = popoverRef.current!.getBoundingClientRect();
+      const triggerElement = triggerRef.current;
+      const popoverElement = popoverRef.current;
+
+      const updatePosition = (): void => {
+        const triggerRect = triggerElement.getBoundingClientRect();
+        const popoverRect = popoverElement.getBoundingClientRect();
         const newPosition = calculatePosition(triggerRect, popoverRect, placement);
 
         // Keep within viewport
@@ -136,35 +139,35 @@ export const ChakraPopconfirm = memo(
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition, true);
 
-      return () => {
+      return (): void => {
         window.removeEventListener('resize', updatePosition);
         window.removeEventListener('scroll', updatePosition, true);
       };
     }, [isVisible, triggerRef, placement]);
 
     // Focus confirm button
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
         confirmButtonRef.current?.focus();
       }
     }, [isVisible]);
 
     // Handle escape key
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -244,7 +247,7 @@ export const ChakraPopconfirm = memo(
                 <button
                   ref={confirmButtonRef}
                   type="button"
-                  onClick={handleConfirm}
+                  onClick={(): void => { void handleConfirm(); }}
                   disabled={loading}
                   className={cn(
                     'chakra-btn chakra-btn-sm',

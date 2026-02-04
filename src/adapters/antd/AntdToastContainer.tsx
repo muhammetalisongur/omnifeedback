@@ -36,7 +36,7 @@ export const AntdToastContainer = memo(function AntdToastContainer({
         positionStyles[position],
         position.includes('bottom') && 'flex-col-reverse'
       )}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
       aria-live="polite"
       aria-label="Notifications"
     >

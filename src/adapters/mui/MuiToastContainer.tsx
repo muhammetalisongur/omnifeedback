@@ -27,7 +27,7 @@ export const MuiToastContainer = memo(function MuiToastContainer({
   position,
   gap,
   children,
-}: IAdapterToastContainerProps) {
+}: IAdapterToastContainerProps): JSX.Element {
   return (
     <div
       className={cn(
@@ -36,7 +36,7 @@ export const MuiToastContainer = memo(function MuiToastContainer({
         positionStyles[position],
         position.includes('bottom') && 'flex-col-reverse'
       )}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
       aria-live="polite"
       aria-label="Notifications"
     >

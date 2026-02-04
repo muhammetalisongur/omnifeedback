@@ -29,7 +29,7 @@ const sizeStyles = {
  * ShadcnProgress component
  */
 export const ShadcnProgress = memo(
-  forwardRef<HTMLDivElement, IAdapterProgressProps>(function ShadcnProgress(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterProgressProps>(function ShadcnProgress(props, ref): JSX.Element {
     const {
       value,
       max = 100,
@@ -85,7 +85,7 @@ export const ShadcnProgress = memo(
               indeterminate && 'animate-indeterminate'
             )}
             style={{
-              transform: indeterminate ? undefined : `translateX(-${100 - percentage}%)`,
+              transform: indeterminate ? undefined : `translateX(-${String(100 - percentage)}%)`,
             }}
           />
         </div>

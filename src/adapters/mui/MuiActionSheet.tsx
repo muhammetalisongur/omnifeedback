@@ -14,7 +14,7 @@ import type { IAdapterActionSheetProps } from '../types';
  * Renders a Material Design action sheet
  */
 export const MuiActionSheet = memo(
-  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function MuiActionSheet(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function MuiActionSheet(props, ref): JSX.Element {
     const {
       title,
       description,
@@ -37,9 +37,9 @@ export const MuiActionSheet = memo(
 
     // Handle escape key
     useEffect(() => {
-      if (!isVisible) return undefined;
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onSelect(null);
@@ -47,15 +47,15 @@ export const MuiActionSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onSelect]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       onSelect(null);
     }, [onSelect]);
 
     const handleActionClick = useCallback(
-      (key: string, disabled?: boolean) => {
+      (key: string, disabled?: boolean): void => {
         if (!disabled) {
           onSelect(key);
         }
@@ -124,7 +124,7 @@ export const MuiActionSheet = memo(
                 <button
                   key={action.key}
                   type="button"
-                  onClick={() => handleActionClick(action.key, action.disabled)}
+                  onClick={(): void => handleActionClick(action.key, action.disabled)}
                   disabled={action.disabled}
                   className={cn(
                     'w-full flex items-center gap-4 px-6 py-3',
@@ -151,7 +151,7 @@ export const MuiActionSheet = memo(
           {showCancel && (
             <button
               type="button"
-              onClick={() => onSelect(null)}
+              onClick={(): void => onSelect(null)}
               className={cn(
                 'w-full px-6 py-4 rounded-xl',
                 'bg-white dark:bg-gray-800 shadow-xl',

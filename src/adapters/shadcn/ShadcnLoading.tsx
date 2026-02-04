@@ -19,7 +19,7 @@ const sizeStyles = {
  * ShadcnLoading component
  */
 export const ShadcnLoading = memo(
-  forwardRef<HTMLDivElement, IAdapterLoadingProps>(function ShadcnLoading(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterLoadingProps>(function ShadcnLoading(props, ref): JSX.Element {
     const {
       message,
       size = 'md',
@@ -88,7 +88,7 @@ export const ShadcnLoading = memo(
             className
           )}
           style={{
-            backgroundColor: `rgba(0, 0, 0, ${backdropOpacity})`,
+            backgroundColor: `rgba(0, 0, 0, ${String(backdropOpacity)})`,
             ...style,
           }}
         >

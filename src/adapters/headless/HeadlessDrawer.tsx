@@ -53,7 +53,7 @@ const transformStyles = {
  * Renders a drawer panel with Tailwind CSS styling
  */
 export const HeadlessDrawer = memo(
-  forwardRef<HTMLDivElement, IAdapterDrawerProps>(function HeadlessDrawer(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterDrawerProps>(function HeadlessDrawer(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -80,9 +80,9 @@ export const HeadlessDrawer = memo(
     useScrollLock(isVisible);
 
     useEffect(() => {
-      if (!closeOnEscape) return;
+      if (!closeOnEscape) {return;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -94,7 +94,7 @@ export const HeadlessDrawer = memo(
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }

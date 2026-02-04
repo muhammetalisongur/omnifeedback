@@ -23,7 +23,7 @@ const variantStyles = {
 /**
  * Close icon
  */
-function CloseIcon({ className }: { className?: string }) {
+function CloseIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -47,7 +47,7 @@ function CloseIcon({ className }: { className?: string }) {
  * ShadcnAlert component
  */
 export const ShadcnAlert = memo(
-  forwardRef<HTMLDivElement, IAdapterAlertProps>(function ShadcnAlert(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterAlertProps>(function ShadcnAlert(props, ref): JSX.Element {
     const {
       message,
       title,
@@ -65,9 +65,9 @@ export const ShadcnAlert = memo(
 
     const [isVisible, setIsVisible] = useState(false);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (status === 'entering' || status === 'visible') {
-        requestAnimationFrame(() => setIsVisible(true));
+        requestAnimationFrame((): void => setIsVisible(true));
       }
       if (status === 'exiting') {
         setIsVisible(false);

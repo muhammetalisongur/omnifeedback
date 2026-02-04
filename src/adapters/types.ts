@@ -138,7 +138,7 @@ export interface IAdapterModalProps extends IAdapterBaseProps {
 /**
  * Loading spinner type
  */
-export type SpinnerType = 'default' | 'dots' | 'bars' | 'circle';
+export type SpinnerType = 'default' | 'dots' | 'bars' | 'ring' | 'pulse';
 
 /**
  * Loading variant

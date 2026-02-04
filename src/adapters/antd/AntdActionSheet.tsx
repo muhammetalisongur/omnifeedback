@@ -36,10 +36,10 @@ export const AntdActionSheet = memo(
     useScrollLock(isVisible);
 
     // Handle escape key
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onSelect(null);
@@ -47,15 +47,15 @@ export const AntdActionSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onSelect]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       onSelect(null);
     }, [onSelect]);
 
     const handleActionClick = useCallback(
-      (key: string, disabled?: boolean) => {
+      (key: string, disabled?: boolean): void => {
         if (!disabled) {
           onSelect(key);
         }
@@ -103,7 +103,7 @@ export const AntdActionSheet = memo(
           {/* Actions container */}
           <div className="of-antd-action-sheet-content bg-white rounded-xl overflow-hidden mb-2">
             {/* Header */}
-            {(title || description) && (
+            {(title ?? description) && (
               <div className="of-antd-action-sheet-header px-4 py-3 border-b border-gray-100 text-center bg-gray-50">
                 {title && (
                   <h3
@@ -127,7 +127,7 @@ export const AntdActionSheet = memo(
                 <button
                   key={action.key}
                   type="button"
-                  onClick={() => handleActionClick(action.key, action.disabled)}
+                  onClick={(): void => { handleActionClick(action.key, action.disabled); }}
                   disabled={action.disabled}
                   className={cn(
                     'of-antd-action-sheet-button',
@@ -158,7 +158,7 @@ export const AntdActionSheet = memo(
           {showCancel && (
             <button
               type="button"
-              onClick={() => onSelect(null)}
+              onClick={(): void => { onSelect(null); }}
               className={cn(
                 'of-antd-action-sheet-cancel',
                 'w-full px-4 py-3 rounded-xl',

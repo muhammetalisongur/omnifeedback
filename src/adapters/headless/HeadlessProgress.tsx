@@ -31,7 +31,7 @@ const sizeStyles = {
  * Renders a progress bar with Tailwind CSS styling
  */
 export const HeadlessProgress = memo(
-  forwardRef<HTMLDivElement, IAdapterProgressProps>(function HeadlessProgress(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterProgressProps>(function HeadlessProgress(props, ref): JSX.Element {
     const {
       value,
       max = 100,
@@ -87,7 +87,7 @@ export const HeadlessProgress = memo(
               indeterminate && 'animate-indeterminate'
             )}
             style={{
-              width: indeterminate ? '50%' : `${percentage}%`,
+              width: indeterminate ? '50%' : `${String(percentage)}%`,
               ...(indeterminate && {
                 animation: 'indeterminate 1.5s ease-in-out infinite',
               }),

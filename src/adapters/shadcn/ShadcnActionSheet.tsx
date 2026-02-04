@@ -12,7 +12,7 @@ import type { IAdapterActionSheetProps } from '../types';
  * ShadcnActionSheet component
  */
 export const ShadcnActionSheet = memo(
-  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function ShadcnActionSheet(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function ShadcnActionSheet(props, ref): JSX.Element {
     const {
       title,
       description,
@@ -33,10 +33,10 @@ export const ShadcnActionSheet = memo(
     useFocusTrap(sheetRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onSelect(null);
@@ -44,15 +44,15 @@ export const ShadcnActionSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => document.removeEventListener('keydown', handleKeyDown);
     }, [isVisible, onSelect]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       onSelect(null);
     }, [onSelect]);
 
     const handleActionClick = useCallback(
-      (key: string, disabled?: boolean) => {
+      (key: string, disabled?: boolean): void => {
         if (!disabled) {
           onSelect(key);
         }

@@ -86,7 +86,7 @@ function calculatePosition(
 /**
  * Default warning icon (Ant Design style)
  */
-const WarningIcon = () => (
+const WarningIcon = (): JSX.Element => (
   <svg className="w-4 h-4 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
   </svg>
@@ -123,12 +123,15 @@ export const AntdPopconfirm = memo(
     const isExiting = status === 'exiting';
 
     // Calculate position
-    useEffect(() => {
-      if (!isVisible || !triggerRef.current || !popoverRef.current) return;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible || !triggerRef.current || !popoverRef.current) {return undefined;}
 
-      const updatePosition = () => {
-        const triggerRect = triggerRef.current!.getBoundingClientRect();
-        const popoverRect = popoverRef.current!.getBoundingClientRect();
+      const triggerElement = triggerRef.current;
+      const popoverElement = popoverRef.current;
+
+      const updatePosition = (): void => {
+        const triggerRect = triggerElement.getBoundingClientRect();
+        const popoverRect = popoverElement.getBoundingClientRect();
         const newPosition = calculatePosition(triggerRect, popoverRect, placement);
 
         // Keep within viewport
@@ -151,35 +154,35 @@ export const AntdPopconfirm = memo(
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition, true);
 
-      return () => {
+      return (): void => {
         window.removeEventListener('resize', updatePosition);
         window.removeEventListener('scroll', updatePosition, true);
       };
     }, [isVisible, triggerRef, placement]);
 
     // Focus confirm button
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
         confirmButtonRef.current?.focus();
       }
     }, [isVisible]);
 
     // Handle escape key
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -263,7 +266,7 @@ export const AntdPopconfirm = memo(
                 <button
                   ref={confirmButtonRef}
                   type="button"
-                  onClick={handleConfirm}
+                  onClick={(): void => { void handleConfirm(); }}
                   disabled={loading}
                   className={cn(
                     'of-antd-btn of-antd-btn-sm',

@@ -66,7 +66,7 @@ export const headlessAdapter: IFeedbackAdapter = {
 
   // Utility Functions
   isDarkMode: () => {
-    if (typeof document === 'undefined') return false;
+    if (typeof document === 'undefined') {return false;}
     return (
       document.documentElement.classList.contains('dark') ||
       window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -74,7 +74,7 @@ export const headlessAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') return;
+    if (stylesInjected || typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-headless-styles';
     if (document.getElementById(styleId)) {

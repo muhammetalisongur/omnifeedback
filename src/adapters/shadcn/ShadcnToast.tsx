@@ -23,7 +23,7 @@ const variantStyles = {
 /**
  * Close icon component
  */
-function CloseIcon({ className }: { className?: string }) {
+function CloseIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -48,7 +48,7 @@ function CloseIcon({ className }: { className?: string }) {
  * Renders toast with shadcn/ui styling
  */
 export const ShadcnToast = memo(
-  forwardRef<HTMLDivElement, IAdapterToastProps>(function ShadcnToast(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterToastProps>(function ShadcnToast(props, ref): JSX.Element {
     const {
       message,
       title,
@@ -66,16 +66,16 @@ export const ShadcnToast = memo(
 
     const [isVisible, setIsVisible] = useState(false);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (status === 'entering' || status === 'visible') {
-        requestAnimationFrame(() => setIsVisible(true));
+        requestAnimationFrame((): void => setIsVisible(true));
       }
       if (status === 'exiting') {
         setIsVisible(false);
       }
     }, [status]);
 
-    const handleTransitionEnd = useCallback(() => {
+    const handleTransitionEnd = useCallback((): void => {
       if (status === 'exiting') {
         onRemove?.();
       }

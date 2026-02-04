@@ -14,7 +14,7 @@ import type { IAdapterPromptProps } from '../types';
  * Renders a prompt dialog for user input
  */
 export const HeadlessPrompt = memo(
-  forwardRef<HTMLDivElement, IAdapterPromptProps>(function HeadlessPrompt(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterPromptProps>(function HeadlessPrompt(props, ref): JSX.Element {
     const {
       title,
       message,
@@ -51,10 +51,10 @@ export const HeadlessPrompt = memo(
 
     // Handle escape key
     useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
@@ -62,7 +62,7 @@ export const HeadlessPrompt = memo(
       return () => document.removeEventListener('keydown', handleKeyDown);
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -72,10 +72,10 @@ export const HeadlessPrompt = memo(
     }, [onConfirm]);
 
     const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent) => {
+      (e: React.KeyboardEvent): void => {
         if (e.key === 'Enter' && inputType !== 'textarea' && !loading) {
           e.preventDefault();
-          handleConfirm();
+          void handleConfirm();
         }
       },
       [inputType, loading, handleConfirm]
@@ -186,7 +186,7 @@ export const HeadlessPrompt = memo(
 
             <button
               type="button"
-              onClick={handleConfirm}
+              onClick={() => void handleConfirm()}
               disabled={loading}
               className={cn(
                 'flex-1 px-4 py-2 rounded-lg font-medium',

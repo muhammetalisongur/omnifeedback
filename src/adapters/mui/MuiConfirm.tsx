@@ -14,7 +14,7 @@ import type { IAdapterConfirmProps } from '../types';
  * Renders a confirmation dialog with Material Design styling
  */
 export const MuiConfirm = memo(
-  forwardRef<HTMLDivElement, IAdapterConfirmProps>(function MuiConfirm(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterConfirmProps>(function MuiConfirm(props, ref): JSX.Element {
     const {
       message,
       title = 'Confirm',
@@ -46,18 +46,18 @@ export const MuiConfirm = memo(
     }, [isVisible]);
 
     useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -93,7 +93,7 @@ export const MuiConfirm = memo(
             isVisible && !isExiting ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e): void => e.stopPropagation()}
         >
           {/* Content */}
           <div className="px-6 pt-6 pb-4">
@@ -140,7 +140,7 @@ export const MuiConfirm = memo(
             <button
               ref={confirmButtonRef}
               type="button"
-              onClick={handleConfirm}
+              onClick={(): void => { void handleConfirm(); }}
               disabled={loading}
               className={cn(
                 // MUI Button - contained variant

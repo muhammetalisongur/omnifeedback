@@ -88,7 +88,7 @@ function calculatePosition(
  * Renders a positioned confirmation popover with Material Design styling
  */
 export const MuiPopconfirm = memo(
-  forwardRef<HTMLDivElement, IAdapterPopconfirmProps>(function MuiPopconfirm(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterPopconfirmProps>(function MuiPopconfirm(props, ref): JSX.Element {
     const {
       message,
       title,
@@ -115,11 +115,15 @@ export const MuiPopconfirm = memo(
 
     // Calculate position
     useEffect(() => {
-      if (!isVisible || !triggerRef.current || !popoverRef.current) return;
+      if (!isVisible || !triggerRef.current || !popoverRef.current) {return;}
 
-      const updatePosition = () => {
-        const triggerRect = triggerRef.current!.getBoundingClientRect();
-        const popoverRect = popoverRef.current!.getBoundingClientRect();
+      const updatePosition = (): void => {
+        const triggerEl = triggerRef.current;
+        const popoverEl = popoverRef.current;
+        if (!triggerEl || !popoverEl) {return;}
+
+        const triggerRect = triggerEl.getBoundingClientRect();
+        const popoverRect = popoverEl.getBoundingClientRect();
         const newPosition = calculatePosition(triggerRect, popoverRect, placement);
 
         // Keep within viewport
@@ -136,7 +140,7 @@ export const MuiPopconfirm = memo(
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition, true);
 
-      return () => {
+      return (): void => {
         window.removeEventListener('resize', updatePosition);
         window.removeEventListener('scroll', updatePosition, true);
       };
@@ -151,20 +155,20 @@ export const MuiPopconfirm = memo(
 
     // Handle escape key
     useEffect(() => {
-      if (!isVisible) return undefined;
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -245,7 +249,7 @@ export const MuiPopconfirm = memo(
                 <button
                   ref={confirmButtonRef}
                   type="button"
-                  onClick={handleConfirm}
+                  onClick={(): void => { void handleConfirm(); }}
                   disabled={loading}
                   className={cn(
                     'px-3 py-1.5 text-sm font-medium uppercase tracking-wide rounded',

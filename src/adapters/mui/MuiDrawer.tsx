@@ -56,7 +56,7 @@ const transformStyles = {
  * Renders a drawer panel with Material Design styling
  */
 export const MuiDrawer = memo(
-  forwardRef<HTMLDivElement, IAdapterDrawerProps>(function MuiDrawer(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterDrawerProps>(function MuiDrawer(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -83,9 +83,9 @@ export const MuiDrawer = memo(
     useScrollLock(isVisible);
 
     useEffect(() => {
-      if (!closeOnEscape) return;
+      if (!closeOnEscape) {return;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -93,11 +93,11 @@ export const MuiDrawer = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }
@@ -137,7 +137,7 @@ export const MuiDrawer = memo(
               : transformStyles[placement].hidden,
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e): void => e.stopPropagation()}
         >
           {/* Header */}
           {header !== undefined

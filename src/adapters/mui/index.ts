@@ -31,10 +31,10 @@ export const MUI_ADAPTER_VERSION = '1.0.0';
  * Checks for dark class on html element or prefers-color-scheme
  */
 function isDarkMode(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') {return false;}
 
   const htmlElement = document.documentElement;
-  if (htmlElement.classList.contains('dark')) return true;
+  if (htmlElement.classList.contains('dark')) {return true;}
 
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
@@ -44,10 +44,10 @@ function isDarkMode(): boolean {
  * Adds custom animations and keyframes
  */
 function injectStyles(): void {
-  if (typeof document === 'undefined') return;
+  if (typeof document === 'undefined') {return;}
 
   const styleId = 'mui-adapter-styles';
-  if (document.getElementById(styleId)) return;
+  if (document.getElementById(styleId)) {return;}
 
   const styleSheet = document.createElement('style');
   styleSheet.id = styleId;

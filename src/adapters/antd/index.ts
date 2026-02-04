@@ -72,7 +72,7 @@ export const antdAdapter: IFeedbackAdapter = {
 
   // Utility Functions
   isDarkMode: () => {
-    if (typeof document === 'undefined') return false;
+    if (typeof document === 'undefined') {return false;}
     return (
       document.documentElement.classList.contains('dark') ||
       document.documentElement.getAttribute('data-theme') === 'dark' ||
@@ -81,7 +81,7 @@ export const antdAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') return;
+    if (stylesInjected || typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-antd-styles';
     if (document.getElementById(styleId)) {

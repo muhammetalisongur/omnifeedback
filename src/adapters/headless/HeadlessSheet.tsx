@@ -15,7 +15,7 @@ import type { IAdapterSheetProps } from '../types';
  * Renders a draggable bottom sheet
  */
 export const HeadlessSheet = memo(
-  forwardRef<HTMLDivElement, IAdapterSheetProps>(function HeadlessSheet(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterSheetProps>(function HeadlessSheet(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -42,9 +42,7 @@ export const HeadlessSheet = memo(
 
     // Sync external snap index
     useEffect(() => {
-      if (currentSnapIndex !== undefined) {
-        setSnapIndex(currentSnapIndex);
-      }
+      setSnapIndex(currentSnapIndex);
     }, [currentSnapIndex]);
 
     // Get current height percentage
@@ -83,9 +81,9 @@ export const HeadlessSheet = memo(
 
     // Handle escape key
     useEffect(() => {
-      if (!isVisible) return undefined;
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -96,7 +94,7 @@ export const HeadlessSheet = memo(
       return () => document.removeEventListener('keydown', handleKeyDown);
     }, [isVisible, onRequestClose]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       if (closeOnBackdropClick) {
         onRequestClose();
       }
@@ -142,7 +140,7 @@ export const HeadlessSheet = memo(
             className
           )}
           style={{
-            height: `${visualHeight}%`,
+            height: `${String(visualHeight)}%`,
             maxHeight: '90%',
           }}
         >

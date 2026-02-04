@@ -25,7 +25,7 @@ const sizeStyles = {
  * Renders a modal dialog with Material Design styling
  */
 export const MuiModal = memo(
-  forwardRef<HTMLDivElement, IAdapterModalProps>(function MuiModal(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterModalProps>(function MuiModal(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -52,9 +52,9 @@ export const MuiModal = memo(
     useScrollLock(isVisible);
 
     useEffect(() => {
-      if (!closeOnEscape) return;
+      if (!closeOnEscape) {return;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -62,11 +62,11 @@ export const MuiModal = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }
@@ -106,7 +106,7 @@ export const MuiModal = memo(
             sizeStyles[size],
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e): void => e.stopPropagation()}
         >
           {/* Header - MUI DialogTitle */}
           {header !== undefined

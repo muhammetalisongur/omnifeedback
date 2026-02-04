@@ -96,7 +96,7 @@ export const ChakraProgress = memo(
               indeterminate && 'chakra-progress-indeterminate'
             )}
             style={{
-              width: indeterminate ? '50%' : `${percentage}%`,
+              width: indeterminate ? '50%' : `${String(percentage)}%`,
               ...(indeterminate && {
                 animation: 'chakra-progress-indeterminate 1.5s ease-in-out infinite',
               }),

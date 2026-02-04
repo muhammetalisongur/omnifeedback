@@ -12,7 +12,7 @@ import type { IAdapterConfirmProps } from '../types';
 /**
  * Default warning icon (Ant Design style)
  */
-const WarningIcon = () => (
+const WarningIcon = (): JSX.Element => (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
   </svg>
@@ -48,25 +48,25 @@ export const AntdConfirm = memo(
     useFocusTrap(dialogRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
         confirmButtonRef.current?.focus();
       }
     }, [isVisible]);
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+    useEffect((): (() => void) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -109,7 +109,7 @@ export const AntdConfirm = memo(
             isVisible && !isExiting ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent): void => { e.stopPropagation(); }}
         >
           <div className="of-antd-confirm-body flex gap-4">
             {displayIcon && (
@@ -153,7 +153,7 @@ export const AntdConfirm = memo(
             <button
               ref={confirmButtonRef}
               type="button"
-              onClick={handleConfirm}
+              onClick={(): void => { void handleConfirm(); }}
               disabled={loading}
               className={cn(
                 'of-antd-btn',

@@ -5,7 +5,7 @@
 
 import { memo, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
-import type { IAdapterLoadingProps } from '../types';
+import type { IAdapterLoadingProps, SpinnerType } from '../types';
 
 /**
  * Size styles for spinner
@@ -37,7 +37,7 @@ const variantStyles = {
 /**
  * Default spinner SVG
  */
-function DefaultSpinner({ className }: { className?: string }) {
+function DefaultSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <svg className={cn('animate-spin', className)} fill="none" viewBox="0 0 24 24">
       <circle
@@ -60,14 +60,14 @@ function DefaultSpinner({ className }: { className?: string }) {
 /**
  * Dots spinner
  */
-function DotsSpinner({ className }: { className?: string }) {
+function DotsSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-center gap-1', className)}>
       {[0, 1, 2].map((i) => (
         <div
           key={i}
           className="w-2 h-2 rounded-full bg-current animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }}
+          style={{ animationDelay: `${String(i * 0.15)}s` }}
         />
       ))}
     </div>
@@ -77,7 +77,7 @@ function DotsSpinner({ className }: { className?: string }) {
 /**
  * Bars spinner
  */
-function BarsSpinner({ className }: { className?: string }) {
+function BarsSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-end gap-1', className)}>
       {[0, 1, 2, 3].map((i) => (
@@ -86,7 +86,7 @@ function BarsSpinner({ className }: { className?: string }) {
           className="w-1 bg-current animate-pulse"
           style={{
             height: '16px',
-            animationDelay: `${i * 0.1}s`,
+            animationDelay: `${String(i * 0.1)}s`,
             animationDuration: '0.8s',
           }}
         />
@@ -98,7 +98,7 @@ function BarsSpinner({ className }: { className?: string }) {
 /**
  * Circle spinner
  */
-function CircleSpinner({ className }: { className?: string }) {
+function CircleSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('relative', className)}>
       <div className="absolute inset-0 border-2 border-current opacity-25 rounded-full" />
@@ -110,11 +110,12 @@ function CircleSpinner({ className }: { className?: string }) {
 /**
  * Get spinner component based on type
  */
-const spinnerComponents = {
+const spinnerComponents: Record<SpinnerType, React.FC<{ className?: string }>> = {
   default: DefaultSpinner,
   dots: DotsSpinner,
   bars: BarsSpinner,
-  circle: CircleSpinner,
+  ring: CircleSpinner,
+  pulse: DefaultSpinner,
 };
 
 /**
@@ -168,7 +169,7 @@ export const MantineLoading = memo(
           </span>
         )}
 
-        <span className="sr-only">Loading{message ? `: ${message}` : ''}</span>
+        <span className="sr-only">Loading{message ? `: ${String(message)}` : ''}</span>
       </div>
     );
 
@@ -182,7 +183,7 @@ export const MantineLoading = memo(
             className
           )}
           style={{
-            backgroundColor: `rgba(0, 0, 0, ${backdropOpacity})`,
+            backgroundColor: `rgba(0, 0, 0, ${String(backdropOpacity)})`,
             ...style,
           }}
         >

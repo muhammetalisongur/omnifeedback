@@ -39,25 +39,25 @@ export const MantineConfirm = memo(
     useFocusTrap(dialogRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
         confirmButtonRef.current?.focus();
       }
     }, [isVisible]);
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+    useEffect((): (() => void) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -92,7 +92,7 @@ export const MantineConfirm = memo(
             isVisible && !isExiting ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent): void => { e.stopPropagation(); }}
         >
           {icon && <div className="flex justify-center mb-4">{icon}</div>}
 
@@ -130,7 +130,7 @@ export const MantineConfirm = memo(
             <button
               ref={confirmButtonRef}
               type="button"
-              onClick={handleConfirm}
+              onClick={(): void => { void handleConfirm(); }}
               disabled={loading}
               className={cn(
                 'flex-1 px-4 py-2 rounded-md font-medium',

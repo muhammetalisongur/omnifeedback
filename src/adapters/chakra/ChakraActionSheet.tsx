@@ -36,10 +36,10 @@ export const ChakraActionSheet = memo(
     useScrollLock(isVisible);
 
     // Handle escape key
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onSelect(null);
@@ -47,15 +47,15 @@ export const ChakraActionSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onSelect]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       onSelect(null);
     }, [onSelect]);
 
     const handleActionClick = useCallback(
-      (key: string, disabled?: boolean) => {
+      (key: string, disabled?: boolean): void => {
         if (!disabled) {
           onSelect(key);
         }
@@ -121,11 +121,11 @@ export const ChakraActionSheet = memo(
             )}
 
             {/* Action items */}
-            {actions.map((action, index) => (
+            {actions.map((action, index): JSX.Element => (
               <button
                 key={action.key}
                 type="button"
-                onClick={() => handleActionClick(action.key, action.disabled)}
+                onClick={(): void => { handleActionClick(action.key, action.disabled); }}
                 disabled={action.disabled}
                 className={cn(
                   'chakra-menu-item',
@@ -152,7 +152,7 @@ export const ChakraActionSheet = memo(
           {showCancel && (
             <button
               type="button"
-              onClick={() => onSelect(null)}
+              onClick={(): void => { onSelect(null); }}
               className={cn(
                 'chakra-btn chakra-btn-cancel',
                 'w-full px-4 py-3 rounded-xl',

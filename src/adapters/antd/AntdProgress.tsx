@@ -76,7 +76,7 @@ export const AntdProgress = memo(
         )}
         style={style}
       >
-        {(label || showPercentage) && (
+        {(label ?? showPercentage) && (
           <div className="of-antd-progress-info flex justify-between mb-2 text-sm">
             {label && (
               <span className="of-antd-progress-label text-gray-700">{label}</span>
@@ -105,7 +105,7 @@ export const AntdProgress = memo(
               indeterminate && 'of-antd-progress-indeterminate'
             )}
             style={{
-              width: indeterminate ? '30%' : `${percentage}%`,
+              width: indeterminate ? '30%' : `${String(percentage)}%`,
               ...(indeterminate && {
                 animation: 'antd-progress-indeterminate 1.5s ease-in-out infinite',
               }),

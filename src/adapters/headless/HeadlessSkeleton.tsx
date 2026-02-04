@@ -21,7 +21,7 @@ const animationClasses = {
  * Renders placeholder loading elements
  */
 export const HeadlessSkeleton = memo(
-  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function HeadlessSkeleton(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function HeadlessSkeleton(props, ref): JSX.Element {
     const {
       shape = 'text',
       width,
@@ -43,8 +43,8 @@ export const HeadlessSkeleton = memo(
     );
 
     // Convert width/height to CSS value
-    const widthValue = typeof width === 'number' ? `${width}px` : width;
-    const heightValue = typeof height === 'number' ? `${height}px` : height;
+    const widthValue = typeof width === 'number' ? `${String(width)}px` : width;
+    const heightValue = typeof height === 'number' ? `${String(height)}px` : height;
 
     // Render based on shape
     switch (shape) {

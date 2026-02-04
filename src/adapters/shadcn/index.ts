@@ -67,12 +67,12 @@ export const shadcnAdapter: IFeedbackAdapter = {
 
   // Utility Functions
   isDarkMode: () => {
-    if (typeof document === 'undefined') return false;
+    if (typeof document === 'undefined') {return false;}
     return document.documentElement.classList.contains('dark');
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') return;
+    if (stylesInjected || typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-shadcn-styles';
     if (document.getElementById(styleId)) {

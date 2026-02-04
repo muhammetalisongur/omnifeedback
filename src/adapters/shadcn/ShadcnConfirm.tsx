@@ -13,7 +13,7 @@ import type { IAdapterConfirmProps } from '../types';
  * ShadcnConfirm component
  */
 export const ShadcnConfirm = memo(
-  forwardRef<HTMLDivElement, IAdapterConfirmProps>(function ShadcnConfirm(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterConfirmProps>(function ShadcnConfirm(props, ref): JSX.Element {
     const {
       message,
       title = 'Are you sure?',
@@ -38,25 +38,25 @@ export const ShadcnConfirm = memo(
     useFocusTrap(dialogRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
+    useEffect((): void => {
       if (isVisible) {
         confirmButtonRef.current?.focus();
       }
     }, [isVisible]);
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
+    useEffect((): (() => void) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
-          onCancel?.();
+          onCancel();
         }
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => document.removeEventListener('keydown', handleKeyDown);
     }, [onCancel]);
 
-    const handleConfirm = useCallback(async () => {
+    const handleConfirm = useCallback(async (): Promise<void> => {
       setLoading(true);
       try {
         await onConfirm();
@@ -138,7 +138,7 @@ export const ShadcnConfirm = memo(
               <button
                 ref={confirmButtonRef}
                 type="button"
-                onClick={handleConfirm}
+                onClick={(): void => { void handleConfirm(); }}
                 disabled={loading}
                 className={cn(
                   'inline-flex h-10 items-center justify-center rounded-md px-4 py-2',

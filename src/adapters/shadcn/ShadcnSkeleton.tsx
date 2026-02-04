@@ -10,7 +10,7 @@ import type { IAdapterSkeletonProps } from '../types';
  * ShadcnSkeleton component
  */
 export const ShadcnSkeleton = memo(
-  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function ShadcnSkeleton(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function ShadcnSkeleton(props, ref): JSX.Element {
     const {
       shape = 'text',
       width,
@@ -30,8 +30,8 @@ export const ShadcnSkeleton = memo(
       !isVisible && 'opacity-0'
     );
 
-    const widthValue = typeof width === 'number' ? `${width}px` : width;
-    const heightValue = typeof height === 'number' ? `${height}px` : height;
+    const widthValue = typeof width === 'number' ? `${String(width)}px` : width;
+    const heightValue = typeof height === 'number' ? `${String(height)}px` : height;
 
     switch (shape) {
       case 'circle':

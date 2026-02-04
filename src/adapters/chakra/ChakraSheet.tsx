@@ -41,10 +41,8 @@ export const ChakraSheet = memo(
     useScrollLock(isVisible);
 
     // Sync external snap index
-    useEffect(() => {
-      if (currentSnapIndex !== undefined) {
-        setSnapIndex(currentSnapIndex);
-      }
+    useEffect((): void => {
+      setSnapIndex(currentSnapIndex);
     }, [currentSnapIndex]);
 
     // Get current height percentage
@@ -53,7 +51,7 @@ export const ChakraSheet = memo(
     // Calculate snap thresholds
     const { dragHandlers, dragState, reset: resetDrag } = useDrag({
       axis: 'y',
-      onDragEnd: (offset, velocity) => {
+      onDragEnd: (offset, velocity): void => {
         const threshold = 50;
         const velocityThreshold = 0.5;
 
@@ -82,10 +80,10 @@ export const ChakraSheet = memo(
     });
 
     // Handle escape key
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -93,10 +91,10 @@ export const ChakraSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [isVisible, onRequestClose]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       if (closeOnBackdropClick) {
         onRequestClose();
       }
@@ -146,7 +144,7 @@ export const ChakraSheet = memo(
             className
           )}
           style={{
-            height: `${visualHeight}%`,
+            height: `${String(visualHeight)}%`,
             maxHeight: '90%',
           }}
         >

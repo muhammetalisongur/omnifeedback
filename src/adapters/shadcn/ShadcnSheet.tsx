@@ -13,7 +13,7 @@ import type { IAdapterSheetProps } from '../types';
  * ShadcnSheet component
  */
 export const ShadcnSheet = memo(
-  forwardRef<HTMLDivElement, IAdapterSheetProps>(function ShadcnSheet(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterSheetProps>(function ShadcnSheet(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -38,17 +38,15 @@ export const ShadcnSheet = memo(
     useFocusTrap(sheetRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
-      if (currentSnapIndex !== undefined) {
-        setSnapIndex(currentSnapIndex);
-      }
+    useEffect((): void => {
+      setSnapIndex(currentSnapIndex);
     }, [currentSnapIndex]);
 
     const currentHeight = snapPoints[snapIndex] ?? 50;
 
     const { dragHandlers, dragState, reset: resetDrag } = useDrag({
       axis: 'y',
-      onDragEnd: (offset, velocity) => {
+      onDragEnd: (offset: number, velocity: number): void => {
         const threshold = 50;
         const velocityThreshold = 0.5;
 
@@ -72,10 +70,10 @@ export const ShadcnSheet = memo(
       },
     });
 
-    useEffect(() => {
-      if (!isVisible) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -83,10 +81,10 @@ export const ShadcnSheet = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => document.removeEventListener('keydown', handleKeyDown);
     }, [isVisible, onRequestClose]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       if (closeOnBackdropClick) {
         onRequestClose();
       }
@@ -132,7 +130,7 @@ export const ShadcnSheet = memo(
             className
           )}
           style={{
-            height: `${visualHeight}%`,
+            height: `${String(visualHeight)}%`,
             maxHeight: '90%',
           }}
         >

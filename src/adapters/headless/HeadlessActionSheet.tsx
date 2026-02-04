@@ -14,7 +14,7 @@ import type { IAdapterActionSheetProps } from '../types';
  * Renders an iOS-style action sheet
  */
 export const HeadlessActionSheet = memo(
-  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function HeadlessActionSheet(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterActionSheetProps>(function HeadlessActionSheet(props, ref): JSX.Element {
     const {
       title,
       description,
@@ -37,9 +37,9 @@ export const HeadlessActionSheet = memo(
 
     // Handle escape key
     useEffect(() => {
-      if (!isVisible) return undefined;
+      if (!isVisible) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onSelect(null);
@@ -50,12 +50,12 @@ export const HeadlessActionSheet = memo(
       return () => document.removeEventListener('keydown', handleKeyDown);
     }, [isVisible, onSelect]);
 
-    const handleBackdropClick = useCallback(() => {
+    const handleBackdropClick = useCallback((): void => {
       onSelect(null);
     }, [onSelect]);
 
     const handleActionClick = useCallback(
-      (key: string, disabled?: boolean) => {
+      (key: string, disabled?: boolean): void => {
         if (!disabled) {
           onSelect(key);
         }

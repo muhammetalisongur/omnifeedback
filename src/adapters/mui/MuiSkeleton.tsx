@@ -21,7 +21,7 @@ const animationClasses = {
  * Renders placeholder loading elements with Material Design styling
  */
 export const MuiSkeleton = memo(
-  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function MuiSkeleton(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterSkeletonProps>(function MuiSkeleton(props, ref): JSX.Element {
     const {
       shape = 'text',
       width,
@@ -44,8 +44,8 @@ export const MuiSkeleton = memo(
     );
 
     // Convert width/height to CSS value
-    const widthValue = typeof width === 'number' ? `${width}px` : width;
-    const heightValue = typeof height === 'number' ? `${height}px` : height;
+    const widthValue = typeof width === 'number' ? `${String(width)}px` : width;
+    const heightValue = typeof height === 'number' ? `${String(height)}px` : height;
 
     // Render based on shape
     switch (shape) {

@@ -12,7 +12,7 @@ import type { IAdapterModalProps } from '../types';
 /**
  * Close icon component
  */
-function CloseIcon({ className }: { className?: string }) {
+function CloseIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -47,7 +47,7 @@ const sizeStyles = {
  * ShadcnModal component
  */
 export const ShadcnModal = memo(
-  forwardRef<HTMLDivElement, IAdapterModalProps>(function ShadcnModal(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterModalProps>(function ShadcnModal(props, ref): JSX.Element {
     const {
       title,
       content,
@@ -73,10 +73,10 @@ export const ShadcnModal = memo(
     useFocusTrap(modalRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
-      if (!closeOnEscape) return undefined;
+    useEffect((): (() => void) | undefined => {
+      if (!closeOnEscape) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -84,11 +84,11 @@ export const ShadcnModal = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => document.removeEventListener('keydown', handleKeyDown);
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }

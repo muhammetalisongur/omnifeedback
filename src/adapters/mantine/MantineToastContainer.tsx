@@ -27,7 +27,7 @@ export const MantineToastContainer = memo(function MantineToastContainer({
   position,
   gap,
   children,
-}: IAdapterToastContainerProps) {
+}: IAdapterToastContainerProps): JSX.Element {
   return (
     <div
       className={cn(
@@ -35,7 +35,7 @@ export const MantineToastContainer = memo(function MantineToastContainer({
         positionStyles[position],
         position.includes('bottom') && 'flex-col-reverse'
       )}
-      style={{ gap: `${gap}px` }}
+      style={{ gap: `${String(gap)}px` }}
       aria-live="polite"
       aria-label="Notifications"
     >

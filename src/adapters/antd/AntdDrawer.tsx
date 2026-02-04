@@ -82,10 +82,10 @@ export const AntdDrawer = memo(
     useFocusTrap(drawerRef, { enabled: isVisible });
     useScrollLock(isVisible);
 
-    useEffect(() => {
-      if (!closeOnEscape) return;
+    useEffect((): (() => void) | undefined => {
+      if (!closeOnEscape) {return undefined;}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
+      const handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onRequestClose();
@@ -93,11 +93,11 @@ export const AntdDrawer = memo(
       };
 
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      return (): void => { document.removeEventListener('keydown', handleKeyDown); };
     }, [closeOnEscape, onRequestClose]);
 
     const handleBackdropClick = useCallback(
-      (e: React.MouseEvent) => {
+      (e: React.MouseEvent): void => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onRequestClose();
         }
@@ -138,7 +138,7 @@ export const AntdDrawer = memo(
               : transformStyles[placement].hidden,
             className
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent): void => { e.stopPropagation(); }}
         >
           {/* Header */}
           {header !== undefined

@@ -41,7 +41,7 @@ const sizeStyles = {
  * Renders a progress bar with Material Design styling
  */
 export const MuiProgress = memo(
-  forwardRef<HTMLDivElement, IAdapterProgressProps>(function MuiProgress(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterProgressProps>(function MuiProgress(props, ref): JSX.Element {
     const {
       value,
       max = 100,
@@ -106,7 +106,7 @@ export const MuiProgress = memo(
                 : 'transition-all duration-300 ease-out'
             )}
             style={{
-              width: indeterminate ? '30%' : `${percentage}%`,
+              width: indeterminate ? '30%' : `${String(percentage)}%`,
               ...(indeterminate && {
                 animation: 'mui-indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite',
               }),

@@ -5,7 +5,7 @@
 
 import { memo, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
-import type { IAdapterLoadingProps } from '../types';
+import type { IAdapterLoadingProps, SpinnerType } from '../types';
 
 /**
  * Size styles for spinner (MUI sizing)
@@ -37,7 +37,7 @@ const variantStyles = {
 /**
  * MUI-style Circular Progress spinner
  */
-function CircularProgress({ className }: { className?: string }) {
+function CircularProgress({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={cn('animate-spin', className)}
@@ -69,14 +69,14 @@ function CircularProgress({ className }: { className?: string }) {
 /**
  * MUI-style dots loading
  */
-function DotsProgress({ className }: { className?: string }) {
+function DotsProgress({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-center gap-1.5', className)}>
       {[0, 1, 2].map((i) => (
         <div
           key={i}
           className="w-2.5 h-2.5 rounded-full bg-current animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }}
+          style={{ animationDelay: `${String(i * 0.15)}s` }}
         />
       ))}
     </div>
@@ -86,7 +86,7 @@ function DotsProgress({ className }: { className?: string }) {
 /**
  * MUI-style linear indeterminate bars
  */
-function BarsProgress({ className }: { className?: string }) {
+function BarsProgress({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('flex items-end gap-1', className)}>
       {[0, 1, 2, 3, 4].map((i) => (
@@ -95,7 +95,7 @@ function BarsProgress({ className }: { className?: string }) {
           className="w-1 bg-current rounded-sm animate-pulse"
           style={{
             height: '20px',
-            animationDelay: `${i * 0.1}s`,
+            animationDelay: `${String(i * 0.1)}s`,
             animationDuration: '0.8s',
           }}
         />
@@ -107,7 +107,7 @@ function BarsProgress({ className }: { className?: string }) {
 /**
  * MUI-style circle spinner (alternative)
  */
-function CircleSpinner({ className }: { className?: string }) {
+function CircleSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <div className={cn('relative', className)}>
       <div className="absolute inset-0 border-4 border-current opacity-20 rounded-full" />
@@ -119,11 +119,12 @@ function CircleSpinner({ className }: { className?: string }) {
 /**
  * Get spinner component based on type
  */
-const spinnerComponents = {
+const spinnerComponents: Record<SpinnerType, React.FC<{ className?: string }>> = {
   default: CircularProgress,
   dots: DotsProgress,
   bars: BarsProgress,
-  circle: CircleSpinner,
+  ring: CircleSpinner,
+  pulse: CircularProgress,
 };
 
 /**
@@ -131,7 +132,7 @@ const spinnerComponents = {
  * Renders a loading indicator with Material Design styling
  */
 export const MuiLoading = memo(
-  forwardRef<HTMLDivElement, IAdapterLoadingProps>(function MuiLoading(props, ref) {
+  forwardRef<HTMLDivElement, IAdapterLoadingProps>(function MuiLoading(props, ref): JSX.Element {
     const {
       message,
       spinner = 'default',
@@ -171,7 +172,7 @@ export const MuiLoading = memo(
           </span>
         )}
 
-        <span className="sr-only">Loading{message ? `: ${message}` : ''}</span>
+        <span className="sr-only">{message ? `Loading: ${message}` : 'Loading'}</span>
       </div>
     );
 
@@ -186,7 +187,7 @@ export const MuiLoading = memo(
           )}
           style={{
             zIndex: 1300,
-            backgroundColor: `rgba(0, 0, 0, ${backdropOpacity})`,
+            backgroundColor: `rgba(0, 0, 0, ${String(backdropOpacity)})`,
             ...style,
           }}
         >
