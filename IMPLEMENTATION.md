@@ -112,7 +112,7 @@ OmniFeedback is a universal React feedback management library that provides 15 f
 - [x] Implement Drawer component with 4 positions (left/right/top/bottom), 5 sizes, overlay, ESC close
 - [x] Implement DrawerContainer
 - [x] Write comprehensive tests
-- [ ] Push content feature (push prop defined in types but not yet implemented)
+- [x] Push content feature (push prop applies CSS transform to document.body, 10 tests)
 
 #### 10-popconfirm-system ✅ COMPLETED (2026-02-03)
 - [x] Create usePopconfirm hook with show(), close(), closeAll()
@@ -192,18 +192,21 @@ OmniFeedback is a universal React feedback management library that provides 15 f
 ### Phase 5: Quality & Publishing
 
 #### Testing ✅ COMPLETED (2026-02-04)
-- [x] Unit tests: 43 test files, 988+ tests passing
+- [x] Unit tests: 47 test files, 1081 tests passing
 - [x] Co-located test strategy (tests alongside source files in src/)
 - [x] Test setup infrastructure (tests/setup.ts with DOM mocks)
 - [x] Integration tests (tests/integration/) - 4 test files: provider-hooks, toast-lifecycle, confirm-promise, queue-overflow
 - [x] E2E tests with Playwright (tests/e2e/) - 3 spec files: toast, modal, accessibility + test fixtures
 
-#### 23-npm-publishing ⏳ PENDING
+#### 23-npm-publishing ⏳ IN PROGRESS
 - [x] Package.json exports configured for all adapters
 - [x] Tree-shakeable build configuration
-- [ ] GitHub Actions CI/CD
-- [ ] Comprehensive changelog
+- [x] MIT LICENSE file
+- [x] GitHub Actions CI/CD (.github/workflows/ci.yml + release.yml)
+- [x] Bundle size monitoring (size-limit with @size-limit/preset-small-lib)
+- [x] Comprehensive changelog (CHANGELOG.md)
 - [ ] Documentation site (Storybook)
+- [ ] Example projects
 - [ ] First npm publish
 
 ## Architecture Summary
@@ -282,26 +285,29 @@ Lines        : >= 90%
 ### Adapters (6 adapters × 16 components + index = 102 files)
 - headless, shadcn, mantine, chakra, mui, antd
 
-### Tests (43 test files)
+### Tests (54 test files, 1081 tests)
 - Core: 4 test files
 - Hooks: 18 test files
 - Components: 17 test files
 - Utils: 3 test files
 - Setup: 1 test file
+- Integration: 4 test files
+- E2E: 3 spec files
 
 ## Remaining Work
 
-### High Priority
-- [x] Write integration tests (tests/integration/) ✅
-- [x] Write E2E tests with Playwright (tests/e2e/) ✅
-- [ ] Implement Drawer push content feature
+### Completed ✅
+- [x] Write integration tests (tests/integration/)
+- [x] Write E2E tests with Playwright (tests/e2e/)
+- [x] Implement Drawer push content feature
+- [x] GitHub Actions CI/CD pipeline
+- [x] MIT LICENSE file
+- [x] Bundle size monitoring with size-limit
 
 ### Medium Priority
-- [ ] GitHub Actions CI/CD pipeline
 - [ ] Storybook documentation
 - [ ] Example projects
 
 ### Low Priority
-- [ ] NPM publish
+- [ ] NPM dry-run test + first publish
 - [ ] Documentation site
-- [ ] Bundle size monitoring with size-limit
