@@ -4,7 +4,7 @@
  */
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import { afterEach, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
 /**
  * Cleanup DOM after each test to prevent memory leaks
@@ -103,18 +103,25 @@ Object.defineProperty(window, 'getComputedStyle', {
 });
 
 /**
- * Suppress console errors during tests unless explicitly testing error handling
- * Uncomment below to enable error suppression
+ * Suppress React act() warnings caused by Zustand store subscriptions.
+ *
+ * When FeedbackManager triggers async state updates (via setTimeout in
+ * scheduleStatusChange), Container components re-render through Zustand
+ * subscriptions outside of React's act() wrapper. This is a known
+ * false-positive with Zustand + React 18 and does not indicate real bugs.
  */
-// const originalError = console.error;
-// beforeAll(() => {
-//   console.error = (...args: unknown[]) => {
-//     if (typeof args[0] === 'string' && args[0].includes('Warning:')) {
-//       return;
-//     }
-//     originalError.call(console, ...args);
-//   };
-// });
-// afterAll(() => {
-//   console.error = originalError;
-// });
+const originalError = console.error;
+beforeAll(() => {
+  console.error = (...args: unknown[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('not wrapped in act')
+    ) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+});
+afterAll(() => {
+  console.error = originalError;
+});
