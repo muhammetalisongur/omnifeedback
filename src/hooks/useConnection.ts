@@ -116,6 +116,10 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const pingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const offlineBannerIdRef = useRef<string | null>(null);
   const reconnectingBannerIdRef = useRef<string | null>(null);
+  const isOnlineRef = useRef(isOnline);
+
+  // Keep ref in sync with state for use in effects without re-subscribing
+  isOnlineRef.current = isOnline;
 
   /**
    * Calculate offline duration
@@ -282,14 +286,14 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const checkConnection = useCallback(async (): Promise<boolean> => {
     const online = await checkConnectionInternal();
 
-    if (online && !isOnline) {
+    if (online && !isOnlineRef.current) {
       handleOnline();
-    } else if (!online && isOnline) {
+    } else if (!online && isOnlineRef.current) {
       handleOffline();
     }
 
     return online;
-  }, [checkConnectionInternal, isOnline, handleOnline, handleOffline]);
+  }, [checkConnectionInternal, handleOnline, handleOffline]);
 
   /**
    * Queue action for when back online
@@ -386,7 +390,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     window.addEventListener('offline', offlineHandler);
 
     // Check initial state
-    if (!navigator.onLine && isOnline) {
+    if (!navigator.onLine && isOnlineRef.current) {
       handleOffline();
     }
 
@@ -397,7 +401,8 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
       removeOfflineBanner();
       removeReconnectingBanner();
     };
-  }, [handleOnline, handleOffline, clearPingInterval, removeOfflineBanner, removeReconnectingBanner, isOnline]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleOnline, handleOffline, clearPingInterval, removeOfflineBanner, removeReconnectingBanner]);
 
   return {
     isOnline,

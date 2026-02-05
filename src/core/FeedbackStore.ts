@@ -5,6 +5,7 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { shallow } from 'zustand/shallow';
 import type {
   IFeedbackItem,
   IFeedbackStoreState,
@@ -85,70 +86,84 @@ export const useFeedbackStore = create<IFeedbackStoreState>()(
  * Select all toast items from the store
  */
 export const useToasts = (): IFeedbackItem<'toast'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'toast'> => item.type === 'toast'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'toast'> => item.type === 'toast'
+      ),
+    shallow
   );
 
 /**
  * Select all modal items from the store
  */
 export const useModals = (): IFeedbackItem<'modal'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'modal'> => item.type === 'modal'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'modal'> => item.type === 'modal'
+      ),
+    shallow
   );
 
 /**
  * Select all loading items from the store
  */
 export const useLoadings = (): IFeedbackItem<'loading'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'loading'> => item.type === 'loading'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'loading'> => item.type === 'loading'
+      ),
+    shallow
   );
 
 /**
  * Select all alert items from the store
  */
 export const useAlerts = (): IFeedbackItem<'alert'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'alert'> => item.type === 'alert'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'alert'> => item.type === 'alert'
+      ),
+    shallow
   );
 
 /**
  * Select all progress items from the store
  */
 export const useProgresses = (): IFeedbackItem<'progress'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'progress'> => item.type === 'progress'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'progress'> => item.type === 'progress'
+      ),
+    shallow
   );
 
 /**
  * Select all confirm items from the store
  */
 export const useConfirms = (): IFeedbackItem<'confirm'>[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item): item is IFeedbackItem<'confirm'> => item.type === 'confirm'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item): item is IFeedbackItem<'confirm'> => item.type === 'confirm'
+      ),
+    shallow
   );
 
 /**
  * Select visible items (not exiting or removed)
  */
 export const useVisibleItems = (): IFeedbackItem[] =>
-  useFeedbackStore((state) =>
-    Array.from(state.items.values()).filter(
-      (item) => item.status !== 'exiting' && item.status !== 'removed'
-    )
+  useFeedbackStore(
+    (state) =>
+      Array.from(state.items.values()).filter(
+        (item) => item.status !== 'exiting' && item.status !== 'removed'
+      ),
+    shallow
   );
 
 /**

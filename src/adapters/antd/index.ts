@@ -27,11 +27,6 @@ import { AntdActionSheet } from './AntdActionSheet';
 import { AntdConnection } from './AntdConnection';
 
 /**
- * Styles injection flag to prevent multiple injections
- */
-let stylesInjected = false;
-
-/**
  * Ant Design adapter version
  */
 export const ANTD_ADAPTER_VERSION = '1.0.0';
@@ -81,13 +76,10 @@ export const antdAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') {return;}
+    if (typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-antd-styles';
-    if (document.getElementById(styleId)) {
-      stylesInjected = true;
-      return;
-    }
+    if (document.getElementById(styleId)) {return;}
 
     const style = document.createElement('style');
     style.id = styleId;
@@ -189,7 +181,7 @@ export const antdAdapter: IFeedbackAdapter = {
       }
     `;
     document.head.appendChild(style);
-    stylesInjected = true;
+
   },
 
   animations: {

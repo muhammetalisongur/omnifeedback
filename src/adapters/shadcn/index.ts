@@ -27,11 +27,6 @@ import { ShadcnActionSheet } from './ShadcnActionSheet';
 import { ShadcnConnection } from './ShadcnConnection';
 
 /**
- * Styles injection flag
- */
-let stylesInjected = false;
-
-/**
  * shadcn/ui adapter implementation
  * Uses Radix UI primitives with Tailwind CSS
  */
@@ -72,13 +67,10 @@ export const shadcnAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') {return;}
+    if (typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-shadcn-styles';
-    if (document.getElementById(styleId)) {
-      stylesInjected = true;
-      return;
-    }
+    if (document.getElementById(styleId)) {return;}
 
     const style = document.createElement('style');
     style.id = styleId;
@@ -112,7 +104,6 @@ export const shadcnAdapter: IFeedbackAdapter = {
       }
     `;
     document.head.appendChild(style);
-    stylesInjected = true;
   },
 
   animations: {

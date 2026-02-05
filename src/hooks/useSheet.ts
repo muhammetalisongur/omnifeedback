@@ -216,16 +216,15 @@ export function useSheet(): IUseSheetReturn {
         const { title, description, actions, showCancel, cancelText, ...rest } =
           options;
 
-        // eslint-disable-next-line prefer-const -- sheetId must be declared before use in callbacks but assigned after
-        let sheetId: string;
+        const idRef = { current: '' };
 
         const handleSelect = (key: string): void => {
-          manager.remove(sheetId);
+          manager.remove(idRef.current);
           resolve(key);
         };
 
         const handleCancel = (): void => {
-          manager.remove(sheetId);
+          manager.remove(idRef.current);
           resolve(null);
         };
 
@@ -239,7 +238,7 @@ export function useSheet(): IUseSheetReturn {
           ...(cancelText !== undefined && { cancelText }),
         });
 
-        sheetId = manager.add('sheet', {
+        idRef.current = manager.add('sheet', {
           content,
           snapPoints: [30 + actions.length * 8],
           defaultSnapPoint: 0,
@@ -262,16 +261,15 @@ export function useSheet(): IUseSheetReturn {
         const { title, description, confirmText, cancelText, destructive, ...rest } =
           options;
 
-        // eslint-disable-next-line prefer-const -- sheetId must be declared before use in callbacks but assigned after
-        let sheetId: string;
+        const idRef = { current: '' };
 
         const handleConfirm = (): void => {
-          manager.remove(sheetId);
+          manager.remove(idRef.current);
           resolve(true);
         };
 
         const handleCancel = (): void => {
-          manager.remove(sheetId);
+          manager.remove(idRef.current);
           resolve(false);
         };
 
@@ -285,7 +283,7 @@ export function useSheet(): IUseSheetReturn {
           ...(destructive !== undefined && { destructive }),
         });
 
-        sheetId = manager.add('sheet', {
+        idRef.current = manager.add('sheet', {
           content,
           snapPoints: [25],
           defaultSnapPoint: 0,

@@ -26,11 +26,6 @@ import { MantineActionSheet } from './MantineActionSheet';
 import { MantineConnection } from './MantineConnection';
 
 /**
- * Styles injection flag to prevent multiple injections
- */
-let stylesInjected = false;
-
-/**
  * Mantine adapter version
  */
 export const MANTINE_ADAPTER_VERSION = '1.0.0';
@@ -80,13 +75,10 @@ export const mantineAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') {return;}
+    if (typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-mantine-styles';
-    if (document.getElementById(styleId)) {
-      stylesInjected = true;
-      return;
-    }
+    if (document.getElementById(styleId)) {return;}
 
     const style = document.createElement('style');
     style.id = styleId;
@@ -127,7 +119,7 @@ export const mantineAdapter: IFeedbackAdapter = {
       }
     `;
     document.head.appendChild(style);
-    stylesInjected = true;
+
   },
 
   animations: {

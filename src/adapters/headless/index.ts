@@ -26,11 +26,6 @@ import { HeadlessActionSheet } from './HeadlessActionSheet';
 import { HeadlessConnection } from './HeadlessConnection';
 
 /**
- * Styles injection flag to prevent multiple injections
- */
-let stylesInjected = false;
-
-/**
  * Headless adapter implementation
  * Pure Tailwind CSS with zero external dependencies
  */
@@ -74,13 +69,10 @@ export const headlessAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') {return;}
+    if (typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-headless-styles';
-    if (document.getElementById(styleId)) {
-      stylesInjected = true;
-      return;
-    }
+    if (document.getElementById(styleId)) {return;}
 
     const style = document.createElement('style');
     style.id = styleId;
@@ -113,7 +105,6 @@ export const headlessAdapter: IFeedbackAdapter = {
       }
     `;
     document.head.appendChild(style);
-    stylesInjected = true;
   },
 
   animations: {

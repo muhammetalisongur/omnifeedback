@@ -148,6 +148,8 @@
     "react-dom": ">=18.0.0",
     "@radix-ui/react-toast": ">=1.0.0",
     "@radix-ui/react-dialog": ">=1.0.0",
+    "@radix-ui/react-alert-dialog": ">=1.0.0",
+    "@radix-ui/react-progress": ">=1.0.0",
     "@mantine/core": ">=7.0.0",
     "@mantine/hooks": ">=7.0.0",
     "@chakra-ui/react": ">=2.8.0",
@@ -159,6 +161,12 @@
       "optional": true
     },
     "@radix-ui/react-dialog": {
+      "optional": true
+    },
+    "@radix-ui/react-alert-dialog": {
+      "optional": true
+    },
+    "@radix-ui/react-progress": {
       "optional": true
     },
     "@mantine/core": {
@@ -222,6 +230,22 @@
     },
     {
       "path": "dist/adapters/shadcn/index.js",
+      "limit": "11 KB"
+    },
+    {
+      "path": "dist/adapters/mantine/index.js",
+      "limit": "11 KB"
+    },
+    {
+      "path": "dist/adapters/chakra/index.js",
+      "limit": "11 KB"
+    },
+    {
+      "path": "dist/adapters/mui/index.js",
+      "limit": "11 KB"
+    },
+    {
+      "path": "dist/adapters/antd/index.js",
       "limit": "11 KB"
     }
   ],

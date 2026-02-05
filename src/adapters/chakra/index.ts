@@ -26,11 +26,6 @@ import { ChakraActionSheet } from './ChakraActionSheet';
 import { ChakraConnection } from './ChakraConnection';
 
 /**
- * Styles injection flag to prevent multiple injections
- */
-let stylesInjected = false;
-
-/**
  * Chakra UI adapter implementation
  * Follows Chakra UI design patterns with custom CSS classes
  */
@@ -76,13 +71,10 @@ export const chakraAdapter: IFeedbackAdapter = {
   },
 
   injectStyles: () => {
-    if (stylesInjected || typeof document === 'undefined') {return;}
+    if (typeof document === 'undefined') {return;}
 
     const styleId = 'omnifeedback-chakra-styles';
-    if (document.getElementById(styleId)) {
-      stylesInjected = true;
-      return;
-    }
+    if (document.getElementById(styleId)) {return;}
 
     const style = document.createElement('style');
     style.id = styleId;
@@ -137,7 +129,7 @@ export const chakraAdapter: IFeedbackAdapter = {
       }
     `;
     document.head.appendChild(style);
-    stylesInjected = true;
+
   },
 
   animations: {
