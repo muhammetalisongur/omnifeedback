@@ -17,6 +17,7 @@ export default defineConfig({
         'node_modules/',
         'tests/',
         'dist/',
+        'examples/',
         '**/*.d.ts',
         '**/*.test.{ts,tsx}',
         '**/*.spec.{ts,tsx}',
