@@ -7,6 +7,7 @@ import { useFeedbackStore } from './FeedbackStore';
 import { FeedbackQueue } from './FeedbackQueue';
 import { EventBus } from './EventBus';
 import { generateId } from '../utils/generateId';
+import { DURATIONS, POSITIONS, MAX_VISIBLE } from '../utils/constants';
 import type {
   IFeedbackManager,
   IFeedbackItem,
@@ -23,23 +24,23 @@ import type {
  * Default configuration values
  */
 const DEFAULT_CONFIG: IFeedbackConfig = {
-  defaultDuration: 5000,
-  exitAnimationDuration: 200,
-  enterAnimationDuration: 200,
+  defaultDuration: DURATIONS.TOAST_DEFAULT,
+  exitAnimationDuration: DURATIONS.EXIT,
+  enterAnimationDuration: DURATIONS.ENTER,
   maxVisible: {
-    toast: 5,
-    modal: 1,
-    loading: 3,
-    alert: 5,
-    progress: 3,
-    confirm: 1,
-    banner: 1,
-    drawer: 1,
-    popconfirm: 1,
-    prompt: 1,
-    sheet: 1,
+    toast: MAX_VISIBLE.TOAST,
+    modal: MAX_VISIBLE.MODAL,
+    loading: MAX_VISIBLE.LOADING,
+    alert: MAX_VISIBLE.ALERT,
+    progress: MAX_VISIBLE.PROGRESS,
+    confirm: MAX_VISIBLE.CONFIRM,
+    banner: MAX_VISIBLE.BANNER,
+    drawer: MAX_VISIBLE.DRAWER,
+    popconfirm: MAX_VISIBLE.POPCONFIRM,
+    prompt: MAX_VISIBLE.PROMPT,
+    sheet: MAX_VISIBLE.SHEET,
   },
-  defaultPosition: 'top-right',
+  defaultPosition: POSITIONS.TOAST_DEFAULT,
   enableAnimations: true,
   rtl: false,
   queue: {
@@ -147,9 +148,15 @@ export class FeedbackManager implements IFeedbackManager {
     this.scheduleStatusChange(id, 'visible', this.config.enterAnimationDuration);
 
     // Schedule auto-dismiss for toast/alert
+    // Skip if pauseOnHover is true - Toast component will handle its own timer
     if (type === 'toast' || type === 'alert') {
-      const duration = this.getDuration(options as IToastOptions | IAlertOptions);
-      if (duration > 0) {
+      const typedOptions = options as IToastOptions | IAlertOptions;
+      const duration = this.getDuration(typedOptions);
+      const hasPauseOnHover = 'pauseOnHover' in typedOptions && typedOptions.pauseOnHover === true;
+
+      // Only schedule manager-level removal if pauseOnHover is NOT enabled
+      // When pauseOnHover is enabled, the Toast component manages its own dismissal
+      if (duration > 0 && !hasPauseOnHover) {
         this.scheduleRemoval(id, duration + this.config.enterAnimationDuration);
       }
     }
@@ -316,7 +323,16 @@ export class FeedbackManager implements IFeedbackManager {
    * @param updates - Partial config to merge
    */
   updateConfig(updates: Partial<IFeedbackConfig>): void {
-    this.config = { ...this.config, ...updates };
+    // Deep merge for maxVisible to preserve other type limits
+    if (updates.maxVisible) {
+      this.config = {
+        ...this.config,
+        ...updates,
+        maxVisible: { ...this.config.maxVisible, ...updates.maxVisible },
+      };
+    } else {
+      this.config = { ...this.config, ...updates };
+    }
 
     if (updates.queue) {
       this.queue.updateConfig(updates.queue);

@@ -141,7 +141,10 @@
     "version": "git add CHANGELOG.md",
     "postversion": "git push && git push --tags",
     "size": "size-limit",
-    "size:check": "size-limit --why"
+    "size:check": "size-limit --why",
+    "dev:demo": "pnpm --filter omnifeedback-demo dev",
+    "build:demo": "pnpm --filter omnifeedback-demo build",
+    "preview:demo": "pnpm --filter omnifeedback-demo preview"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

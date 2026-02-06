@@ -13,7 +13,7 @@ import {
   useRef,
 } from 'react';
 import { cn } from '../../utils/cn';
-import type { IToastOptions, FeedbackStatus, FeedbackVariant } from '../../core/types';
+import type { IToastOptions, FeedbackStatus, FeedbackVariant, ToastPosition, ToastAnimation, ToastTheme } from '../../core/types';
 import {
   SuccessIcon,
   ErrorIcon,
@@ -36,16 +36,63 @@ export interface IToastProps extends IToastOptions {
 }
 
 /**
- * Variant to CSS class mapping
+ * Variant to CSS class mapping (colored theme - default)
  */
-const variantStyles: Record<FeedbackVariant | 'default' | 'loading', string> = {
+const coloredStyles: Record<FeedbackVariant | 'default' | 'loading', string> = {
   default: 'bg-white border-gray-200 text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100',
-  success: 'bg-green-50 border-green-200 text-green-900 dark:bg-green-900/20 dark:border-green-800 dark:text-green-100',
-  error: 'bg-red-50 border-red-200 text-red-900 dark:bg-red-900/20 dark:border-red-800 dark:text-red-100',
-  warning: 'bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-100',
-  info: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-100',
+  success: 'bg-green-50 border-green-200 text-green-900 dark:bg-green-950 dark:border-green-800 dark:text-green-100',
+  error: 'bg-red-50 border-red-200 text-red-900 dark:bg-red-950 dark:border-red-800 dark:text-red-100',
+  warning: 'bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-950 dark:border-yellow-800 dark:text-yellow-100',
+  info: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-100',
   loading: 'bg-white border-gray-200 text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100',
 };
+
+/**
+ * Light theme styles - white background, variant color only on icon/border
+ */
+const lightStyles: Record<FeedbackVariant | 'default' | 'loading', string> = {
+  default: 'bg-white border-gray-200 text-gray-900',
+  success: 'bg-white border-gray-200 text-gray-900',
+  error: 'bg-white border-gray-200 text-gray-900',
+  warning: 'bg-white border-gray-200 text-gray-900',
+  info: 'bg-white border-gray-200 text-gray-900',
+  loading: 'bg-white border-gray-200 text-gray-900',
+};
+
+/**
+ * Dark theme styles
+ */
+const darkStyles: Record<FeedbackVariant | 'default' | 'loading', string> = {
+  default: 'bg-gray-900 border-gray-700 text-gray-100',
+  success: 'bg-gray-900 border-gray-700 text-gray-100',
+  error: 'bg-gray-900 border-gray-700 text-gray-100',
+  warning: 'bg-gray-900 border-gray-700 text-gray-100',
+  info: 'bg-gray-900 border-gray-700 text-gray-100',
+  loading: 'bg-gray-900 border-gray-700 text-gray-100',
+};
+
+/**
+ * Theme-based style mapping (excludes 'auto' which resolves at runtime)
+ */
+const themeStyles: Record<'light' | 'dark' | 'colored', Record<FeedbackVariant | 'default' | 'loading', string>> = {
+  colored: coloredStyles,
+  light: lightStyles,
+  dark: darkStyles,
+};
+
+/**
+ * Get variant styles based on theme
+ * Auto theme checks Tailwind's dark class on document root, syncing with the app's theme toggle
+ */
+function getVariantStyles(theme: ToastTheme, variant: FeedbackVariant | 'default' | 'loading'): string {
+  const resolvedTheme = theme === 'auto'
+    ? (typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light')
+    : theme;
+
+  return themeStyles[resolvedTheme][variant];
+}
 
 /**
  * Progress bar color by variant
@@ -72,6 +119,18 @@ const iconColors: Record<FeedbackVariant | 'default' | 'loading', string> = {
 };
 
 /**
+ * Left border color by variant
+ */
+const leftBorderColors: Record<FeedbackVariant | 'default' | 'loading', string> = {
+  default: 'border-l-gray-400',
+  success: 'border-l-green-500',
+  error: 'border-l-red-500',
+  warning: 'border-l-yellow-500',
+  info: 'border-l-blue-500',
+  loading: 'border-l-gray-400',
+};
+
+/**
  * Default icons by variant
  */
 function getDefaultIcon(variant: FeedbackVariant | 'default' | 'loading'): React.ReactNode {
@@ -94,6 +153,76 @@ function getDefaultIcon(variant: FeedbackVariant | 'default' | 'loading'): React
 }
 
 /**
+ * Get animation classes based on position and animation type
+ * Slide animation includes scale effect for smoother appearance
+ */
+function getAnimationClasses(
+  position: ToastPosition,
+  animation: ToastAnimation,
+  isVisible: boolean
+): string {
+  // No animation — instant show/hide via opacity
+  if (animation === 'none') {
+    return isVisible ? 'opacity-100' : 'opacity-0';
+  }
+
+  // Fade animation — slight vertical movement for visual distinction from "none"
+  if (animation === 'fade') {
+    return isVisible
+      ? 'opacity-100 translate-y-0'
+      : 'opacity-0 -translate-y-2';
+  }
+
+  // Scale animation — dramatic 75% → 100% scale change
+  if (animation === 'scale') {
+    return isVisible
+      ? 'opacity-100 scale-100'
+      : 'opacity-0 scale-75';
+  }
+
+  // Bounce animation — large 50% → 100% scale, combined with ease-out-back timing
+  // The cubic-bezier(0.34, 1.56, 0.64, 1) on the wrapper creates overshoot effect
+  if (animation === 'bounce') {
+    return isVisible
+      ? 'opacity-100 scale-100'
+      : 'opacity-0 scale-50';
+  }
+
+  // Slide animation (default) - position-based with scale effect
+  if (isVisible) {
+    return 'opacity-100 translate-x-0 translate-y-0 scale-100';
+  }
+
+  // Determine slide direction based on position (with scale for smoother effect)
+  if (position.includes('right')) {
+    return 'opacity-0 translate-x-full scale-95';
+  }
+  if (position.includes('left')) {
+    return 'opacity-0 -translate-x-full scale-95';
+  }
+  if (position.startsWith('top')) {
+    return 'opacity-0 -translate-y-full scale-95';
+  }
+  if (position.startsWith('bottom')) {
+    return 'opacity-0 translate-y-full scale-95';
+  }
+
+  // Fallback
+  return 'opacity-0 translate-x-full scale-95';
+}
+
+/**
+ * Get transition class based on animation type
+ * Bounce uses longer duration with ease-out-back for overshoot effect
+ */
+function getTransitionClass(animation: ToastAnimation): string {
+  if (animation === 'bounce') {
+    return 'transition-all duration-500';
+  }
+  return 'transition-all duration-300 ease-out';
+}
+
+/**
  * Toast notification component
  *
  * Features:
@@ -101,7 +230,7 @@ function getDefaultIcon(variant: FeedbackVariant | 'default' | 'loading'): React
  * - Multiple variants (success, error, warning, info)
  * - Custom icons and action buttons
  * - Accessible with ARIA attributes
- * - Smooth enter/exit animations
+ * - Smooth enter/exit animations with position-based slide
  */
 export const Toast = memo(
   forwardRef<HTMLDivElement, IToastProps>(function Toast(props, ref) {
@@ -109,7 +238,7 @@ export const Toast = memo(
       message,
       title,
       variant = 'default',
-      duration = 5000,
+      duration = 4000,
       dismissible = true,
       icon,
       action,
@@ -117,12 +246,18 @@ export const Toast = memo(
       onDismiss,
       onRemove,
       onDismissRequest,
+      position = 'top-right',
       // Progress bar options
       showProgress = false,
       progressPosition = 'bottom',
       progressColor,
       pauseOnHover = false,
       pauseOnFocusLoss = false,
+      // Animation options
+      animation = 'slide',
+      // Styling options
+      showLeftBorder = false,
+      theme = 'colored',
       className,
       style,
       testId,
@@ -135,6 +270,12 @@ export const Toast = memo(
     const startTimeRef = useRef<number>(0);
     const animationFrameRef = useRef<number | null>(null);
     const elapsedBeforePauseRef = useRef<number>(0);
+
+    // Stable refs for callbacks — prevents timer restart when parent re-renders
+    const onDismissRequestRef = useRef(onDismissRequest);
+    onDismissRequestRef.current = onDismissRequest;
+    const onRemoveRef = useRef(onRemove);
+    onRemoveRef.current = onRemove;
 
     // Handle enter animation
     useEffect(() => {
@@ -154,9 +295,17 @@ export const Toast = memo(
       }
     }, [status]);
 
-    // ===== COUNTDOWN PROGRESS BAR LOGIC =====
+    // ===== AUTO-DISMISS TIMER (independent of progress bar visual) =====
+    // When pauseOnHover is true, Toast component owns the dismiss timer.
+    // When pauseOnHover is false, FeedbackManager handles dismissal.
+    // Progress bar is purely visual — timer always runs regardless of showProgress.
     useEffect(() => {
-      if (!showProgress || duration === 0 || status !== 'visible') {
+      if (duration === 0 || status !== 'visible') {
+        return undefined;
+      }
+
+      // Only run when pauseOnHover is true — manager handles the other case
+      if (!pauseOnHover) {
         return undefined;
       }
 
@@ -175,14 +324,18 @@ export const Toast = memo(
       const animate = (timestamp: number): void => {
         const elapsed = timestamp - startTimeRef.current + elapsedBeforePauseRef.current;
         const remaining = duration - elapsed;
-        const newProgress = Math.max(0, (remaining / duration) * 100);
 
-        setProgress(newProgress);
+        // Update progress bar visual only when showProgress is enabled
+        if (showProgress) {
+          setProgress(Math.max(0, (remaining / duration) * 100));
+        }
 
         if (remaining > 0) {
           animationFrameRef.current = requestAnimationFrame(animate);
         } else {
           animationFrameRef.current = null;
+          // Auto-dismiss when countdown completes (use ref to avoid timer restart)
+          onDismissRequestRef.current?.();
         }
       };
 
@@ -194,7 +347,7 @@ export const Toast = memo(
           animationFrameRef.current = null;
         }
       };
-    }, [showProgress, duration, status, isPaused]);
+    }, [duration, status, isPaused, pauseOnHover, showProgress]);
 
     // Save elapsed time when pausing
     useEffect(() => {
@@ -232,33 +385,34 @@ export const Toast = memo(
       }
     }, [pauseOnHover]);
 
-    // Handle animation end
+    // Handle animation end (use ref to avoid unnecessary re-creation)
     const handleTransitionEnd = useCallback(
       (e: React.TransitionEvent): void => {
         // Only handle opacity transitions to avoid multiple calls
         if (e.propertyName === 'opacity' && status === 'exiting') {
-          onRemove();
+          onRemoveRef.current();
         }
       },
-      [status, onRemove]
+      [status]
     );
 
     // Handle dismiss button click
     const handleDismissClick = useCallback((): void => {
       onDismiss?.();
-      onDismissRequest?.();
-    }, [onDismiss, onDismissRequest]);
+      onDismissRequestRef.current?.();
+    }, [onDismiss]);
 
     // Get display icon
     const displayIcon = icon ?? getDefaultIcon(variant);
 
-    // Progress bar element
+    // Progress bar element (opacity-0 at 0% to avoid sub-pixel corner artifacts)
     const ProgressBar =
       showProgress && duration > 0 ? (
         <div
           className={cn(
             'absolute left-0 right-0 h-1 overflow-hidden',
-            progressPosition === 'top' ? 'top-0 rounded-t-lg' : 'bottom-0 rounded-b-lg'
+            progressPosition === 'top' ? 'top-0' : 'bottom-0',
+            progress <= 0 && 'opacity-0'
           )}
           role="progressbar"
           aria-valuenow={Math.round(progress)}
@@ -271,7 +425,7 @@ export const Toast = memo(
               !progressColor && progressColors[variant]
             )}
             style={{
-              width: `${String(progress)}%`,
+              width: `${String(Math.max(0, progress))}%`,
               backgroundColor: progressColor,
             }}
           />
@@ -293,18 +447,26 @@ export const Toast = memo(
           // Base styles
           'relative flex items-start gap-3 p-4 rounded-lg border shadow-lg',
           'pointer-events-auto max-w-sm w-full',
-          // Animation
-          'transition-all duration-200 ease-out',
-          isVisible
-            ? 'opacity-100 translate-x-0 translate-y-0'
-            : 'opacity-0 translate-x-4',
-          // Variant
-          variantStyles[variant],
+          // Animation transition (bounce uses longer duration with overshoot timing)
+          getTransitionClass(animation),
+          getAnimationClasses(position, animation, isVisible),
+          // Variant (theme-based)
+          getVariantStyles(theme, variant),
+          // Left border styling
+          showLeftBorder && 'border-l-4',
+          showLeftBorder && leftBorderColors[variant],
           // Overflow hidden for progress bar
           'overflow-hidden',
+          // Remove border on progress bar edge to prevent visible gap in light themes
+          showProgress && duration > 0 && progressPosition === 'bottom' && 'border-b-0',
+          showProgress && duration > 0 && progressPosition === 'top' && 'border-t-0',
           className
         )}
-        style={style}
+        style={{
+          ...style,
+          // Bounce uses ease-out-back for overshoot (spring) effect
+          ...(animation === 'bounce' ? { transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' } : {}),
+        }}
       >
         {/* Progress Bar (Top) */}
         {progressPosition === 'top' && ProgressBar}
@@ -336,7 +498,7 @@ export const Toast = memo(
           <button
             type="button"
             onClick={handleDismissClick}
-            className="flex-shrink-0 p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1"
+            className="flex-shrink-0 p-1 rounded hover:bg-black/20 dark:hover:bg-white/20 hover:scale-110 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1"
             aria-label="Dismiss notification"
           >
             <CloseIcon className="w-4 h-4" />

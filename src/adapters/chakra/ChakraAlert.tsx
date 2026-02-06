@@ -14,12 +14,12 @@ const variantStyles = {
   default:
     'chakra-alert-default bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100',
   success:
-    'chakra-alert-success bg-green-100 dark:bg-green-200 border-green-500 text-green-800 dark:text-green-800',
+    'chakra-alert-success bg-green-100 dark:bg-green-900 border-green-500 dark:border-green-700 text-green-800 dark:text-green-200',
   error:
-    'chakra-alert-error bg-red-100 dark:bg-red-200 border-red-500 text-red-800 dark:text-red-800',
+    'chakra-alert-error bg-red-100 dark:bg-red-900 border-red-500 dark:border-red-700 text-red-800 dark:text-red-200',
   warning:
-    'chakra-alert-warning bg-orange-100 dark:bg-orange-200 border-orange-500 text-orange-800 dark:text-orange-800',
-  info: 'chakra-alert-info bg-blue-100 dark:bg-blue-200 border-blue-500 text-blue-800 dark:text-blue-800',
+    'chakra-alert-warning bg-orange-100 dark:bg-orange-900 border-orange-500 dark:border-orange-700 text-orange-800 dark:text-orange-200',
+  info: 'chakra-alert-info bg-blue-100 dark:bg-blue-900 border-blue-500 dark:border-blue-700 text-blue-800 dark:text-blue-200',
 };
 
 /**

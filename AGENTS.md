@@ -135,7 +135,7 @@ omnifeedback/
 │   This follows modern React testing conventions for better DX.
 │
 ├── docs/                        # Documentation
-├── examples/                    # Example projects
+├── demo/                        # Interactive demo site with Playground
 │
 ├── package.json
 ├── tsconfig.json
@@ -152,6 +152,9 @@ omnifeedback/
 
 ### Phase 2: Core Components (6 components) ✅
 3. **02-toast-system** - Toast component and useToast hook
+   - v1.1: Position-based slide animations (slides from correct edge)
+   - v1.1: Animation type selection (slide, fade, scale, bounce, none)
+   - v1.1: Stack behavior (default, expandOnHover)
 4. **03-modal-system** - Modal component and useModal hook
 5. **04-loading-system** - Loading component and useLoading hook
 6. **05-alert-system** - Alert component and useAlert hook

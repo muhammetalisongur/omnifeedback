@@ -119,16 +119,84 @@ export interface IToastOptions extends IBaseFeedbackOptions {
   pauseOnHover?: boolean;
   /** Pause countdown when window loses focus */
   pauseOnFocusLoss?: boolean;
+
+  // ===== ANIMATION =====
+  /** Animation style (default: 'slide') */
+  animation?: ToastAnimation;
+
+  // ===== STYLING =====
+  /** Show left border with variant color */
+  showLeftBorder?: boolean;
+  /** Toast theme style (default: 'colored') */
+  theme?: ToastTheme;
 }
 
-export type ToastPosition = 
-  | 'top-left' 
-  | 'top-center' 
+export type ToastPosition =
+  | 'top-left'
+  | 'top-center'
   | 'top-right'
-  | 'bottom-left' 
-  | 'bottom-center' 
+  | 'bottom-left'
+  | 'bottom-center'
   | 'bottom-right';
+
+export type ToastAnimation =
+  | 'slide'   // Position-based slide animation (default)
+  | 'fade'    // Fade in/out only
+  | 'scale'   // Scale + fade effect
+  | 'bounce'  // Bounce animation
+  | 'none';   // No animation
+
+export type ToastTheme =
+  | 'light'    // White background, variant color only on icon/border
+  | 'dark'     // Dark background
+  | 'colored'; // Variant-colored background (default)
 ```
+
+## Animation Types
+
+Toast supports multiple animation styles:
+
+| Animation | Description |
+|-----------|-------------|
+| `slide` | Position-based slide animation (default) - slides from nearest edge |
+| `fade` | Simple fade in/out only |
+| `scale` | Scale + fade effect |
+| `bounce` | Bounce animation with scale |
+| `none` | No animation - instant show/hide |
+
+### Position-Based Slide Animation
+When using `animation: 'slide'` (default), the toast slides from the nearest edge:
+
+| Position | Direction |
+|----------|-----------|
+| `top-right`, `bottom-right` | Slides from right |
+| `top-left`, `bottom-left` | Slides from left |
+| `top-center` | Slides from top |
+| `bottom-center` | Slides from bottom |
+
+## Toast Theme
+
+| Theme | Description |
+|-------|-------------|
+| `colored` | Variant-colored background (default) - green for success, red for error, etc. |
+| `light` | White background with variant color only on icon and border |
+| `dark` | Dark background with light text |
+| `auto` | Auto-detect from Tailwind `dark` class on document root, syncing with the app's theme toggle |
+
+## Stack Behavior
+
+Stacking is controlled at the FeedbackProvider level via `toastStacked` prop:
+
+| Prop | Description |
+|------|-------------|
+| `toastStacked` | Enable collapsed card-stack mode - auto expands on hover |
+| `toastMaxVisible` | Maximum number of visible toasts per position (default: 5) |
+
+When stacked mode is enabled:
+- Background toasts get progressively smaller (5% scale reduction per step) and more transparent (8% opacity reduction per step)
+- Each background toast peeks 10px below the one above (card-deck effect)
+- Scale origin adapts to position: top positions shrink upward, bottom positions shrink downward
+- Hovering over the stack container expands all toasts to full size with normal gap
 
 ## Usage Examples
 

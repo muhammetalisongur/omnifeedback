@@ -7,7 +7,7 @@
  */
 
 import type { ComponentType, ReactNode, CSSProperties } from 'react';
-import type { FeedbackStatus } from '../core/types';
+import type { FeedbackStatus, ToastPosition, ToastAnimation } from '../core/types';
 
 // =============================================================================
 // Base Types
@@ -65,6 +65,10 @@ export interface IAdapterToastProps extends IAdapterBaseProps {
     label: string;
     onClick: () => void;
   };
+  /** Toast position for animation direction */
+  position?: ToastPosition;
+  /** Animation type */
+  animation?: ToastAnimation;
   /** Dismiss handler */
   onDismiss?: () => void;
   /** Remove handler (after animation) */
@@ -85,6 +89,10 @@ export interface IAdapterToastContainerProps {
     | 'bottom-right';
   /** Gap between toasts */
   gap: number;
+  /** Enable stacked/collapsed mode */
+  stacked?: boolean;
+  /** Expand stacked toasts on hover (requires stacked=true) */
+  expandOnHover?: boolean;
   /** Toast elements */
   children: ReactNode;
 }

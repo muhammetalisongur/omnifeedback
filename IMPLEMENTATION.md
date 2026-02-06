@@ -15,7 +15,7 @@ OmniFeedback is a universal React feedback management library that provides 15 f
 - [x] Configure Vitest for testing (vitest.config.ts with 90% coverage threshold)
 - [x] Set up ESLint with strict rules (.eslintrc.cjs with no-any enforcement)
 - [x] Configure Tailwind CSS (tailwind.config.js with custom animations)
-- [x] Create directory structure (src/, tests/, docs/, examples/)
+- [x] Create directory structure (src/, tests/, docs/, demo/)
 - [x] Create placeholder index.ts files for all modules
 - [x] Create CSS base styles and animations (src/styles/)
 - [x] Create adapter type definitions (src/adapters/types.ts)
@@ -57,12 +57,19 @@ OmniFeedback is a universal React feedback management library that provides 15 f
 
 ### Phase 2: Core Components (6 components)
 
-#### 02-toast-system ✅ COMPLETED (2026-02-03)
+#### 02-toast-system ✅ COMPLETED (2026-02-03, Enhanced 2026-02-06)
 - [x] Create useToast hook with show(), success(), error(), warning(), info(), loading(), dismiss(), dismissAll(), update(), promise()
 - [x] Implement Toast component with countdown progress bar, pause on hover/focus loss, all variants, custom icons and actions
 - [x] Implement ToastContainer with portal rendering, 6 positions, configurable gap
 - [x] Create FeedbackProvider with React context, auto-renders containers
 - [x] Write comprehensive tests (Toast: 26 tests, useToast: 17 tests, cn: 20 tests)
+- [x] **v1.1:** Position-based slide animations (slides from correct edge based on position)
+- [x] **v1.1:** Animation type selection (slide, fade, scale, bounce, none)
+- [x] **v1.1:** Stack behavior (default, expandOnHover)
+- [x] **v1.2:** Toast theme system (colored/light/dark)
+- [x] **v1.2:** Left border styling option (showLeftBorder)
+- [x] **v1.2:** maxVisibleToasts parameter for toast count limiting per position
+- [x] **v1.2:** Improved stacked mode (auto expandOnHover, grace period, grayscale background)
 
 #### 03-modal-system ✅ COMPLETED (2026-02-03)
 - [x] Create useModal hook with open(), close(), closeAll(), update()
@@ -260,6 +267,8 @@ Lines        : >= 90%
 4. **CSS Variables** - Easy theming
 5. **Event-Driven** - Loose coupling between layers
 6. **Co-located Tests** - Tests alongside source files for better DX
+7. **Position-Based Animations** - Toast animations adapt to position (slide from edges, vertical for center)
+8. **Stack Behavior** - Optional expandOnHover for grouped toast stacking
 
 ## File Inventory
 

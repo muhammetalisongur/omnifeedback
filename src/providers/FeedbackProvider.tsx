@@ -22,6 +22,7 @@ import { DrawerContainer } from '../components/Drawer/DrawerContainer';
 import { PopconfirmContainer } from '../components/Popconfirm/PopconfirmContainer';
 import { SheetContainer } from '../components/Sheet/SheetContainer';
 import { PromptContainer } from '../components/Prompt/PromptContainer';
+import { TOAST_DEFAULTS, MAX_VISIBLE } from '../utils/constants';
 import type { IFeedbackConfig, ToastPosition } from '../core/types';
 
 /**
@@ -51,6 +52,10 @@ export interface IFeedbackProviderProps {
   toastPosition?: ToastPosition;
   /** Gap between toasts */
   toastGap?: number;
+  /** Enable stacked/collapsed mode for toasts - auto expands on hover */
+  toastStacked?: boolean;
+  /** Maximum number of visible toasts per position */
+  toastMaxVisible?: number;
   /** Render toast container */
   renderToasts?: boolean;
   /** Render modal container */
@@ -96,7 +101,9 @@ export function FeedbackProvider({
   children,
   config,
   toastPosition = 'top-right',
-  toastGap = 12,
+  toastGap = TOAST_DEFAULTS.GAP,
+  toastStacked = false,
+  toastMaxVisible = MAX_VISIBLE.TOAST,
   renderToasts = true,
   renderModals = true,
   renderLoadings = true,
@@ -123,6 +130,13 @@ export function FeedbackProvider({
     }
   }, [manager, config]);
 
+  // Sync toastMaxVisible to FeedbackManager config
+  useEffect(() => {
+    manager.updateConfig({
+      maxVisible: { toast: toastMaxVisible },
+    });
+  }, [manager, toastMaxVisible]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -145,7 +159,13 @@ export function FeedbackProvider({
     <FeedbackContext.Provider value={contextValue}>
       {children}
       {renderToasts && (
-        <ToastContainer position={toastPosition} gap={toastGap} />
+        <ToastContainer
+          position={toastPosition}
+          gap={toastGap}
+          stacked={toastStacked}
+          maxVisibleToasts={toastMaxVisible}
+
+        />
       )}
       {renderModals && <ModalContainer />}
       {renderLoadings && <LoadingContainer />}

@@ -47,7 +47,7 @@ export const DURATIONS = {
   /** Exit animation duration */
   EXIT: 150,
   /** Toast default display duration */
-  TOAST_DEFAULT: 5000,
+  TOAST_DEFAULT: 4000,
 } as const;
 
 /**
@@ -70,6 +70,31 @@ export const MAX_VISIBLE = {
   CONFIRM: 1,
   BANNER: 1,
   DRAWER: 1,
+  POPCONFIRM: 1,
+  PROMPT: 1,
+  SHEET: 1,
+} as const;
+
+/**
+ * Default toast container settings
+ */
+export const TOAST_DEFAULTS = {
+  /** Gap between toasts in pixels */
+  GAP: 12,
+  /** Visible peek per background toast in card-stack mode (px) */
+  STACK_PEEK: 10,
+  /** Scale reduction per toast in card-stack mode (e.g., 0.05 = 5% per step) */
+  STACK_SCALE_STEP: 0.05,
+  /** Opacity reduction per toast in card-stack mode */
+  STACK_OPACITY_STEP: 0.08,
+  /** Fallback height for first render before ref measurement (px) */
+  STACK_FALLBACK_HEIGHT: 64,
+  /** Default animation type */
+  ANIMATION: 'slide' as const,
+  /** Default theme */
+  THEME: 'colored' as const,
+  /** Default progress bar position */
+  PROGRESS_POSITION: 'bottom' as const,
 } as const;
 
 /**

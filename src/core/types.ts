@@ -60,6 +60,25 @@ export type ToastPosition =
   | 'bottom-right';
 
 /**
+ * Toast animation style
+ */
+export type ToastAnimation =
+  | 'slide'   // Position-based slide animation (default)
+  | 'fade'    // Fade in/out only
+  | 'scale'   // Scale + fade effect
+  | 'bounce'  // Bounce animation
+  | 'none';   // No animation
+
+/**
+ * Toast theme style
+ */
+export type ToastTheme =
+  | 'light'    // White background, variant color only on icon/border
+  | 'dark'     // Dark background
+  | 'colored'  // Variant-colored background (default)
+  | 'auto';    // Auto-detect system preference (resolves to light or dark)
+
+/**
  * Modal size variants
  */
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -152,6 +171,16 @@ export interface IToastOptions extends IBaseFeedbackOptions {
   pauseOnHover?: boolean;
   /** Pause countdown when window loses focus */
   pauseOnFocusLoss?: boolean;
+
+  // ===== ANIMATION =====
+  /** Animation style (default: 'slide') */
+  animation?: ToastAnimation;
+
+  // ===== STYLING =====
+  /** Show left border with variant color */
+  showLeftBorder?: boolean;
+  /** Toast theme style (default: 'colored') */
+  theme?: ToastTheme;
 }
 
 // ==================== MODAL OPTIONS ====================

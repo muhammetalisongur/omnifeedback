@@ -12,15 +12,15 @@ import type { IAdapterToastProps } from '../types';
  */
 const variantStyles = {
   default:
-    'of-antd-toast-default bg-white border-gray-200 text-gray-800',
+    'of-antd-toast-default bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100',
   success:
-    'of-antd-toast-success bg-green-50 border-green-300 text-green-800',
+    'of-antd-toast-success bg-green-50 dark:bg-green-950 border-green-300 dark:border-green-800 text-green-800 dark:text-green-200',
   error:
-    'of-antd-toast-error bg-red-50 border-red-300 text-red-800',
+    'of-antd-toast-error bg-red-50 dark:bg-red-950 border-red-300 dark:border-red-800 text-red-800 dark:text-red-200',
   warning:
-    'of-antd-toast-warning bg-yellow-50 border-yellow-300 text-yellow-800',
+    'of-antd-toast-warning bg-yellow-50 dark:bg-yellow-950 border-yellow-300 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200',
   info:
-    'of-antd-toast-info bg-blue-50 border-blue-300 text-blue-800',
+    'of-antd-toast-info bg-blue-50 dark:bg-blue-950 border-blue-300 dark:border-blue-800 text-blue-800 dark:text-blue-200',
 };
 
 /**

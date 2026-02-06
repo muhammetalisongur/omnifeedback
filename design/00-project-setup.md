@@ -66,7 +66,7 @@ omnifeedback/
 │   └── e2e/
 │
 ├── docs/
-├── examples/
+├── demo/                        # Interactive demo site with Playground
 │
 ├── package.json
 ├── tsconfig.json
