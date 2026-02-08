@@ -4,7 +4,7 @@
  * Automatically detects online/offline state and shows banners
  */
 
-import { useCallback, useContext, useEffect, useMemo, useState, useRef } from 'react';
+import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import { FeedbackContext } from '../providers/FeedbackProvider';
 import type { IConnectionOptions } from '../core/types';
 
@@ -94,11 +94,12 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
 
   const { manager } = context;
 
-  // Merge options with defaults
-  const mergedOptions: IConnectionOptions = useMemo(() => ({
+  // Merge options with defaults — stored in ref to avoid cascading dependency changes
+  const mergedOptionsRef = useRef<IConnectionOptions>({
     ...DEFAULT_OPTIONS,
     ...options,
-  }), [options]);
+  });
+  mergedOptionsRef.current = { ...DEFAULT_OPTIONS, ...options };
 
   // State
   const [isOnline, setIsOnline] = useState<boolean>(() => {
@@ -176,9 +177,9 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
    * Internal ping check
    */
   const checkConnectionInternal = useCallback(async (): Promise<boolean> => {
-    if (mergedOptions.pingUrl) {
+    if (mergedOptionsRef.current.pingUrl) {
       try {
-        const response = await fetch(mergedOptions.pingUrl, {
+        const response = await fetch(mergedOptionsRef.current.pingUrl, {
           method: 'HEAD',
           cache: 'no-store',
         });
@@ -189,7 +190,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     }
     // Fall back to navigator.onLine
     return typeof navigator !== 'undefined' ? navigator.onLine : true;
-  }, [mergedOptions.pingUrl]);
+  }, []);
 
   /**
    * Handle going online
@@ -205,12 +206,12 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     removeReconnectingBanner();
 
     // Show online banner if enabled
-    if (mergedOptions.enabled) {
+    if (mergedOptionsRef.current.enabled) {
       manager.add('banner', {
-        message: mergedOptions.onlineMessage ?? 'Connection restored!',
+        message: mergedOptionsRef.current.onlineMessage ?? 'Connection restored!',
         variant: 'success',
-        position: mergedOptions.position ?? 'top',
-        duration: mergedOptions.onlineDismissDelay ?? 3000,
+        position: mergedOptionsRef.current.position ?? 'top',
+        duration: mergedOptionsRef.current.onlineDismissDelay ?? 3000,
         dismissible: true,
       });
     }
@@ -219,10 +220,9 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     void processQueue();
 
     // Callback
-    mergedOptions.onOnline?.();
+    mergedOptionsRef.current.onOnline?.();
   }, [
     manager,
-    mergedOptions,
     clearPingInterval,
     removeOfflineBanner,
     removeReconnectingBanner,
@@ -235,13 +235,13 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const startPingInterval = useCallback(() => {
     if (pingIntervalRef.current) {return;}
 
-    const interval = mergedOptions.pingInterval ?? 5000;
+    const interval = mergedOptionsRef.current.pingInterval ?? 5000;
 
     pingIntervalRef.current = setInterval(() => {
       // Show reconnecting state if enabled
-      if (mergedOptions.showReconnecting && !reconnectingBannerIdRef.current) {
+      if (mergedOptionsRef.current.showReconnecting && !reconnectingBannerIdRef.current) {
         setIsReconnecting(true);
-        mergedOptions.onReconnecting?.();
+        mergedOptionsRef.current.onReconnecting?.();
       }
 
       void checkConnectionInternal().then((online) => {
@@ -252,7 +252,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
         }
       });
     }, interval);
-  }, [mergedOptions, checkConnectionInternal, handleOnline]);
+  }, [checkConnectionInternal, handleOnline]);
 
   /**
    * Handle going offline
@@ -262,11 +262,11 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     setOfflineStartTime(Date.now());
 
     // Show offline banner if enabled
-    if (mergedOptions.enabled) {
+    if (mergedOptionsRef.current.enabled) {
       const bannerId = manager.add('banner', {
-        message: mergedOptions.offlineMessage ?? 'You are offline.',
+        message: mergedOptionsRef.current.offlineMessage ?? 'You are offline.',
         variant: 'warning',
-        position: mergedOptions.position ?? 'top',
+        position: mergedOptionsRef.current.position ?? 'top',
         dismissible: false,
         duration: 0, // Don't auto-dismiss
       });
@@ -277,8 +277,8 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
     startPingInterval();
 
     // Callback
-    mergedOptions.onOffline?.();
-  }, [manager, mergedOptions, startPingInterval]);
+    mergedOptionsRef.current.onOffline?.();
+  }, [manager, startPingInterval]);
 
   /**
    * Public connection check
@@ -300,7 +300,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
    */
   const queueAction = useCallback(
     (action: QueuedAction): void => {
-      const maxSize = mergedOptions.maxQueueSize ?? 100;
+      const maxSize = mergedOptionsRef.current.maxQueueSize ?? 100;
 
       if (actionQueueRef.current.length >= maxSize) {
         console.warn('[useConnection] Action queue is full. Oldest action removed.');
@@ -309,7 +309,7 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
 
       actionQueueRef.current.push(action);
     },
-    [mergedOptions.maxQueueSize]
+    []
   );
 
   /**
@@ -332,13 +332,13 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const showOffline = useCallback(
     (message?: string): void => {
       manager.add('banner', {
-        message: message ?? mergedOptions.offlineMessage ?? 'You are offline.',
+        message: message ?? mergedOptionsRef.current.offlineMessage ?? 'You are offline.',
         variant: 'warning',
-        position: mergedOptions.position ?? 'top',
+        position: mergedOptionsRef.current.position ?? 'top',
         dismissible: true,
       });
     },
-    [manager, mergedOptions]
+    [manager]
   );
 
   /**
@@ -347,14 +347,14 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const showOnline = useCallback(
     (message?: string): void => {
       manager.add('banner', {
-        message: message ?? mergedOptions.onlineMessage ?? 'Connection restored!',
+        message: message ?? mergedOptionsRef.current.onlineMessage ?? 'Connection restored!',
         variant: 'success',
-        position: mergedOptions.position ?? 'top',
-        duration: mergedOptions.onlineDismissDelay ?? 3000,
+        position: mergedOptionsRef.current.position ?? 'top',
+        duration: mergedOptionsRef.current.onlineDismissDelay ?? 3000,
         dismissible: true,
       });
     },
-    [manager, mergedOptions]
+    [manager]
   );
 
   /**
@@ -363,13 +363,13 @@ export function useConnection(options?: Partial<IConnectionOptions>): IUseConnec
   const showReconnecting = useCallback(
     (message?: string): void => {
       manager.add('banner', {
-        message: message ?? mergedOptions.reconnectingMessage ?? 'Reconnecting...',
+        message: message ?? mergedOptionsRef.current.reconnectingMessage ?? 'Reconnecting...',
         variant: 'info',
-        position: mergedOptions.position ?? 'top',
+        position: mergedOptionsRef.current.position ?? 'top',
         dismissible: false,
       });
     },
-    [manager, mergedOptions]
+    [manager]
   );
 
   /**

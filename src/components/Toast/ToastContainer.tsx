@@ -7,10 +7,12 @@ import { memo, useMemo, useCallback, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackManager } from '../../core/FeedbackManager';
+import { useAdapter } from '../../hooks/useAdapter';
 import { cn } from '../../utils/cn';
 import { Z_INDEX, TOAST_DEFAULTS, MAX_VISIBLE } from '../../utils/constants';
 import { Toast } from './Toast';
 import type { ToastPosition, IFeedbackItem } from '../../core/types';
+import type { IAdapterToastProps } from '../../adapters/types';
 
 /**
  * ToastContainer props
@@ -66,6 +68,8 @@ export const ToastContainer = memo(function ToastContainer({
   ToastComponent = Toast,
   container,
 }: IToastContainerProps) {
+  const { adapter } = useAdapter();
+
   // Hover state for stack behavior - always enabled when stacked
   const [hoveredPosition, setHoveredPosition] = useState<ToastPosition | null>(null);
 
@@ -204,12 +208,33 @@ export const ToastContainer = memo(function ToastContainer({
                     opacity: opacityValue,
                   }}
                 >
-                  <ToastComponent
-                    {...toast.options}
-                    status={toast.status}
-                    onRemove={() => handleRemove(toast.id)}
-                    onDismissRequest={() => handleDismissRequest(toast.id)}
-                  />
+                  {adapter ? (() => {
+                    const AdapterToast = adapter.ToastComponent;
+                    const adapterProps: IAdapterToastProps = {
+                      message: toast.options.message,
+                      variant: toast.options.variant ?? 'default',
+                      dismissible: toast.options.dismissible ?? true,
+                      status: toast.status,
+                      onDismiss: () => handleDismissRequest(toast.id),
+                      onRemove: () => handleRemove(toast.id),
+                      ...(toast.options.title !== undefined && { title: toast.options.title }),
+                      ...(toast.options.icon !== undefined && { icon: toast.options.icon }),
+                      ...(toast.options.action !== undefined && { action: toast.options.action }),
+                      ...(toast.options.position !== undefined && { position: toast.options.position }),
+                      ...(toast.options.animation !== undefined && { animation: toast.options.animation }),
+                      ...(toast.options.className !== undefined && { className: toast.options.className }),
+                      ...(toast.options.style !== undefined && { style: toast.options.style }),
+                      ...(toast.options.testId !== undefined && { testId: toast.options.testId }),
+                    };
+                    return <AdapterToast {...adapterProps} />;
+                  })() : (
+                    <ToastComponent
+                      {...toast.options}
+                      status={toast.status}
+                      onRemove={() => handleRemove(toast.id)}
+                      onDismissRequest={() => handleDismissRequest(toast.id)}
+                    />
+                  )}
                 </div>
               );
             })}

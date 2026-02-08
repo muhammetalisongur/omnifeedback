@@ -7,7 +7,7 @@
 import { useCallback, useContext } from 'react';
 import { FeedbackContext } from '../providers/FeedbackProvider';
 import { useFeedbackStore } from '../core/FeedbackStore';
-import type { IResultOptions, IResultActionOptions, ResultStatusType, IFeedbackItem } from '../core/types';
+import type { IResultOptions, IResultActionOptions, ResultStatus, IFeedbackItem } from '../core/types';
 
 /**
  * Result item from the store
@@ -51,7 +51,7 @@ export interface IUseResultReturn {
   /** Show warning result */
   warning: (options: IResultShowOptions) => string;
   /** Show generic result with any status */
-  show: (status: ResultStatusType, options: IResultShowOptions) => string;
+  show: (status: ResultStatus, options: IResultShowOptions) => string;
   /** Hide result by ID */
   hide: (id: string) => void;
   /** Hide all results */
@@ -109,7 +109,7 @@ export function useResult(): IUseResultReturn {
    * Show result with specified status
    */
   const show = useCallback(
-    (status: ResultStatusType, options: IResultShowOptions): string => {
+    (status: ResultStatus, options: IResultShowOptions): string => {
       const { id, ...rest } = options;
       return manager.add('result', {
         status,

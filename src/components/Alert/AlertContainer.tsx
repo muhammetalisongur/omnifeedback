@@ -6,9 +6,11 @@
 import { memo, useCallback } from 'react';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackManager } from '../../core/FeedbackManager';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Alert } from './Alert';
 import { cn } from '../../utils/cn';
 import type { IAlertOptions } from '../../core/types';
+import type { IAdapterAlertProps, FeedbackVariant } from '../../adapters/types';
 
 /**
  * AlertContainer props
@@ -48,6 +50,7 @@ export const AlertContainer = memo(function AlertContainer({
   testId,
 }: IAlertContainerProps) {
   const manager = FeedbackManager.getInstance();
+  const { adapter } = useAdapter();
 
   // Get alerts from store
   const alerts = useFeedbackStore((state) =>
@@ -102,6 +105,25 @@ export const AlertContainer = memo(function AlertContainer({
           ...(options.className !== undefined && { className: options.className }),
           ...(options.style !== undefined && { style: options.style }),
         };
+
+        if (adapter) {
+          const AdapterAlert = adapter.AlertComponent;
+          const adapterProps: IAdapterAlertProps = {
+            message: options.message,
+            variant: (options.variant ?? 'info') as FeedbackVariant,
+            dismissible: options.dismissible ?? false,
+            status: alert.status,
+            onRequestDismiss: () => handleDismiss(alert.id),
+            ...(options.title !== undefined && { title: options.title }),
+            ...(options.icon !== undefined && { icon: options.icon }),
+            ...(options.hideIcon !== undefined && { hideIcon: options.hideIcon }),
+            ...(options.actions !== undefined && { actions: options.actions }),
+            ...(options.className !== undefined && { className: options.className }),
+            ...(options.style !== undefined && { style: options.style }),
+            ...(options.testId !== undefined && { testId: options.testId }),
+          };
+          return <AdapterAlert key={alert.id} {...adapterProps} />;
+        }
 
         return <Alert key={alert.id} {...alertProps} />;
       })}

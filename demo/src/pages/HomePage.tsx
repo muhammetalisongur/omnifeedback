@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const features = [
-  { icon: '🔔', name: 'Toast', description: 'Notification messages with variants and positions', path: '/components/toast' },
-  { icon: '📦', name: 'Modal', description: 'Dialog windows with custom content', path: '/components/modal' },
-  { icon: '⏳', name: 'Loading', description: 'Loading indicators with wrap() pattern', path: '/components/loading' },
-  { icon: '❓', name: 'Confirm', description: 'Promise-based confirmation dialogs', path: '/components/confirm' },
-  { icon: '📊', name: 'Progress', description: 'Determinate and indeterminate progress', path: '/components/progress' },
-  { icon: '📂', name: 'Drawer', description: 'Slide-out panels from any edge', path: '/components/drawer' },
+  { icon: '🔔', name: 'Toast', description: 'Notification messages with variants and positions', path: '/toast' },
+  { icon: '📦', name: 'Modal', description: 'Dialog windows with custom content', path: '/modal' },
+  { icon: '⏳', name: 'Loading', description: 'Loading indicators with wrap() pattern', path: '/loading' },
+  { icon: '❓', name: 'Confirm', description: 'Promise-based confirmation dialogs', path: '/confirm' },
+  { icon: '📊', name: 'Progress', description: 'Determinate and indeterminate progress', path: '/progress' },
+  { icon: '📂', name: 'Drawer', description: 'Slide-out panels from any edge', path: '/drawer' },
 ];
 
 const adapters = [
@@ -33,7 +33,7 @@ export function HomePage(): React.ReactElement {
         </p>
         <div className="flex gap-4 justify-center">
           <Link
-            to="/components/toast"
+            to="/toast"
             className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
           >
             Get Started
@@ -91,7 +91,7 @@ export function HomePage(): React.ReactElement {
         </div>
         <div className="mt-4 text-center">
           <Link
-            to="/components/sheet"
+            to="/sheet"
             className="text-primary hover:underline text-sm"
           >
             View all 15 components →

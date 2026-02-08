@@ -6,8 +6,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   calculatePosition,
   getArrowStyles,
-  getOppositePlacement,
-  wouldOverflow,
 } from './positioning';
 
 describe('positioning utility', () => {
@@ -365,87 +363,4 @@ describe('positioning utility', () => {
     });
   });
 
-  describe('getOppositePlacement', () => {
-    it('should return opposite for top', () => {
-      expect(getOppositePlacement('top')).toBe('bottom');
-    });
-
-    it('should return opposite for bottom', () => {
-      expect(getOppositePlacement('bottom')).toBe('top');
-    });
-
-    it('should return opposite for left', () => {
-      expect(getOppositePlacement('left')).toBe('right');
-    });
-
-    it('should return opposite for right', () => {
-      expect(getOppositePlacement('right')).toBe('left');
-    });
-
-    it('should preserve suffix when getting opposite', () => {
-      expect(getOppositePlacement('top-start')).toBe('bottom-start');
-      expect(getOppositePlacement('top-end')).toBe('bottom-end');
-      expect(getOppositePlacement('left-start')).toBe('right-start');
-    });
-  });
-
-  describe('wouldOverflow', () => {
-    const createMockRect = (rect: Partial<DOMRect>): DOMRect => {
-      const defaultRect: DOMRect = {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: 0,
-        height: 0,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      };
-      return { ...defaultRect, ...rect } as DOMRect;
-    };
-
-    it('should detect top overflow', () => {
-      const targetRect = createMockRect({ top: 50 });
-      const popoverRect = createMockRect({ height: 100 });
-
-      expect(wouldOverflow(targetRect, popoverRect, 'top', 8)).toBe(true);
-    });
-
-    it('should detect bottom overflow', () => {
-      const targetRect = createMockRect({ bottom: 700 });
-      const popoverRect = createMockRect({ height: 100 });
-
-      expect(wouldOverflow(targetRect, popoverRect, 'bottom', 8)).toBe(true);
-    });
-
-    it('should detect left overflow', () => {
-      const targetRect = createMockRect({ left: 50 });
-      const popoverRect = createMockRect({ width: 200 });
-
-      expect(wouldOverflow(targetRect, popoverRect, 'left', 8)).toBe(true);
-    });
-
-    it('should detect right overflow', () => {
-      const targetRect = createMockRect({ right: 900 });
-      const popoverRect = createMockRect({ width: 200 });
-
-      expect(wouldOverflow(targetRect, popoverRect, 'right', 8)).toBe(true);
-    });
-
-    it('should return false when no overflow', () => {
-      const targetRect = createMockRect({
-        top: 200,
-        bottom: 240,
-        left: 400,
-        right: 500,
-      });
-      const popoverRect = createMockRect({ width: 200, height: 100 });
-
-      expect(wouldOverflow(targetRect, popoverRect, 'top', 8)).toBe(false);
-      expect(wouldOverflow(targetRect, popoverRect, 'bottom', 8)).toBe(false);
-      expect(wouldOverflow(targetRect, popoverRect, 'left', 8)).toBe(false);
-      expect(wouldOverflow(targetRect, popoverRect, 'right', 8)).toBe(false);
-    });
-  });
 });

@@ -295,17 +295,18 @@ export const Toast = memo(
       }
     }, [status]);
 
-    // ===== AUTO-DISMISS TIMER (independent of progress bar visual) =====
-    // When pauseOnHover is true, Toast component owns the dismiss timer.
-    // When pauseOnHover is false, FeedbackManager handles dismissal.
-    // Progress bar is purely visual — timer always runs regardless of showProgress.
+    // ===== COUNTDOWN TIMER (handles both progress bar visual and auto-dismiss) =====
+    // This effect runs when:
+    // 1. pauseOnHover is true — Toast owns the dismiss timer AND progress bar
+    // 2. pauseOnHover is false BUT showProgress is true — Toast owns only the progress bar visual
+    // When pauseOnHover is false AND showProgress is false, FeedbackManager handles everything.
     useEffect(() => {
       if (duration === 0 || status !== 'visible') {
         return undefined;
       }
 
-      // Only run when pauseOnHover is true — manager handles the other case
-      if (!pauseOnHover) {
+      // Skip entirely only when manager handles dismissal AND no progress bar needed
+      if (!pauseOnHover && !showProgress) {
         return undefined;
       }
 
@@ -325,7 +326,7 @@ export const Toast = memo(
         const elapsed = timestamp - startTimeRef.current + elapsedBeforePauseRef.current;
         const remaining = duration - elapsed;
 
-        // Update progress bar visual only when showProgress is enabled
+        // Update progress bar visual when showProgress is enabled
         if (showProgress) {
           setProgress(Math.max(0, (remaining / duration) * 100));
         }
@@ -334,8 +335,10 @@ export const Toast = memo(
           animationFrameRef.current = requestAnimationFrame(animate);
         } else {
           animationFrameRef.current = null;
-          // Auto-dismiss when countdown completes (use ref to avoid timer restart)
-          onDismissRequestRef.current?.();
+          // Auto-dismiss only when Toast owns the timer (pauseOnHover mode)
+          if (pauseOnHover) {
+            onDismissRequestRef.current?.();
+          }
         }
       };
 

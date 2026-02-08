@@ -87,11 +87,13 @@ export const AntdAlert = memo(
 
     useEffect(() => {
       if (status === 'entering' || status === 'visible') {
-        requestAnimationFrame(() => setIsVisible(true));
+        const raf = requestAnimationFrame(() => setIsVisible(true));
+        return () => cancelAnimationFrame(raf);
       }
       if (status === 'exiting') {
         setIsVisible(false);
       }
+      return undefined;
     }, [status]);
 
     const displayIcon = icon !== undefined ? icon : defaultIcons[variant];

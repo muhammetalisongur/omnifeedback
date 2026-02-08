@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FeedbackProvider } from 'omnifeedback';
 import { MantineProvider } from '@mantine/core';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -19,15 +19,31 @@ export function AdapterProvider({ adapter, children }: AdapterProviderProps): Re
   // Get toast config from store
   const { toastConfig } = usePlaygroundStore();
 
-  // MUI theme
+  // Track dark mode reactively via MutationObserver on <html> class attribute
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // MUI theme — recomputed when dark mode changes
   const muiThemeObj = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+          mode: isDark ? 'dark' : 'light',
         },
       }),
-    []
+    [isDark]
   );
 
   // Note: Adapter selection is currently visual only.
@@ -68,7 +84,7 @@ export function AdapterProvider({ adapter, children }: AdapterProviderProps): Re
       return (
         <ConfigProvider
           theme={{
-            algorithm: document.documentElement.classList.contains('dark')
+            algorithm: isDark
               ? antdTheme.darkAlgorithm
               : antdTheme.defaultAlgorithm,
           }}

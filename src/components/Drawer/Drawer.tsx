@@ -17,7 +17,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type {
   FeedbackStatus,
-  DrawerPosition,
+  DrawerPlacement,
   DrawerSize,
 } from '../../core/types';
 
@@ -30,7 +30,7 @@ export interface IDrawerProps {
   /** Drawer content (required) */
   content: React.ReactNode;
   /** Drawer position */
-  position?: DrawerPosition;
+  position?: DrawerPlacement;
   /** Drawer size preset */
   size?: DrawerSize;
   /** Custom width/height (overrides size) */
@@ -110,7 +110,7 @@ const verticalSizePx: Record<DrawerSize, string> = {
 /**
  * Position styles
  */
-const positionStyles: Record<DrawerPosition, string> = {
+const positionStyles: Record<DrawerPlacement, string> = {
   left: 'left-0 top-0 h-full',
   right: 'right-0 top-0 h-full',
   top: 'top-0 left-0 w-full',
@@ -120,7 +120,7 @@ const positionStyles: Record<DrawerPosition, string> = {
 /**
  * Transform styles for open/closed states
  */
-const transformStyles: Record<DrawerPosition, { open: string; closed: string }> = {
+const transformStyles: Record<DrawerPlacement, { open: string; closed: string }> = {
   left: { open: 'translate-x-0', closed: '-translate-x-full' },
   right: { open: 'translate-x-0', closed: 'translate-x-full' },
   top: { open: 'translate-y-0', closed: '-translate-y-full' },
@@ -250,7 +250,7 @@ export const Drawer = memo(
           ? horizontalSizePx[size]
           : verticalSizePx[size];
 
-      const pushTransforms: Record<DrawerPosition, string> = {
+      const pushTransforms: Record<DrawerPlacement, string> = {
         left: `translateX(${pushSize})`,
         right: `translateX(-${pushSize})`,
         top: `translateY(${pushSize})`,

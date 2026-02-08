@@ -6,6 +6,7 @@
 import { memo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Prompt } from './Prompt';
 import type { IFeedbackItem } from '../../core/types';
 
@@ -29,6 +30,11 @@ const Z_INDEX_PROMPT = 10000;
  * ```
  */
 export const PromptContainer = memo(function PromptContainer() {
+  // Adapter prompt requires controlled state (value, onValueChange, error)
+  // which differs from core Prompt's uncontrolled pattern.
+  // Core Prompt component is used regardless of adapter for now.
+  useAdapter();
+
   // Get all prompt items from store
   const prompts = useFeedbackStore((state) =>
     Array.from(state.items.values()).filter(

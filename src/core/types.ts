@@ -86,7 +86,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 /**
  * Drawer position
  */
-export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
+export type DrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 
 /**
  * Drawer size variants
@@ -101,7 +101,7 @@ export type SpinnerType = 'default' | 'dots' | 'bars' | 'ring' | 'pulse';
 /**
  * Button variant for actions
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'link';
 
 // ==================== BASE OPTIONS ====================
 
@@ -157,8 +157,6 @@ export interface IToastOptions extends IBaseFeedbackOptions {
   action?: IToastAction;
   /** Callback when dismissed */
   onDismiss?: () => void;
-  /** Callback when shown */
-  onShow?: () => void;
 
   // ===== COUNTDOWN PROGRESS BAR =====
   /** Show countdown progress bar */
@@ -497,7 +495,7 @@ export interface IDrawerOptions extends IBaseFeedbackOptions {
   /** Drawer content (required) */
   content: ReactNode;
   /** Drawer position */
-  position?: DrawerPosition;
+  position?: DrawerPlacement;
   /** Drawer size preset */
   size?: DrawerSize;
   /** Custom width/height (overrides size) */
@@ -557,7 +555,7 @@ export interface ISkeletonOptions extends IBaseFeedbackOptions {
 /**
  * Result status type
  */
-export type ResultStatusType = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
+export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
 
 /**
  * Result action button configuration
@@ -580,7 +578,7 @@ export interface IResultActionOptions {
  */
 export interface IResultOptions extends IBaseFeedbackOptions {
   /** Result status */
-  status: ResultStatusType;
+  status: ResultStatus;
   /** Main title text */
   title: string;
   /** Description or subtitle text */
@@ -884,22 +882,3 @@ export interface IFeedbackStoreState {
   /** Get items by status */
   getByStatus: (status: FeedbackStatus) => IFeedbackItem[];
 }
-
-// ==================== UTILITY TYPES ====================
-
-/**
- * Extract options type for a specific feedback type
- */
-export type OptionsForType<T extends FeedbackType> = FeedbackOptionsMap[T];
-
-/**
- * Make certain properties required
- */
-export type RequireKeys<T, K extends keyof T> = T & Required<Pick<T, K>>;
-
-/**
- * Deep partial type
- */
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};

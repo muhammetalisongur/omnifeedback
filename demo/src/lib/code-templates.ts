@@ -473,12 +473,12 @@ function MyComponent() {
   const modal = useModal();
 
   const openModal = () => {
-    modal.show({
+    modal.open({
       title: '${params.title}',
       content: (
         <div>
           <p>${params.content}</p>
-          <button onClick={() => modal.hide()}>Close</button>
+          <button onClick={() => modal.close()}>Close</button>
         </div>
       ),
       size: '${params.size}',
@@ -501,7 +501,7 @@ function MyComponent() {
   const drawer = useDrawer();
 
   const openDrawer = () => {
-    drawer.show({
+    drawer.open({
       title: '${params.title}',
       content: <div>${params.content}</div>,
       position: '${params.position}',

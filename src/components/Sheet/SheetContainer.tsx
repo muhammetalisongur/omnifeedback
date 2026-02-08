@@ -6,9 +6,11 @@
 import { memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
-import { useFeedbackContext } from '../../providers/FeedbackProvider';
+import { useFeedbackContext } from '../../providers/FeedbackContext';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Sheet } from './Sheet';
 import type { ISheetOptions } from '../../core/types';
+import type { IAdapterSheetProps } from '../../adapters/types';
 
 /**
  * SheetContainer component
@@ -25,6 +27,7 @@ import type { ISheetOptions } from '../../core/types';
  */
 export const SheetContainer = memo(function SheetContainer() {
   const { manager } = useFeedbackContext();
+  const { adapter } = useAdapter();
   const items = useFeedbackStore((state) => state.items);
 
   // Filter sheet items
@@ -52,6 +55,25 @@ export const SheetContainer = memo(function SheetContainer() {
     <>
       {sheets.map((item) => {
         const options = item.options as ISheetOptions;
+        if (adapter) {
+          const AdapterSheet = adapter.SheetComponent;
+          const adapterProps: IAdapterSheetProps = {
+            content: options.content,
+            snapPoints: options.snapPoints ?? [50, 90],
+            defaultSnapPoint: options.defaultSnapPoint ?? 0,
+            closeOnBackdropClick: options.closeOnBackdropClick ?? true,
+            showHandle: options.showHandle ?? true,
+            currentSnapIndex: options.defaultSnapPoint ?? 0,
+            status: item.status,
+            onRequestClose: () => handleClose(item.id, options.onClose),
+            ...(options.title !== undefined && { title: String(options.title) }),
+            ...(options.className !== undefined && { className: options.className }),
+            ...(options.style !== undefined && { style: options.style }),
+            ...(options.testId !== undefined && { testId: options.testId }),
+          };
+          return <AdapterSheet key={item.id} {...adapterProps} />;
+        }
+
         return (
           <Sheet
             key={item.id}

@@ -7,9 +7,11 @@ import { memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackManager } from '../../core/FeedbackManager';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Z_INDEX } from '../../utils/constants';
 import { Modal } from './Modal';
 import type { IFeedbackItem, IModalOptions } from '../../core/types';
+import type { IAdapterModalProps } from '../../adapters/types';
 
 /**
  * ModalContainer props
@@ -39,6 +41,7 @@ export const ModalContainer = memo(function ModalContainer({
   container,
   ModalComponent = Modal,
 }: IModalContainerProps) {
+  const { adapter } = useAdapter();
   // Get all modal items from store (excluding removed)
   const modals = useFeedbackStore((state) =>
     Array.from(state.items.values()).filter(
@@ -90,12 +93,35 @@ export const ModalContainer = memo(function ModalContainer({
             zIndex: Z_INDEX.MODAL + index,
           }}
         >
-          <ModalComponent
-            {...modal.options}
-            status={modal.status}
-            onRequestClose={() => handleRequestClose(modal.id)}
-            onRemove={() => handleRemove(modal.id)}
-          />
+          {adapter ? (() => {
+            const AdapterModal = adapter.ModalComponent;
+            const opts = modal.options;
+            const adapterProps: IAdapterModalProps = {
+              content: opts.content,
+              size: opts.size ?? 'md',
+              closable: opts.closable ?? true,
+              closeOnBackdropClick: opts.closeOnBackdropClick ?? true,
+              closeOnEscape: opts.closeOnEscape ?? true,
+              centered: opts.centered ?? true,
+              scrollBehavior: opts.scrollBehavior ?? 'inside',
+              status: modal.status,
+              onRequestClose: () => handleRequestClose(modal.id),
+              ...(opts.title !== undefined && { title: opts.title }),
+              ...(opts.header !== undefined && { header: opts.header }),
+              ...(opts.footer !== undefined && { footer: opts.footer }),
+              ...(opts.className !== undefined && { className: opts.className }),
+              ...(opts.style !== undefined && { style: opts.style }),
+              ...(opts.testId !== undefined && { testId: opts.testId }),
+            };
+            return <AdapterModal {...adapterProps} />;
+          })() : (
+            <ModalComponent
+              {...modal.options}
+              status={modal.status}
+              onRequestClose={() => handleRequestClose(modal.id)}
+              onRemove={() => handleRemove(modal.id)}
+            />
+          )}
         </div>
       ))}
     </>,

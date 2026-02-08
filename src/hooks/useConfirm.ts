@@ -93,23 +93,40 @@ export function useConfirm(): IUseConfirmReturn {
 
   /**
    * Show confirm dialog and return Promise
-   * Resolves to true if confirmed, false if cancelled
+   * Resolves to true if confirmed, false if cancelled.
+   * Also resolves to false if the item is removed externally (e.g. via removeAll).
    */
   const show = useCallback(
     (options: IConfirmShowOptions): Promise<boolean> => {
       return new Promise((resolve) => {
+        let resolved = false;
+
+        const safeResolve = (value: boolean): void => {
+          if (resolved) {return;}
+          resolved = true;
+          unsubscribe();
+          resolve(value);
+        };
+
         const id = manager.add('confirm', {
           ...DEFAULT_OPTIONS,
           ...options,
           onConfirm: () => {
+            safeResolve(true);
             manager.remove(id);
-            resolve(true);
           },
           onCancel: () => {
+            safeResolve(false);
             manager.remove(id);
-            resolve(false);
           },
         } as IConfirmOptions);
+
+        // Listen for external removal to prevent Promise leak
+        const unsubscribe = manager.on('feedback:removed', (removedItem) => {
+          if (removedItem.id === id) {
+            safeResolve(false);
+          }
+        });
       });
     },
     [manager]

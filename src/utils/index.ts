@@ -14,6 +14,3 @@ export * from './constants';
 
 // Positioning utilities
 export * from './positioning';
-
-// Version
-export const UTILS_VERSION = '0.1.0';

@@ -71,9 +71,10 @@ export type {
   ISheetItem,
 } from './useSheet';
 
+// Adapter hook
+export { useAdapter } from './useAdapter';
+export type { IUseAdapterReturn } from './useAdapter';
+
 // Drag hook
 export { useDrag } from './useDrag';
 export type { IDragState, IUseDragOptions, IUseDragReturn } from './useDrag';
-
-// Placeholder export to prevent empty module errors
-export const HOOKS_VERSION = '0.1.0';

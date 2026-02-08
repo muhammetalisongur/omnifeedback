@@ -43,23 +43,3 @@ describe('Test Setup', () => {
   });
 });
 
-describe('Core Module', () => {
-  it('should export CORE_VERSION', async () => {
-    const { CORE_VERSION } = await import('@core/index');
-    expect(CORE_VERSION).toBe('0.1.0');
-  });
-});
-
-describe('Hooks Module', () => {
-  it('should export HOOKS_VERSION', async () => {
-    const { HOOKS_VERSION } = await import('@hooks/index');
-    expect(HOOKS_VERSION).toBe('0.1.0');
-  });
-});
-
-describe('Utils Module', () => {
-  it('should export UTILS_VERSION', async () => {
-    const { UTILS_VERSION } = await import('@utils/index');
-    expect(UTILS_VERSION).toBe('0.1.0');
-  });
-});

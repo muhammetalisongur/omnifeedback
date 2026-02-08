@@ -7,7 +7,10 @@
  */
 
 import type { ComponentType, ReactNode, CSSProperties } from 'react';
-import type { FeedbackStatus, ToastPosition, ToastAnimation } from '../core/types';
+import type { FeedbackStatus, ToastPosition, ToastAnimation, ButtonVariant, ResultStatus } from '../core/types';
+
+// Re-export shared types from core for consumers
+export type { ButtonVariant, ResultStatus };
 
 // =============================================================================
 // Base Types
@@ -36,11 +39,6 @@ export type FeedbackVariant = 'default' | 'success' | 'error' | 'warning' | 'inf
  * Size variants
  */
 export type SizeVariant = 'sm' | 'md' | 'lg';
-
-/**
- * Button variant types
- */
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link';
 
 // =============================================================================
 // Toast Adapter Types
@@ -421,10 +419,7 @@ export interface IAdapterSkeletonProps extends IAdapterBaseProps {
 // Result Adapter Types
 // =============================================================================
 
-/**
- * Result status
- */
-export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
+// ResultStatus imported and re-exported from core (see top of file)
 
 /**
  * Result action button
@@ -710,27 +705,6 @@ export interface IFeedbackAdapter {
    */
   animations: IAdapterAnimations;
 }
-
-// =============================================================================
-// Adapter Factory Types
-// =============================================================================
-
-/**
- * Adapter configuration options
- */
-export interface IAdapterConfig {
-  /** Custom CSS prefix */
-  cssPrefix?: string;
-  /** Enable dark mode detection */
-  detectDarkMode?: boolean;
-  /** Custom animations */
-  animations?: Partial<IAdapterAnimations>;
-}
-
-/**
- * Adapter factory function type
- */
-export type AdapterFactory = (config?: IAdapterConfig) => IFeedbackAdapter;
 
 // =============================================================================
 // Re-exports for convenience

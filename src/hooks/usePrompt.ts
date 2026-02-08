@@ -81,12 +81,22 @@ export function usePrompt(): IUsePromptReturn {
   const [isOpen, setIsOpen] = useState(false);
 
   /**
-   * Show prompt dialog and return promise
+   * Show prompt dialog and return promise.
+   * Also resolves to null if the item is removed externally (e.g. via removeAll).
    */
   const show = useCallback(
     (options: IPromptShowOptions): Promise<string | null> => {
       return new Promise((resolve) => {
+        let resolved = false;
         setIsOpen(true);
+
+        const safeResolve = (value: string | null): void => {
+          if (resolved) {return;}
+          resolved = true;
+          unsubscribe();
+          setIsOpen(false);
+          resolve(value);
+        };
 
         const promptId = manager.add('prompt', {
           inputType: 'text',
@@ -96,15 +106,20 @@ export function usePrompt(): IUsePromptReturn {
           selectOnFocus: false,
           ...options,
           onConfirm: (value: string) => {
+            safeResolve(value);
             manager.remove(promptId);
-            setIsOpen(false);
-            resolve(value);
           },
           onCancel: () => {
+            safeResolve(null);
             manager.remove(promptId);
-            setIsOpen(false);
-            resolve(null);
           },
+        });
+
+        // Listen for external removal to prevent Promise leak
+        const unsubscribe = manager.on('feedback:removed', (removedItem) => {
+          if (removedItem.id === promptId) {
+            safeResolve(null);
+          }
         });
       });
     },

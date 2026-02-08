@@ -208,24 +208,35 @@ export function useSheet(): IUseSheetReturn {
   }, [manager]);
 
   /**
-   * Show an iOS-style action sheet
+   * Show an iOS-style action sheet.
+   * Also resolves to null if the item is removed externally (e.g. via closeAll).
    */
   const showActions = useCallback(
     (options: IActionSheetOptions): Promise<string | null> => {
       return new Promise((resolve) => {
+        let resolved = false;
         const { title, description, actions, showCancel, cancelText, ...rest } =
           options;
 
         const idRef = { current: '' };
 
+        const safeResolve = (value: string | null): void => {
+          if (resolved) {return;}
+          resolved = true;
+          unsubscribeRef.current();
+          resolve(value);
+        };
+
+        const unsubscribeRef = { current: (): void => { /* noop until assigned */ } };
+
         const handleSelect = (key: string): void => {
+          safeResolve(key);
           manager.remove(idRef.current);
-          resolve(key);
         };
 
         const handleCancel = (): void => {
+          safeResolve(null);
           manager.remove(idRef.current);
-          resolve(null);
         };
 
         const content = createElement(ActionSheetContent, {
@@ -247,30 +258,48 @@ export function useSheet(): IUseSheetReturn {
           onClose: handleCancel,
           ...rest,
         } as ISheetOptions);
+
+        // Listen for external removal to prevent Promise leak
+        unsubscribeRef.current = manager.on('feedback:removed', (removedItem) => {
+          if (removedItem.id === idRef.current) {
+            safeResolve(null);
+          }
+        });
       });
     },
     [manager]
   );
 
   /**
-   * Show a confirmation sheet
+   * Show a confirmation sheet.
+   * Also resolves to false if the item is removed externally (e.g. via closeAll).
    */
   const confirm = useCallback(
     (options: ISheetConfirmOptions): Promise<boolean> => {
       return new Promise((resolve) => {
+        let resolved = false;
         const { title, description, confirmText, cancelText, destructive, ...rest } =
           options;
 
         const idRef = { current: '' };
 
+        const safeResolve = (value: boolean): void => {
+          if (resolved) {return;}
+          resolved = true;
+          unsubscribeRef.current();
+          resolve(value);
+        };
+
+        const unsubscribeRef = { current: (): void => { /* noop until assigned */ } };
+
         const handleConfirm = (): void => {
+          safeResolve(true);
           manager.remove(idRef.current);
-          resolve(true);
         };
 
         const handleCancel = (): void => {
+          safeResolve(false);
           manager.remove(idRef.current);
-          resolve(false);
         };
 
         const content = createElement(SheetConfirmContent, {
@@ -292,6 +321,13 @@ export function useSheet(): IUseSheetReturn {
           onClose: handleCancel,
           ...rest,
         } as ISheetOptions);
+
+        // Listen for external removal to prevent Promise leak
+        unsubscribeRef.current = manager.on('feedback:removed', (removedItem) => {
+          if (removedItem.id === idRef.current) {
+            safeResolve(false);
+          }
+        });
       });
     },
     [manager]

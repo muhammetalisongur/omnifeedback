@@ -7,9 +7,11 @@ import { memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
 import { FeedbackManager } from '../../core/FeedbackManager';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Drawer } from './Drawer';
 import type { IDrawerProps } from './Drawer';
 import type { IFeedbackItem } from '../../core/types';
+import type { IAdapterDrawerProps, DrawerPlacement, DrawerSize } from '../../adapters/types';
 
 /**
  * Build drawer props from feedback item
@@ -55,6 +57,8 @@ const buildDrawerProps = (drawer: IFeedbackItem<'drawer'>, index: number): IDraw
  * Renders all active drawers via portal
  */
 export const DrawerContainer = memo(function DrawerContainer() {
+  const { adapter } = useAdapter();
+
   // Subscribe to drawer items from store
   const drawers = useFeedbackStore(
     useCallback(
@@ -79,9 +83,30 @@ export const DrawerContainer = memo(function DrawerContainer() {
 
   return createPortal(
     <>
-      {drawers.map((drawer, index) => (
-        <Drawer key={drawer.id} {...buildDrawerProps(drawer, index)} />
-      ))}
+      {drawers.map((drawer, index) => {
+        if (adapter) {
+          const AdapterDrawer = adapter.DrawerComponent;
+          const opts = drawer.options;
+          const coreProps = buildDrawerProps(drawer, index);
+          const adapterProps: IAdapterDrawerProps = {
+            content: opts.content,
+            placement: (opts.position ?? 'right') as DrawerPlacement,
+            size: (opts.size ?? 'md') as DrawerSize,
+            closable: opts.closable ?? true,
+            closeOnBackdropClick: opts.closeOnOverlayClick ?? true,
+            closeOnEscape: opts.closeOnEscape ?? true,
+            status: drawer.status,
+            onRequestClose: coreProps.onRequestClose,
+            ...(opts.title !== undefined && { title: opts.title }),
+            ...(opts.footer !== undefined && { footer: opts.footer }),
+            ...(opts.className !== undefined && { className: opts.className }),
+            style: { ...opts.style, zIndex: 9990 + index },
+            ...(opts.testId !== undefined && { testId: opts.testId }),
+          };
+          return <AdapterDrawer key={drawer.id} {...adapterProps} />;
+        }
+        return <Drawer key={drawer.id} {...buildDrawerProps(drawer, index)} />;
+      })}
     </>,
     document.body
   );

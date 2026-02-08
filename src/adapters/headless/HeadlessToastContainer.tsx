@@ -61,7 +61,7 @@ export const HeadlessToastContainer = memo(function HeadlessToastContainer({
       onMouseLeave={shouldTrackHover ? () => setIsHovered(false) : undefined}
     >
       {Children.map(children, (child, index) => {
-        if (!isValidElement(child)) return child;
+        if (!isValidElement(child)) { return child; }
 
         // Card-deck effect: progressive scale and opacity reduction
         const scaleValue = isCollapsed

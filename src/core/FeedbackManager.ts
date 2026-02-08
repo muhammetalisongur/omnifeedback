@@ -152,7 +152,7 @@ export class FeedbackManager implements IFeedbackManager {
     if (type === 'toast' || type === 'alert') {
       const typedOptions = options as IToastOptions | IAlertOptions;
       const duration = this.getDuration(typedOptions);
-      const hasPauseOnHover = 'pauseOnHover' in typedOptions && typedOptions.pauseOnHover === true;
+      const hasPauseOnHover = 'pauseOnHover' in typedOptions && typedOptions.pauseOnHover;
 
       // Only schedule manager-level removal if pauseOnHover is NOT enabled
       // When pauseOnHover is enabled, the Toast component manages its own dismissal
@@ -406,7 +406,7 @@ export class FeedbackManager implements IFeedbackManager {
     const keysToDelete: string[] = [];
 
     this.timers.forEach((timer, key) => {
-      if (key.startsWith(id)) {
+      if (key.startsWith(id + ':')) {
         clearTimeout(timer);
         keysToDelete.push(key);
       }

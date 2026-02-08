@@ -15,7 +15,7 @@
         "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
@@ -25,7 +25,7 @@
         "default": "./dist/adapters/shadcn/index.js"
       },
       "require": {
-        "types": "./dist/adapters/shadcn/index.d.cts",
+        "types": "./dist/adapters/shadcn/index.d.ts",
         "default": "./dist/adapters/shadcn/index.cjs"
       }
     },
@@ -35,7 +35,7 @@
         "default": "./dist/adapters/mantine/index.js"
       },
       "require": {
-        "types": "./dist/adapters/mantine/index.d.cts",
+        "types": "./dist/adapters/mantine/index.d.ts",
         "default": "./dist/adapters/mantine/index.cjs"
       }
     },
@@ -45,7 +45,7 @@
         "default": "./dist/adapters/chakra/index.js"
       },
       "require": {
-        "types": "./dist/adapters/chakra/index.d.cts",
+        "types": "./dist/adapters/chakra/index.d.ts",
         "default": "./dist/adapters/chakra/index.cjs"
       }
     },
@@ -55,7 +55,7 @@
         "default": "./dist/adapters/mui/index.js"
       },
       "require": {
-        "types": "./dist/adapters/mui/index.d.cts",
+        "types": "./dist/adapters/mui/index.d.ts",
         "default": "./dist/adapters/mui/index.cjs"
       }
     },
@@ -65,7 +65,7 @@
         "default": "./dist/adapters/antd/index.js"
       },
       "require": {
-        "types": "./dist/adapters/antd/index.d.cts",
+        "types": "./dist/adapters/antd/index.d.ts",
         "default": "./dist/adapters/antd/index.cjs"
       }
     },
@@ -75,7 +75,7 @@
         "default": "./dist/adapters/headless/index.js"
       },
       "require": {
-        "types": "./dist/adapters/headless/index.d.cts",
+        "types": "./dist/adapters/headless/index.d.ts",
         "default": "./dist/adapters/headless/index.cjs"
       }
     },
@@ -135,8 +135,6 @@
     "typecheck": "tsc --noEmit",
     "validate": "pnpm lint && pnpm typecheck && pnpm test:run",
     "ci:local": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm size",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "prepublishOnly": "pnpm validate && pnpm build",
     "version": "git add CHANGELOG.md",
     "postversion": "git push && git push --tags",
@@ -149,10 +147,6 @@
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "@radix-ui/react-toast": ">=1.0.0",
-    "@radix-ui/react-dialog": ">=1.0.0",
-    "@radix-ui/react-alert-dialog": ">=1.0.0",
-    "@radix-ui/react-progress": ">=1.0.0",
     "@mantine/core": ">=7.0.0",
     "@mantine/hooks": ">=7.0.0",
     "@chakra-ui/react": ">=2.8.0",
@@ -160,18 +154,6 @@
     "antd": ">=5.0.0"
   },
   "peerDependenciesMeta": {
-    "@radix-ui/react-toast": {
-      "optional": true
-    },
-    "@radix-ui/react-dialog": {
-      "optional": true
-    },
-    "@radix-ui/react-alert-dialog": {
-      "optional": true
-    },
-    "@radix-ui/react-progress": {
-      "optional": true
-    },
     "@mantine/core": {
       "optional": true
     },
@@ -197,7 +179,7 @@
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^14.2.0",
     "@testing-library/user-event": "^14.5.0",
-    "@types/node": "^25.2.0",
+    "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
@@ -210,7 +192,6 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "happy-dom": "^13.0.0",
-    "jsdom": "^24.0.0",
     "postcss": "^8.4.0",
     "prettier": "^3.2.0",
     "react": "^18.2.0",

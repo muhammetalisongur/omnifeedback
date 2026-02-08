@@ -5,8 +5,6 @@
 
 import type React from 'react';
 import {
-  createContext,
-  useContext,
   useMemo,
   useEffect,
   useRef,
@@ -22,23 +20,17 @@ import { DrawerContainer } from '../components/Drawer/DrawerContainer';
 import { PopconfirmContainer } from '../components/Popconfirm/PopconfirmContainer';
 import { SheetContainer } from '../components/Sheet/SheetContainer';
 import { PromptContainer } from '../components/Prompt/PromptContainer';
+import { AlertContainer } from '../components/Alert/AlertContainer';
+import { ProgressContainer } from '../components/Progress/ProgressContainer';
 import { TOAST_DEFAULTS, MAX_VISIBLE } from '../utils/constants';
+import { FeedbackContext, useFeedbackContext } from './FeedbackContext';
 import type { IFeedbackConfig, ToastPosition } from '../core/types';
+import type { IFeedbackAdapter } from '../adapters/types';
+import type { IFeedbackContext } from './FeedbackContext';
 
-/**
- * Feedback context value interface
- */
-export interface IFeedbackContext {
-  /** FeedbackManager instance */
-  manager: FeedbackManager;
-  /** Current configuration */
-  config: IFeedbackConfig;
-}
-
-/**
- * React context for feedback system
- */
-export const FeedbackContext = createContext<IFeedbackContext | null>(null);
+// Re-export context, interface and hook for backward compatibility
+export { FeedbackContext, useFeedbackContext };
+export type { IFeedbackContext };
 
 /**
  * FeedbackProvider props
@@ -74,6 +66,12 @@ export interface IFeedbackProviderProps {
   renderSheets?: boolean;
   /** Render prompt container */
   renderPrompts?: boolean;
+  /** Render alert container */
+  renderAlerts?: boolean;
+  /** Render progress container */
+  renderProgresses?: boolean;
+  /** UI library adapter for component rendering */
+  adapter?: IFeedbackAdapter;
 }
 
 /**
@@ -113,6 +111,9 @@ export function FeedbackProvider({
   renderPopconfirms = true,
   renderSheets = true,
   renderPrompts = true,
+  renderAlerts = true,
+  renderProgresses = true,
+  adapter,
 }: IFeedbackProviderProps): React.ReactElement {
   // Initialize manager once and keep stable reference
   const managerRef = useRef<FeedbackManager | null>(null);
@@ -146,13 +147,21 @@ export function FeedbackProvider({
     };
   }, []);
 
+  // Inject adapter styles on mount
+  useEffect(() => {
+    if (adapter) {
+      adapter.injectStyles();
+    }
+  }, [adapter]);
+
   // Memoize context value
   const contextValue = useMemo<IFeedbackContext>(
     () => ({
       manager,
       config: manager.getConfig(),
+      adapter: adapter ?? null,
     }),
-    [manager]
+    [manager, adapter]
   );
 
   return (
@@ -175,28 +184,10 @@ export function FeedbackProvider({
       {renderPopconfirms && <PopconfirmContainer />}
       {renderSheets && <SheetContainer />}
       {renderPrompts && <PromptContainer />}
+      {renderAlerts && <AlertContainer />}
+      {renderProgresses && <ProgressContainer />}
     </FeedbackContext.Provider>
   );
-}
-
-/**
- * Hook to access feedback context
- * Throws if used outside FeedbackProvider
- *
- * @returns Feedback context value
- * @throws Error if used outside FeedbackProvider
- */
-export function useFeedbackContext(): IFeedbackContext {
-  const context = useContext(FeedbackContext);
-
-  if (!context) {
-    throw new Error(
-      'useFeedbackContext must be used within a FeedbackProvider. ' +
-        'Wrap your app with <FeedbackProvider> to use feedback features.'
-    );
-  }
-
-  return context;
 }
 
 /**

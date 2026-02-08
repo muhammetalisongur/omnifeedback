@@ -3,7 +3,6 @@
  * Core CSS styles and CSS custom properties (variables)
  */
 
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
 

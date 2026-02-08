@@ -6,8 +6,10 @@
 import { memo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Confirm } from './Confirm';
 import type { IFeedbackItem } from '../../core/types';
+import type { IAdapterConfirmProps, ConfirmVariant } from '../../adapters/types';
 
 /**
  * Z-index for confirm dialogs (above modals)
@@ -29,6 +31,8 @@ const Z_INDEX_CONFIRM = 10000;
  * ```
  */
 export const ConfirmContainer = memo(function ConfirmContainer() {
+  const { adapter } = useAdapter();
+
   // Get all confirm items from store
   const confirms = useFeedbackStore((state) =>
     Array.from(state.items.values()).filter(
@@ -90,7 +94,26 @@ export const ConfirmContainer = memo(function ConfirmContainer() {
       style={{ zIndex: Z_INDEX_CONFIRM }}
       data-testid="confirm-container"
     >
-      <Confirm key={latestConfirm.id} {...confirmProps} />
+      {adapter ? (() => {
+        const AdapterConfirm = adapter.ConfirmComponent;
+        const adapterProps: IAdapterConfirmProps = {
+          message: options.message,
+          title: options.title ?? 'Confirm',
+          confirmText: options.confirmText ?? 'Confirm',
+          cancelText: options.cancelText ?? 'Cancel',
+          confirmVariant: (options.confirmVariant ?? 'primary') as ConfirmVariant,
+          status: latestConfirm.status,
+          onConfirm: options.onConfirm,
+          onCancel: options.onCancel ?? ((): void => { /* noop */ }),
+          ...(options.icon !== undefined && { icon: options.icon }),
+          ...(options.className !== undefined && { className: options.className }),
+          ...(options.style !== undefined && { style: options.style }),
+          ...(options.testId !== undefined && { testId: options.testId }),
+        };
+        return <AdapterConfirm key={latestConfirm.id} {...adapterProps} />;
+      })() : (
+        <Confirm key={latestConfirm.id} {...confirmProps} />
+      )}
     </div>,
     document.body
   );

@@ -6,8 +6,6 @@
 // Adapter types
 export type {
   IFeedbackAdapter,
-  IAdapterConfig,
-  AdapterFactory,
   IAdapterAnimations,
   // Base types
   IAdapterBaseProps,

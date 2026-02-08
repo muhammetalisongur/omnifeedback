@@ -6,10 +6,12 @@
 import { memo, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
-import { FeedbackContext } from '../../providers/FeedbackProvider';
+import { FeedbackContext } from '../../providers/FeedbackContext';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Banner } from './Banner';
 import type { IBannerProps } from './Banner';
 import type { IFeedbackItem } from '../../core/types';
+import type { IAdapterBannerProps, BannerPosition, FeedbackVariant } from '../../adapters/types';
 
 /**
  * Z-index for banners
@@ -37,6 +39,7 @@ const MAX_BANNERS_PER_POSITION = 3;
  */
 export const BannerContainer = memo(function BannerContainer() {
   const context = useContext(FeedbackContext);
+  const { adapter } = useAdapter();
 
   // Get all banner items from store
   const banners = useFeedbackStore((state) =>
@@ -121,9 +124,29 @@ export const BannerContainer = memo(function BannerContainer() {
             style={{ zIndex: Z_INDEX_BANNER }}
             data-testid="banner-container-top"
           >
-            {topBanners.map((banner) => (
-              <Banner key={banner.id} {...buildBannerProps(banner)} />
-            ))}
+            {topBanners.map((banner) => {
+              if (adapter) {
+                const AdapterBanner = adapter.BannerComponent;
+                const opts = banner.options;
+                const firstAction = opts.actions?.[0];
+                const adapterProps: IAdapterBannerProps = {
+                  message: opts.message,
+                  variant: (opts.variant ?? 'info') as FeedbackVariant,
+                  position: (opts.position ?? 'top') as BannerPosition,
+                  dismissible: opts.dismissible ?? true,
+                  status: banner.status,
+                  onDismiss: () => buildBannerProps(banner).onRequestDismiss(),
+                  ...(opts.title !== undefined && { title: opts.title }),
+                  ...(opts.icon !== undefined && { icon: opts.icon }),
+                  ...(firstAction !== undefined && { action: firstAction }),
+                  ...(opts.className !== undefined && { className: opts.className }),
+                  ...(opts.style !== undefined && { style: opts.style }),
+                  ...(opts.testId !== undefined && { testId: opts.testId }),
+                };
+                return <AdapterBanner key={banner.id} {...adapterProps} />;
+              }
+              return <Banner key={banner.id} {...buildBannerProps(banner)} />;
+            })}
           </div>,
           document.body
         )}
@@ -136,9 +159,29 @@ export const BannerContainer = memo(function BannerContainer() {
             style={{ zIndex: Z_INDEX_BANNER }}
             data-testid="banner-container-bottom"
           >
-            {bottomBanners.map((banner) => (
-              <Banner key={banner.id} {...buildBannerProps(banner)} />
-            ))}
+            {bottomBanners.map((banner) => {
+              if (adapter) {
+                const AdapterBanner = adapter.BannerComponent;
+                const opts = banner.options;
+                const firstAction = opts.actions?.[0];
+                const adapterProps: IAdapterBannerProps = {
+                  message: opts.message,
+                  variant: (opts.variant ?? 'info') as FeedbackVariant,
+                  position: (opts.position ?? 'bottom') as BannerPosition,
+                  dismissible: opts.dismissible ?? true,
+                  status: banner.status,
+                  onDismiss: () => buildBannerProps(banner).onRequestDismiss(),
+                  ...(opts.title !== undefined && { title: opts.title }),
+                  ...(opts.icon !== undefined && { icon: opts.icon }),
+                  ...(firstAction !== undefined && { action: firstAction }),
+                  ...(opts.className !== undefined && { className: opts.className }),
+                  ...(opts.style !== undefined && { style: opts.style }),
+                  ...(opts.testId !== undefined && { testId: opts.testId }),
+                };
+                return <AdapterBanner key={banner.id} {...adapterProps} />;
+              }
+              return <Banner key={banner.id} {...buildBannerProps(banner)} />;
+            })}
           </div>,
           document.body
         )}

@@ -66,13 +66,15 @@ export const ShadcnToast = memo(
 
     const [isVisible, setIsVisible] = useState(false);
 
-    useEffect((): void => {
+    useEffect(() => {
       if (status === 'entering' || status === 'visible') {
-        requestAnimationFrame((): void => setIsVisible(true));
+        const raf = requestAnimationFrame(() => setIsVisible(true));
+        return () => cancelAnimationFrame(raf);
       }
       if (status === 'exiting') {
         setIsVisible(false);
       }
+      return undefined;
     }, [status]);
 
     const handleTransitionEnd = useCallback((): void => {

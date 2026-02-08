@@ -6,9 +6,11 @@
 import { memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useFeedbackStore } from '../../core/FeedbackStore';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Popconfirm } from './Popconfirm';
 import type { IPopconfirmProps } from './Popconfirm';
 import type { IFeedbackItem } from '../../core/types';
+import type { IAdapterPopconfirmProps, ConfirmVariant, PopconfirmPlacement } from '../../adapters/types';
 
 /**
  * Build popconfirm props from feedback item
@@ -44,6 +46,8 @@ const buildPopconfirmProps = (item: IFeedbackItem<'popconfirm'>): IPopconfirmPro
  * Renders the active popconfirm via portal (only one at a time)
  */
 export const PopconfirmContainer = memo(function PopconfirmContainer() {
+  const { adapter } = useAdapter();
+
   // Subscribe to popconfirm items from store (only get first one)
   const popconfirm = useFeedbackStore(
     useCallback(
@@ -66,6 +70,35 @@ export const PopconfirmContainer = memo(function PopconfirmContainer() {
   // SSR guard
   if (typeof document === 'undefined') {
     return null;
+  }
+
+  if (adapter) {
+    const AdapterPopconfirm = adapter.PopconfirmComponent;
+    const opts = popconfirm.options;
+    // Convert HTMLElement target to a ref-like object for adapter compatibility
+    const triggerRef = 'current' in opts.target
+      ? opts.target
+      : { current: opts.target } as React.RefObject<HTMLElement>;
+    const adapterProps: IAdapterPopconfirmProps = {
+      message: opts.message,
+      confirmText: opts.confirmText ?? 'Confirm',
+      cancelText: opts.cancelText ?? 'Cancel',
+      confirmVariant: (opts.confirmVariant ?? 'primary') as ConfirmVariant,
+      placement: (opts.placement ?? 'top') as PopconfirmPlacement,
+      triggerRef,
+      status: popconfirm.status,
+      onConfirm: opts.onConfirm,
+      onCancel: opts.onCancel ?? ((): void => { /* noop */ }),
+      ...(opts.title !== undefined && { title: opts.title }),
+      ...(opts.icon !== undefined && { icon: opts.icon }),
+      ...(opts.className !== undefined && { className: opts.className }),
+      ...(opts.style !== undefined && { style: opts.style }),
+      ...(opts.testId !== undefined && { testId: opts.testId }),
+    };
+    return createPortal(
+      <AdapterPopconfirm {...adapterProps} />,
+      document.body
+    );
   }
 
   return createPortal(

@@ -6,8 +6,10 @@
 import { memo, useCallback } from 'react';
 import type React from 'react';
 import { useFeedbackStore } from '../../core/FeedbackStore';
+import { useAdapter } from '../../hooks/useAdapter';
 import { LoadingOverlay } from './LoadingOverlay';
 import type { IFeedbackItem } from '../../core/types';
+import type { IAdapterLoadingProps, SpinnerType, SizeVariant } from '../../adapters/types';
 
 /**
  * LoadingContainer component
@@ -27,6 +29,8 @@ import type { IFeedbackItem } from '../../core/types';
  * ```
  */
 export const LoadingContainer = memo(function LoadingContainer(): React.ReactElement | null {
+  const { adapter } = useAdapter();
+
   // Get overlay loadings from store
   const loadings = useFeedbackStore((state) =>
     Array.from(state.items.values()).filter(
@@ -80,6 +84,23 @@ export const LoadingContainer = memo(function LoadingContainer(): React.ReactEle
           ...(options.className !== undefined && { className: options.className }),
           ...(options.style !== undefined && { style: options.style }),
         };
+
+        if (adapter) {
+          const AdapterLoading = adapter.LoadingComponent;
+          const adapterProps: IAdapterLoadingProps = {
+            spinner: (options.spinner ?? 'default') as SpinnerType,
+            size: (options.size ?? 'md') as SizeVariant,
+            variant: 'primary',
+            fullscreen: true,
+            backdropOpacity: options.overlayOpacity ?? 0.5,
+            status: loading.status,
+            ...(options.message !== undefined && { message: options.message }),
+            ...(options.className !== undefined && { className: options.className }),
+            ...(options.style !== undefined && { style: options.style }),
+            ...(options.testId !== undefined && { testId: options.testId }),
+          };
+          return <AdapterLoading key={loading.id} {...adapterProps} />;
+        }
 
         return (
           <LoadingOverlay

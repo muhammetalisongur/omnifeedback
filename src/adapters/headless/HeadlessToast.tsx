@@ -117,11 +117,13 @@ export const HeadlessToast = memo(
 
     useEffect(() => {
       if (status === 'entering' || status === 'visible') {
-        requestAnimationFrame(() => setIsVisible(true));
+        const raf = requestAnimationFrame(() => setIsVisible(true));
+        return () => cancelAnimationFrame(raf);
       }
       if (status === 'exiting') {
         setIsVisible(false);
       }
+      return undefined;
     }, [status]);
 
     const handleTransitionEnd = useCallback(() => {

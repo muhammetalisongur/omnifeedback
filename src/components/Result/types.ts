@@ -4,18 +4,10 @@
  */
 
 import type { ReactNode, CSSProperties } from 'react';
+import type { ResultStatus } from '../../core/types';
 
-/**
- * Result status types
- * - success: Operation completed successfully
- * - error: Operation failed
- * - info: Informational message
- * - warning: Warning or caution state
- * - 404: Page not found
- * - 403: Access forbidden
- * - 500: Server error
- */
-export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
+// Re-export from core for backward compatibility
+export type { ResultStatus };
 
 /**
  * Result size variants

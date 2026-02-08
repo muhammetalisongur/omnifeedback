@@ -5,9 +5,11 @@
 
 import { memo } from 'react';
 import { useFeedbackStore } from '../../core/FeedbackStore';
+import { useAdapter } from '../../hooks/useAdapter';
 import { Progress } from './Progress';
 import { cn } from '../../utils/cn';
 import type { IProgressOptions } from '../../core/types';
+import type { IAdapterProgressProps, ProgressVariant, SizeVariant } from '../../adapters/types';
 
 /**
  * ProgressContainer props
@@ -46,6 +48,8 @@ export const ProgressContainer = memo(function ProgressContainer({
   maxIndicators = 5,
   testId,
 }: IProgressContainerProps) {
+  const { adapter } = useAdapter();
+
   // Get progress indicators from store
   const indicators = useFeedbackStore((state) =>
     Array.from(state.items.values())
@@ -86,6 +90,24 @@ export const ProgressContainer = memo(function ProgressContainer({
           ...(options.className !== undefined && { className: options.className }),
           ...(options.style !== undefined && { style: options.style }),
         };
+
+        if (adapter) {
+          const AdapterProgress = adapter.ProgressComponent;
+          const adapterProps: IAdapterProgressProps = {
+            value: options.value,
+            max: options.max ?? 100,
+            showPercentage: options.showPercentage ?? false,
+            variant: (options.variant ?? 'default') as ProgressVariant,
+            indeterminate: options.indeterminate ?? false,
+            size: (options.size ?? 'md') as SizeVariant,
+            status: indicator.status,
+            ...(options.label !== undefined && { label: options.label }),
+            ...(options.className !== undefined && { className: options.className }),
+            ...(options.style !== undefined && { style: options.style }),
+            ...(options.testId !== undefined && { testId: options.testId }),
+          };
+          return <AdapterProgress key={indicator.id} {...adapterProps} />;
+        }
 
         return <Progress key={indicator.id} {...progressProps} />;
       })}

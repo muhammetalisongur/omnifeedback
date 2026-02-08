@@ -11,6 +11,3 @@ export {
   useFeedbackManager,
 } from './FeedbackProvider';
 export type { IFeedbackContext, IFeedbackProviderProps } from './FeedbackProvider';
-
-// Version
-export const PROVIDERS_VERSION = '0.1.0';
