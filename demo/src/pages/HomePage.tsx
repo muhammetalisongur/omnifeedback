@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { usePlaygroundStore, type AdapterType } from '../stores/playground-store';
 
 const features = [
   { icon: '🔔', name: 'Toast', description: 'Notification messages with variants and positions', path: '/toast' },
@@ -10,16 +11,25 @@ const features = [
   { icon: '📂', name: 'Drawer', description: 'Slide-out panels from any edge', path: '/drawer' },
 ];
 
-const adapters = [
-  { name: 'Headless', description: 'Pure Tailwind CSS, zero dependencies' },
-  { name: 'shadcn/ui', description: 'Radix UI primitives + Tailwind' },
-  { name: 'Mantine', description: 'Full-featured React components' },
-  { name: 'Chakra UI', description: 'Simple, modular components' },
-  { name: 'MUI', description: 'Material Design components' },
-  { name: 'Ant Design', description: 'Enterprise-level UI library' },
+const adapters: { name: string; value: AdapterType; description: string }[] = [
+  { name: 'Headless', value: 'headless', description: 'Pure Tailwind CSS, zero dependencies' },
+  { name: 'shadcn/ui', value: 'shadcn', description: 'Radix UI primitives + Tailwind' },
+  { name: 'Mantine', value: 'mantine', description: 'Full-featured React components' },
+  { name: 'Chakra UI', value: 'chakra', description: 'Simple, modular components' },
+  { name: 'MUI', value: 'mui', description: 'Material Design components' },
+  { name: 'Ant Design', value: 'antd', description: 'Enterprise-level UI library' },
 ];
 
 export function HomePage(): React.ReactElement {
+  const navigate = useNavigate();
+  const setAdapterType = usePlaygroundStore((s) => s.setAdapterType);
+  const adapterType = usePlaygroundStore((s) => s.adapterType);
+
+  const handleAdapterClick = (value: AdapterType): void => {
+    setAdapterType(value);
+    navigate('/toast');
+  };
+
   return (
     <div className="space-y-12">
       {/* Hero */}
@@ -56,15 +66,22 @@ export function HomePage(): React.ReactElement {
           <h2 className="text-xl font-semibold">Try Different Adapters</h2>
         </div>
         <p className="text-muted-foreground mb-4">
-          Use the adapter selector in the header to switch between UI libraries.
-          All components work identically across adapters.
+          Click an adapter to select it and explore components with that UI library.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {adapters.map((adapter) => (
-            <div key={adapter.name} className="p-3 rounded-md bg-muted/50">
+            <button
+              key={adapter.value}
+              onClick={() => handleAdapterClick(adapter.value)}
+              className={`p-3 rounded-md text-left transition-colors cursor-pointer
+                ${adapterType === adapter.value
+                  ? 'bg-primary/10 border border-primary'
+                  : 'bg-muted/50 hover:bg-muted border border-transparent'
+                }`}
+            >
               <div className="font-medium">{adapter.name}</div>
               <div className="text-xs text-muted-foreground">{adapter.description}</div>
-            </div>
+            </button>
           ))}
         </div>
       </section>

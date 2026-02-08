@@ -24,9 +24,8 @@ import { usePlaygroundStore } from './stores/playground-store';
 export type AdapterName = 'headless' | 'shadcn' | 'mantine' | 'chakra' | 'mui' | 'antd';
 
 export default function App(): React.ReactElement {
-  const [adapter, setAdapter] = useState<AdapterName>('headless');
-  const setAdapterType = usePlaygroundStore((s) => s.setAdapterType);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const adapterType = usePlaygroundStore((s) => s.adapterType);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,27 +50,7 @@ export default function App(): React.ReactElement {
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Adapter Selector */}
-            <select
-              value={adapter}
-              onChange={(e) => {
-                const newAdapter = e.target.value as AdapterName;
-                setAdapter(newAdapter);
-                setAdapterType(newAdapter);
-              }}
-              className="h-9 px-3 rounded-md border bg-background text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="headless">Headless (Tailwind)</option>
-              <option value="shadcn">shadcn/ui</option>
-              <option value="mantine">Mantine</option>
-              <option value="chakra">Chakra UI</option>
-              <option value="mui">MUI</option>
-              <option value="antd">Ant Design</option>
-            </select>
-
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         </div>
       </header>
 
@@ -80,9 +59,9 @@ export default function App(): React.ReactElement {
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         {/* Main Content */}
-        <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
+        <main className="flex-1 lg:ml-64">
           <div className="container mx-auto p-6 max-w-5xl">
-            <AdapterProvider adapter={adapter}>
+            <AdapterProvider adapter={adapterType}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/toast" element={<ToastPage />} />

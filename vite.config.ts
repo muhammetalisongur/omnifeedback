@@ -49,7 +49,7 @@ export default defineConfig({
         '@emotion/react',
         '@emotion/styled',
         'antd',
-        'zustand',
+        /^zustand/,
       ],
       output: {
         preserveModules: true,

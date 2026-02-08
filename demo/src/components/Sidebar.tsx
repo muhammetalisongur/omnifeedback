@@ -43,8 +43,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): React.ReactElement {
           border-r bg-background overflow-y-auto
           transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:static lg:z-0
-          ${!isOpen && 'lg:hidden'}
+          lg:translate-x-0
         `}
       >
         <nav className="p-4 space-y-6">
@@ -56,7 +55,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): React.ReactElement {
                 `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
                 ${isActive
                   ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                  : 'hover:bg-muted text-foreground/70 hover:text-foreground'
                 }`
               }
               onClick={() => window.innerWidth < 1024 && onClose()}
@@ -80,7 +79,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): React.ReactElement {
                     `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
                     ${isActive
                       ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                      : 'hover:bg-muted text-foreground/70 hover:text-foreground'
                     }`
                   }
                   onClick={() => window.innerWidth < 1024 && onClose()}

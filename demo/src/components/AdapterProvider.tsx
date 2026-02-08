@@ -68,8 +68,10 @@ export function AdapterProvider({ adapter, children }: AdapterProviderProps): Re
 
     case 'chakra':
       return (
-        <ChakraProvider>
-          {content}
+        <ChakraProvider resetCSS={false} cssVarsRoot="#chakra-scope">
+          <div id="chakra-scope">
+            {content}
+          </div>
         </ChakraProvider>
       );
 

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { usePlaygroundStore } from '../../stores/playground-store';
 
 type Tab = 'usage' | 'setup';
 
@@ -9,7 +10,8 @@ interface SimpleCodeExportProps {
 
 /**
  * Code export component that displays usage and setup code with copy functionality.
- * Unlike LiveCodeExport, this component receives code as props.
+ * Styled to match the reference project with dark code background, monospace font,
+ * and segmented tab controls. Shows the active adapter name in the Setup tab.
  */
 export function SimpleCodeExport({
   usageCode,
@@ -17,7 +19,9 @@ export function SimpleCodeExport({
 }: SimpleCodeExportProps): React.ReactElement {
   const [activeTab, setActiveTab] = useState<Tab>('usage');
   const [copied, setCopied] = useState(false);
+  const adapterType = usePlaygroundStore((s) => s.adapterType);
 
+  const adapterLabel = adapterType.toUpperCase();
   const currentCode = activeTab === 'usage' ? usageCode : setupCode;
 
   const handleCopy = useCallback(async () => {
@@ -41,41 +45,57 @@ export function SimpleCodeExport({
   }, [currentCode]);
 
   return (
-    <div className="p-4 bg-card border rounded-lg">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium">Live Code</h3>
-        <div className="flex gap-1">
+    <div className="border rounded-xl bg-card overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 py-4 border-b">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Live Code
+        </h3>
+        <div className="flex gap-1 bg-muted p-0.5 rounded-md">
           <button
-            className={`px-3 py-1 text-xs rounded-md transition-colors ${
+            className={`px-3 py-1 text-xs font-medium rounded transition-all duration-150 ${
               activeTab === 'usage'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'bg-card text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
             onClick={() => setActiveTab('usage')}
           >
             Usage
           </button>
           <button
-            className={`px-3 py-1 text-xs rounded-md transition-colors ${
+            className={`px-3 py-1 text-xs font-medium rounded transition-all duration-150 ${
               activeTab === 'setup'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'bg-card text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
             onClick={() => setActiveTab('setup')}
           >
-            Setup
+            Setup ({adapterLabel})
           </button>
         </div>
       </div>
 
-      <div className="relative">
+      {/* Code Block */}
+      <div className="relative" style={{ background: 'var(--code-bg)' }}>
         <button
-          className="absolute top-2 right-2 px-2 py-1 text-xs bg-background border rounded hover:bg-muted transition-colors"
+          className="absolute top-3 right-3 px-3 py-1 text-xs font-medium rounded border
+            text-muted-foreground bg-secondary/50 border-border
+            hover:text-foreground hover:border-muted-foreground
+            transition-all duration-150 z-10"
           onClick={handleCopy}
         >
-          {copied ? '✓ Copied!' : 'Copy'}
+          {copied ? 'Copied!' : 'Copy'}
         </button>
-        <pre className="p-4 bg-muted rounded-md overflow-x-auto text-xs max-h-80 overflow-y-auto">
+        <pre
+          className="p-5 overflow-auto"
+          style={{
+            maxHeight: '400px',
+            fontFamily: 'var(--code-font)',
+            fontSize: '13px',
+            lineHeight: '1.7',
+            color: 'hsl(var(--foreground))',
+          }}
+        >
           <code>{currentCode}</code>
         </pre>
       </div>

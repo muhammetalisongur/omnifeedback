@@ -1,4 +1,5 @@
 import React from 'react';
+import { AdapterTabs } from './AdapterTabs';
 import { SimpleCodeExport } from './SimpleCodeExport';
 import { ResultLog } from './ResultLog';
 
@@ -28,6 +29,9 @@ export function PlaygroundLayout({
         <h1 className="text-3xl font-bold">{title}</h1>
         <p className="text-muted-foreground mt-2">{description}</p>
       </div>
+
+      {/* Adapter Selector */}
+      <AdapterTabs />
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
